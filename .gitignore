@@ -8,9 +8,9 @@
 
 # Build results
 
-!/releases/bin/
-!/releases/bin/*.dll
-!/releases/bin/*
+!releases/bin/
+!releases/bin/*.dll 
+!releases/bin/*
 [Dd]ebug/
 [Rr]elease/
 x64/
