@@ -7,7 +7,8 @@ namespace MetroBlog.Core.Model.ViewModel
 {
     public class Article : DbModel.Article
     {
-        public Article() {
+        public Article()
+        {
             Tags = new List<Tag>();
         }
         public SimpleArticle Next { get; set; }

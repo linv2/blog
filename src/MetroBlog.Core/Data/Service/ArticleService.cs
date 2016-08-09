@@ -29,6 +29,11 @@ namespace MetroBlog.Core.Data.Service
             {
                 return checkInfo;
             }
+            mArticle.UId = Guid.NewGuid().ToString("N");
+            if (string.IsNullOrEmpty(mArticle.Alias))
+            {
+                mArticle.Alias = mArticle.Alias;
+            }
             mArticle.CreateTime = DateTime.Now;
             var articleId = sqlMap.AddArticle(mArticle);
             if (articleId > 0)
@@ -51,7 +56,7 @@ namespace MetroBlog.Core.Data.Service
             var articleId = sqlMap.UpdateArticle(mArticle);
             if (articleId > 0)
             {
-                cache.Delete(string.Concat(cacheKey, mArticle.Id.ToString()));
+                cache.Remove(string.Concat(cacheKey, mArticle.Id.ToString()));
                 return Rsp.Success;
             }
             else

@@ -55,6 +55,7 @@
     <Compile Include="Module\AdminModule.cs" />
     <Compile Include="Module\ApiModule.cs" />
     <Compile Include="Module\AuthModule.cs" />
+    <Compile Include="Module\ThemeModule.cs" />
     <Compile Include="NancyDynamicDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserIdentity.cs" />
@@ -63,10 +64,6 @@
     <ProjectReference Include="..\MetroBlog.Core\MetroBlog.Core.csproj">
       <Project>{bc376cf9-baff-44eb-bffa-b1c4c6cd7526}</Project>
       <Name>MetroBlog.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetroBlog.Settings\MetroBlog.Settings.csproj">
-      <Project>{4a4695a2-b91d-41dd-8a0d-ea872afa1fef}</Project>
-      <Name>MetroBlog.Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

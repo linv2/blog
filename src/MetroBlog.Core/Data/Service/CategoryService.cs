@@ -29,7 +29,7 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
             var articleId = sqlMap.AddCategory(mCategory);
             if (articleId > 0)
             {
-                cache.Delete(cacheKey);
+                cache.Remove(cacheKey);
                 return Rsp.Success;
             }
             else
@@ -49,7 +49,7 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
             var articleId = sqlMap.UpdateCategory(mCategory);
             if (articleId > 0)
             {
-                cache.Delete(cacheKey);
+                cache.Remove(cacheKey);
                 return Rsp.Success;
             }
             else

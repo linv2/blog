@@ -2,7 +2,6 @@
 using MetroBlog.Core.Data.IService;
 using MetroBlog.Core.Model.QueryModel;
 using MetroBlog.Core.Model.ViewModel;
-using MetroBlog.Settings;
 using Nancy.TinyIoc;
 using System;
 using System.Collections.Generic;
@@ -23,13 +22,6 @@ namespace MetroBlog.Core
             this.menuService = menuService;
             this.categoryService = categoryService;
             this.articleService = articleService;
-        }
-        public string this[string key]
-        {
-            get
-            {
-                return Convert.ToString(BlogSetting.Instance["system"][key]);
-            }
         }
 
         public PageInfo<IList<Article>> LoadArticle(ArticleQuery query, int pageIndex = 1, int pageSize = 10)

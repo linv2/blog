@@ -10,7 +10,7 @@ namespace MetroBlog.Core.Providers
     public class CacheProvider : ICache
     {
         MemoryCache cache = MemoryCache.Default;
-        public void Delete(string key)
+        public void Remove(string key)
         {
             cache.Remove(key);
         }

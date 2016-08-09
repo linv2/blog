@@ -8,9 +8,12 @@
   <resultMaps>
     <resultMap id="ArticleMap" class="MetroBlog.Core.Model.ViewModel.Article">
       <result property="Id" column="Id"/>
+      <result property="UId" column="UId"/>
+      <result property="Alias" column="Alias"/>
       <result property="Title" column="Title"/>
       <result property="KeyWord" column="KeyWord"/>
       <result property="Description" column="Description"/>
+      <result property="Cover" column="Cover"/>
       <result property="Content" column="Content"/>
       <result property="CreateTime" column="CreateTime"/>
       <result property="Comment" column="Comment"/>
@@ -24,6 +27,8 @@
     </resultMap>
     <resultMap id="ArticleListMap" class="MetroBlog.Core.Model.ViewModel.Article">
       <result property="Id" column="Id"/>
+      <result property="UId" column="UId"/>
+      <result property="Alias" column="Alias"/>
       <result property="Title" column="Title"/>
       <result property="KeyWord" column="KeyWord"/>
       <result property="Description" column="Description"/>
@@ -47,9 +52,12 @@
     <insert id="addArticle" parameterClass="Article" >
       <![CDATA[
          INSERT INTO [article]
-           ([Title]
+           ([UId]
+           ,[Alias]
+           ,[Title]
            ,[KeyWord]
            ,[Description]
+           ,[Cover]
            ,[Content]
            ,[CreateTime]
            ,[CategoryId]
@@ -57,9 +65,12 @@
            ,[SortId]
            ,[Comment])
      VALUES
-           (#Title#
+           (#UId#
+           ,#Alias#
+           ,#Title#
            ,#KeyWord#
            ,#Description#
+           ,#Cover#
            ,#Content#
            ,#CreateTime#
            ,#CategoryId#
@@ -77,8 +88,10 @@
          update  Article 
          set
               Title=#Title#,
+              Alias=#Alias#
               KeyWord=#KeyWord#,
               Description=#Description#,
+              Cover=#Cover#,
               Content=#Content#,
               CreateTime=#CreateTime#,
               Comment=#Comment#,
@@ -184,7 +197,7 @@
           (
           Title like '%'+#KeyWord#+'%'
           or
-          Description like '%'+#KeyWord#+'%'
+          Article.Description like '%'+#KeyWord#+'%'
           or
           Content like '%'+#KeyWord#+'%'
           )

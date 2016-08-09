@@ -10,6 +10,6 @@ namespace MetroBlog.Core
         object Get(string key);
         TSource Get<TSource>(string key);
         bool Save<TSource>(string key, TSource value);
-        void Delete(string key);
+        void Remove(string key);
     }
 }

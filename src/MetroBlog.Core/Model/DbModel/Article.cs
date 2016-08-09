@@ -8,11 +8,13 @@ namespace MetroBlog.Core.Model.DbModel
     public class Article : IDbModelface
     {
         public int Id { get; set; }
+        public string UId { get; set; }
+        public string Alias { get; set; }
         public string Title { get; set; }
 
         public string KeyWord { get; set; }
         public string Description { get; set; }
-
+        public string Cover { get; set; }
         public string Content { get; set; }
         public DateTime CreateTime { get; set; }
 

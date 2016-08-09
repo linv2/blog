@@ -31,7 +31,7 @@ namespace MetroBlog.Core.Data.Service
             var articleId = sqlMap.AddMenu(mMenu);
             if (articleId > 0)
             {
-                cache.Delete(cacheKey);
+                cache.Remove(cacheKey);
                 return Rsp.Success;
             }
             else
@@ -49,7 +49,7 @@ namespace MetroBlog.Core.Data.Service
             var articleId = sqlMap.UpdateMenu(mMenu);
             if (articleId > 0)
             {
-                cache.Delete(cacheKey);
+                cache.Remove(cacheKey);
                 return Rsp.Success;
             }
             else

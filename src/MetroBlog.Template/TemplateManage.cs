@@ -1,5 +1,4 @@
-﻿using MetroBlog.Settings;
-using MetroBlog.Template.Razor;
+﻿using MetroBlog.Template.Razor;
 using System;
 using System.Collections.Generic;
 using System.IO;

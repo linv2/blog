@@ -1,5 +1,4 @@
-﻿using MetroBlog.Settings;
-using Nancy.Hosting.Aspnet;
+﻿using Nancy.Hosting.Aspnet;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -310,6 +310,7 @@
     <Content Include="Demo\validation-elements.html" />
     <Content Include="Demo\vector-maps.html" />
     <Content Include="Demo\widgets.html" />
+    <Content Include="public\js\http\themeService.js" />
     <Content Include="public\js\http\articleService.js" />
     <Content Include="public\js\http\menuService.js" />
     <Content Include="public\js\http\settingService.js" />
@@ -524,12 +525,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="config\t\system.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="config\t\comment.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Admin\Login.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\_Layout.cshtml" />
@@ -548,12 +543,6 @@
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="config\comment.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="config\system.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Properties\PublishProfiles\releases.pubxml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -569,10 +558,6 @@
     <ProjectReference Include="..\MetroBlog.Admin\MetroBlog.Admin.csproj">
       <Project>{e1f07b9a-3db1-4f44-a9b3-51f5f453a0e1}</Project>
       <Name>MetroBlog.Admin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MetroBlog.Settings\MetroBlog.Settings.csproj">
-      <Project>{4A4695A2-B91D-41DD-8A0D-EA872AFA1FEF}</Project>
-      <Name>MetroBlog.Settings</Name>
     </ProjectReference>
     <ProjectReference Include="..\MetroBlog.Template\MetroBlog.Template.csproj">
       <Project>{02ca2312-3fe2-41c5-88e9-d62169430d14}</Project>

@@ -22,7 +22,7 @@
                 <h2 class="post-title"><a href="/Article?id=@aticleItem.Id">@aticleItem.Title</a></h2>
 
                 <p class="post-meta">
-                    <a class="post-author" href="javascript:;">@Model["site_title"]</a> 发表于 @aticleItem.CreateTime.ToString("yyyy-MM-dd HH:mm")
+                    发表于 @aticleItem.CreateTime.ToString("yyyy-MM-dd HH:mm")
                     @foreach (var tagItem in aticleItem.Tags)
                     {
                         <a class="post-category post-category-design" href="javascript:;">@tagItem.TagName</a>

@@ -12,7 +12,6 @@ using System.Collections.Specialized;
 using MetroBlog.Core.Common;
 using System.Threading;
 using MetroBlog.Core.Model.QueryModel;
-using MetroBlog.Settings;
 using MetroBlog.Core;
 
 namespace MetroBlog.Admin
@@ -223,29 +222,31 @@ namespace MetroBlog.Admin
 
         public dynamic Setting()
         {
-            string key = Request.Query["key"];
-            var options = BlogSetting.Instance[key].AllKey.Select(x => new
-            {
-                key = x,
-                value = BlogSetting.Instance[key][x]
-            }).ToList();
+            return null;
+            //string key = Request.Query["key"];
+            //var options = BlogSetting.Instance[key].AllKey.Select(x => new
+            //{
+            //    key = x,
+            //    value = BlogSetting.Instance[key][x]
+            //}).ToList();
 
-            return Response.AsJson(options);
+            //return Response.AsJson(options);
         }
         public dynamic SaveSetting()
         {
-            var nvc = NancyDynamicDictionary.ToNameValueCollection((DynamicDictionary)Request.Form);
-            var settingKey = nvc["key"];
-            var settingInfo = BlogSetting.Instance[settingKey];
-            if (settingInfo != null)
-            {
-                foreach (var key in nvc.AllKeys)
-                {
-                    settingInfo[key] = nvc[key];
-                }
-            }
-            settingInfo.SaveConfig();
-            return Response.AsJson(Rsp.Success);
+            return null;
+            //var nvc = NancyDynamicDictionary.ToNameValueCollection((DynamicDictionary)Request.Form);
+            //var settingKey = nvc["key"];
+            //var settingInfo = BlogSetting.Instance[settingKey];
+            //if (settingInfo != null)
+            //{
+            //    foreach (var key in nvc.AllKeys)
+            //    {
+            //        settingInfo[key] = nvc[key];
+            //    }
+            //}
+            //settingInfo.SaveConfig();
+            //return Response.AsJson(Rsp.Success);
         }
         #endregion
 

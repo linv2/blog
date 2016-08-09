@@ -72,10 +72,6 @@
       <Project>{bc376cf9-baff-44eb-bffa-b1c4c6cd7526}</Project>
       <Name>MetroBlog.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MetroBlog.Settings\MetroBlog.Settings.csproj">
-      <Project>{4A4695A2-B91D-41DD-8A0D-EA872AFA1FEF}</Project>
-      <Name>MetroBlog.Settings</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

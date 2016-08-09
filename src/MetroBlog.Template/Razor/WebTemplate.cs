@@ -23,12 +23,5 @@ namespace MetroBlog.Template.Razor
                 return MetroBlog.Core.Blog.Current;
             }
         }
-        public MetroBlog.Settings.BlogSetting Config
-        {
-            get
-            {
-                return MetroBlog.Settings.BlogSetting.Instance;
-            }
-        }
     }
 }

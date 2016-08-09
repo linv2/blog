@@ -1,5 +1,4 @@
-﻿using MetroBlog.Settings;
-using Nancy.Hosting.Aspnet;
+﻿using Nancy.Hosting.Aspnet;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,10 +17,6 @@ namespace MetroBlog.Template
         {
             if (!repeatInit)
             {
-                
-                BlogSetting.Register("system", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config", "t", "system.config"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config", "system.config"));
-
-                BlogSetting.Register("comment", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config", "t", "comment.config"), Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config", "comment.config"));
 
                 nancyHttpHandler = new NancyHttpRequestHandler();
                 templateHttpHandler = new TemplateHttpHandler();
