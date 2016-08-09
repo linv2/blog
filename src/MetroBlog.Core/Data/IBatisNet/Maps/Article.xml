@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Article" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ArticleMap" class="MetroBlog.Core.Model.ViewModel.Article">
+      <result property="Id" column="Id"/>
+      <result property="Title" column="Title"/>
+      <result property="KeyWord" column="KeyWord"/>
+      <result property="Description" column="Description"/>
+      <result property="Content" column="Content"/>
+      <result property="CreateTime" column="CreateTime"/>
+      <result property="Comment" column="Comment"/>
+      <result property="CategoryId" column="CategoryId"/>
+      <result property="Status" column="Status"/>
+      <result property="SortId" column="SortId"/>
+      <result property="Category" column="CategoryId" select="selectCategoryById" />
+      <result property="Next" column="Id" select="selectArticleNext" />
+      <result property="Prev" column="Id" select="selectArticlePrev" />
+      <result property="Tags" column="Id" select="selectTagByArticleId" />
+    </resultMap>
+    <resultMap id="ArticleListMap" class="MetroBlog.Core.Model.ViewModel.Article">
+      <result property="Id" column="Id"/>
+      <result property="Title" column="Title"/>
+      <result property="KeyWord" column="KeyWord"/>
+      <result property="Description" column="Description"/>
+      <result property="Content" column="Content"/>
+      <result property="CreateTime" column="CreateTime"/>
+      <result property="Comment" column="Comment"/>
+      <result property="CategoryId" column="CategoryId"/>
+      <result property="Status" column="Status"/>
+      <result property="SortId" column="SortId"/>
+      <reuslt property="Category.Id" column="cId" />
+      <reuslt property="Category.Name" column="cName" />
+      <reuslt property="Category.KeyWord" column="cKeyWord" />
+      <reuslt property="Category.Description" column="Description" />
+      <reuslt property="Category.SortId" column="cSortId" />
+      <reuslt property="Category.Delete" column="cDelete" />
+      <reuslt property="Category.Count" column="cCount" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <insert id="addArticle" parameterClass="Article" >
+      <![CDATA[
+         INSERT INTO [article]
+           ([Title]
+           ,[KeyWord]
+           ,[Description]
+           ,[Content]
+           ,[CreateTime]
+           ,[CategoryId]
+           ,[Status]
+           ,[SortId]
+           ,[Comment])
+     VALUES
+           (#Title#
+           ,#KeyWord#
+           ,#Description#
+           ,#Content#
+           ,#CreateTime#
+           ,#CategoryId#
+           ,#Status#
+           ,#SortId#
+           ,#Comment#)
+
+  ]]>
+      <selectKey property="Id" type="post" resultClass="int">
+        ${selectKey}
+      </selectKey>
+    </insert>
+    <update id="updateArticle" parameterClass="Article">
+      <![CDATA[
+         update  Article 
+         set
+              Title=#Title#,
+              KeyWord=#KeyWord#,
+              Description=#Description#,
+              Content=#Content#,
+              CreateTime=#CreateTime#,
+              Comment=#Comment#,
+              CategoryId=#CategoryId#,
+              Status=#Status#,
+         where 
+              id=#Id#
+  ]]>
+    </update>
+    <select id="selectArticleById" parameterClass="int"  resultMap="ArticleMap">
+      <![CDATA[
+         select top 1 * from Article where id=#value#
+  ]]>
+    </select>
+    <select id="selectArticleNext" parameterClass="int"  resultClass="SimpleArticle">
+      <![CDATA[
+        select top 1 Id,Title from Article 
+        where id>#value#
+        order by id asc
+    ]]>
+    </select>
+    <select id="selectArticlePrev" parameterClass="int"  resultClass="SimpleArticle">
+      <![CDATA[
+        select top 1 Id,Title from Article 
+        where id<#value#
+        order by id desc
+    ]]>
+    </select>
+    <select id="selectTagByArticleId" parameterClass="int"  resultClass="Tag">
+      <![CDATA[
+        select tag.* from tagmap
+          join tag on tagmap.tagId=tag.Id
+        where ArticleId=#value#
+    ]]>
+    </select>
+    <select id="selectArticleCount" parameterClass="ArticleQuery" resultClass="int">
+      <![CDATA[ select count(*) from Article
+           ]]>
+      <dynamic prepend="where">
+        <isNotEqual property="CategoryId" compareValue="0" prepend="and">
+          <![CDATA[   CategoryId=#CategoryId#  ]]>
+        </isNotEqual>
+        <isNotEqual property="Status" compareValue="-1" prepend="and">
+          <![CDATA[  Status=#Status#  ]]>
+        </isNotEqual>
+        <isNotEmpty property="KeyWord"  prepend="and">
+          <![CDATA[
+          (
+          Title like '%'+#KeyWord#+'%'
+          or
+          Description like '%'+#KeyWord#+'%'
+          or
+          Content like '%'+#KeyWord#+'%'
+          )
+        ]]>
+        </isNotEmpty>
+        <isNotEqual property="Year" compareValue="0" prepend="and">
+          <![CDATA[   year(CreateTime)=#Year#  ]]>
+        </isNotEqual>
+        <isNotEqual property="Month" compareValue="0" prepend="and">
+          <![CDATA[   month(CreateTime)=#Month#  ]]>
+        </isNotEqual>
+        <isNotEqual property="Day" compareValue="0" prepend="and">
+          <![CDATA[   day(CreateTime)=#Day#  ]]>
+        </isNotEqual>
+        <isNotEqual property="TagId" compareValue="0" prepend="and">
+          <![CDATA[  exists (select * from tagmap where tagmap.ArticleId=Article.Id and TagId=#TagId#)  ]]>
+        </isNotEqual>
+        <isNotEmpty property="TagName"  prepend="and">
+          <![CDATA[
+          (
+          exists (select * from tagmap where tagmap.ArticleId=Article.Id and TagId=(select top 1 tag.id from tag where tag.TagName=#TagName#))
+          )
+        ]]>
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="selectArticleList" parameterClass="ArticleQuery" resultMap="ArticleListMap">
+      <![CDATA[ 
+      select
+       *
+      from(
+          select row_number() over (order by Article.id desc) as row,Article.*,
+          category.[Id] as cId
+        ,category.[Name] as cName
+        ,category.[KeyWord] as cKeyWord
+        ,category.[Description] as cDescription
+        ,category.[SortId] as cSortId
+        ,category.[Delete] as cDelete
+        ,category.[Count] as cCount from Article
+           left   join category on category.id=Article.CategoryId 
+           ]]>
+      <dynamic prepend="where">
+        <isNotEqual property="CategoryId" compareValue="0" prepend="and">
+          <![CDATA[   CategoryId=#CategoryId#  ]]>
+        </isNotEqual>
+        <isNotEqual property="Status" compareValue="-1" prepend="and">
+          <![CDATA[  Status=#Status#  ]]>
+        </isNotEqual>
+        <isNotEmpty property="KeyWord"  prepend="and">
+          <![CDATA[
+          (
+          Title like '%'+#KeyWord#+'%'
+          or
+          Description like '%'+#KeyWord#+'%'
+          or
+          Content like '%'+#KeyWord#+'%'
+          )
+        ]]>
+        </isNotEmpty>
+        <isNotEqual property="Year" compareValue="0" prepend="and">
+          <![CDATA[   year(CreateTime)=#Year#  ]]>
+        </isNotEqual>
+        <isNotEqual property="Month" compareValue="0" prepend="and">
+          <![CDATA[   month(CreateTime)=#Month#  ]]>
+        </isNotEqual>
+        <isNotEqual property="Day" compareValue="0" prepend="and">
+          <![CDATA[   day(CreateTime)=#Day#  ]]>
+        </isNotEqual>
+        <isNotEqual property="TagId" compareValue="0" prepend="and">
+          <![CDATA[  exists (select * from tagmap where tagmap.ArticleId=Article.Id and TagId=#TagId#)  ]]>
+        </isNotEqual>
+        <isNotEmpty property="TagName"  prepend="and">
+          <![CDATA[
+          (
+          exists (select * from tagmap where tagmap.ArticleId=Article.Id and TagId=(select top  1 tag.id from tag where tag.TagName=#TagName#))
+          )
+        ]]>
+        </isNotEmpty>
+      </dynamic>
+        <![CDATA[ 
+        ) as table1
+        where table1.row between #StartRow# and #EndRow#
+        ]]>
+    </select>
+  </statements>
+
+</sqlMap>

@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Menu" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="MenuMap" class="Menu">
+      <result property="Id" column="Id"/>
+      <result property="Name" column="Name"/>
+      <result property="Link" column="Link"/>
+      <result property="Target" column="Target"/>
+      <result property="CategoryId" column="CategoryId"/>
+      <result property="SortId" column="SortId"/>
+      <result property="CreateTime" column="CreateTime"/>
+      <result property="Hidden" column="Hidden"/>
+      <result property="Category" column="CategoryId" select="selectCategoryById" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <insert id="addMenu" parameterClass="Menu" >
+      <![CDATA[
+          INSERT INTO [menu]
+           ([Name]
+           ,[Link]
+           ,[Target]
+           ,[CategoryId]
+           ,[SortId]
+           ,[CreateTime]
+           ,[Hidden])
+      VALUES
+           (#Name#
+           ,#Link#
+           ,#Target#
+           ,#CategoryId#
+           ,#SortId#
+           ,#CreateTime#
+           ,0)
+
+  ]]>
+      <selectKey property="Id" type="post" resultClass="int">
+        ${selectKey}
+      </selectKey>
+    </insert>
+    <update id="updateMenu" parameterClass="Menu">
+      <![CDATA[
+         update  menu 
+         set
+              Name = #Name#,
+              Link = #Link#,
+              Target = #Target#,
+              CategoryId = #CategoryId#,
+              SortId = #SortId#,
+              Hidden = #Hidden#
+         where 
+              id=#Id#
+  ]]>
+    </update>
+    <select id="selectMenuById" parameterClass="int"  resultClass="Menu">
+      <![CDATA[
+         select * from menu where id=#value#
+  ]]>
+    </select>
+    <select id="selectMenuList" parameterClass="bool"   resultMap="MenuMap">
+      <![CDATA[
+         select * from menu
+         where 1=1 
+         and Hidden=0
+      order by SortId asc
+      ]]>
+
+    </select>
+  </statements>
+
+</sqlMap>

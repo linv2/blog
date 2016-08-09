@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "_Layout.cshtml";
+    ViewBag.Icon = "tag";
+    ViewBag.Title = "标签管理";
+}
+@section script{
+    <link href="~/public/js/modules/laypage/skin/laypage.css" rel="stylesheet" />
+    <script type="text/javascript">
+        seajs.use("tag");
+    </script>
+    <style type="text/css">
+        div.front {
+            font-size: 40px;
+            overflow: hidden;
+        }
+
+        #tag li {
+            width: 19%;
+            margin-left: 1%;
+            float: left;
+            list-style: none;
+            height: 80px;
+        }
+
+        #page {
+            text-align: right;
+            padding-right:15px;
+        }
+    </style>
+}
+<div class="row">
+    <div id="page" class="row">
+
+    </div>
+    <ul id="tag" data-bind="foreach: tagList">
+        <li>
+            <section class="tile">
+                <div class="tile-header">
+                    <h1><strong data-bind="text: tagName"></strong></h1>
+                    <div class="controls">
+                        <a href="javascript:;" data-bind="click:$parent.events.edit"><i class="fa fa-edit"></i></a>
+                        @*<a href="javascript:;" data-bind="click:$parent.events.remove"><i class="fa fa-times"></i></a>*@
+                    </div>
+                </div>
+            </section>
+        </li>
+    </ul>
+</div>

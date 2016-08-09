@@ -1,0 +1,613 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7936275F-09AB-4FE0-9392-B6CEE6A27A9F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MetroBlog.Web</RootNamespace>
+    <AssemblyName>MetroBlog.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PublishDatabases>true</PublishDatabases>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.7\lib\net40\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.1.2.0\lib\net40\Nancy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Aspnet, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Hosting.Aspnet.1.2.0\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nancy.Validation.DataAnnotations">
+      <HintPath>..\packages\Nancy.Validation.DataAnnotations.1.2.0\lib\net40\Nancy.Validation.DataAnnotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.ViewEngines.Razor, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Nancy.Viewengines.Razor.1.2.0\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Demo\#.html" />
+    <Content Include="public\assets\css\minimal.css" />
+    <Content Include="public\assets\css\vendor\animate\animate.css" />
+    <Content Include="public\assets\css\vendor\animate\animate.min.css" />
+    <Content Include="public\assets\css\vendor\bootstrap-checkbox.css" />
+    <Content Include="public\assets\css\vendor\bootstrap\bootstrap.min.css" />
+    <Content Include="public\assets\css\vendor\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="public\assets\images\arnold-avatar.jpg" />
+    <Content Include="public\assets\images\backgrounds\1.jpg" />
+    <Content Include="public\assets\images\backgrounds\2.jpg" />
+    <Content Include="public\assets\images\backgrounds\3.jpg" />
+    <Content Include="public\assets\images\backgrounds\4.jpg" />
+    <Content Include="public\assets\images\backgrounds\5.jpg" />
+    <Content Include="public\assets\images\backgrounds\6.jpg" />
+    <Content Include="public\assets\images\backgrounds\thumbs\1.jpg" />
+    <Content Include="public\assets\images\backgrounds\thumbs\2.jpg" />
+    <Content Include="public\assets\images\backgrounds\thumbs\3.jpg" />
+    <Content Include="public\assets\images\backgrounds\thumbs\4.jpg" />
+    <Content Include="public\assets\images\backgrounds\thumbs\5.jpg" />
+    <Content Include="public\assets\images\backgrounds\thumbs\6.jpg" />
+    <Content Include="public\assets\images\bootstrap-colorpicker\alpha-horizontal.png" />
+    <Content Include="public\assets\images\bootstrap-colorpicker\alpha.png" />
+    <Content Include="public\assets\images\bootstrap-colorpicker\hue-horizontal.png" />
+    <Content Include="public\assets\images\bootstrap-colorpicker\hue.png" />
+    <Content Include="public\assets\images\bootstrap-colorpicker\saturation.png" />
+    <Content Include="public\assets\images\carousel\carousel1.jpg" />
+    <Content Include="public\assets\images\carousel\carousel2.jpg" />
+    <Content Include="public\assets\images\carousel\carousel3.jpg" />
+    <Content Include="public\assets\images\carousel\carousel4.jpg" />
+    <Content Include="public\assets\images\chosen-sprite-transparent.png" />
+    <Content Include="public\assets\images\dot_pattern.png" />
+    <Content Include="public\assets\images\george-avatar.jpg" />
+    <Content Include="public\assets\images\ici-avatar.jpg" />
+    <Content Include="public\assets\images\loader.gif" />
+    <Content Include="public\assets\images\logo-big.png" />
+    <Content Include="public\assets\images\minimal-logo.png" />
+    <Content Include="public\assets\images\modal-close-hover.png" />
+    <Content Include="public\assets\images\modal-close.png" />
+    <Content Include="public\assets\images\noise.png" />
+    <Content Include="public\assets\images\peter-avatar.jpg" />
+    <Content Include="public\assets\images\profile-photo.jpg" />
+    <Content Include="public\assets\images\random-avatar1.jpg" />
+    <Content Include="public\assets\images\random-avatar2.jpg" />
+    <Content Include="public\assets\images\random-avatar4.jpg" />
+    <Content Include="public\assets\images\random-avatar5.jpg" />
+    <Content Include="public\assets\images\random-avatar6.jpg" />
+    <Content Include="public\assets\images\random-avatar7.jpg" />
+    <Content Include="public\assets\images\random-avatar8.jpg" />
+    <Content Include="public\assets\js\assets\images\video.jpg" />
+    <Content Include="public\assets\js\minimal.min.js" />
+    <Content Include="public\assets\js\vendor\animate-numbers\jquery.animateNumbers.js" />
+    <Content Include="public\assets\js\vendor\blockui\jquery.blockUI.js" />
+    <Content Include="public\assets\js\vendor\bootstrap\bootstrap.min.js" />
+    <Content Include="public\assets\js\vendor\chosen\chosen.jquery.min.js" />
+    <Content Include="public\assets\js\vendor\chosen\css\chosen-bootstrap.css" />
+    <Content Include="public\assets\js\vendor\chosen\css\chosen.min.css" />
+    <Content Include="public\assets\js\vendor\chosen\images\chosen-sprite%402x.png" />
+    <Content Include="public\assets\js\vendor\chosen\images\chosen-sprite.png" />
+    <Content Include="public\assets\js\vendor\colorbox\css\colorbox.css" />
+    <Content Include="public\assets\js\vendor\colorbox\css\images\controls.png" />
+    <Content Include="public\assets\js\vendor\colorbox\css\images\loading.gif" />
+    <Content Include="public\assets\js\vendor\colorbox\css\images\loading_background.png" />
+    <Content Include="public\assets\js\vendor\colorbox\jquery.colorbox-min.js" />
+    <Content Include="public\assets\js\vendor\colorpalette\bootstrap-colorpalette.css" />
+    <Content Include="public\assets\js\vendor\colorpalette\bootstrap-colorpalette.js" />
+    <Content Include="public\assets\js\vendor\colorpicker\bootstrap-colorpicker.min.js" />
+    <Content Include="public\assets\js\vendor\colorpicker\css\bootstrap-colorpicker.css" />
+    <Content Include="public\assets\js\vendor\datatables\ColReorderWithResize.js" />
+    <Content Include="public\assets\js\vendor\datatables\colvis\dataTables.colVis.min.js" />
+    <Content Include="public\assets\js\vendor\datatables\css\ColVis.css" />
+    <Content Include="public\assets\js\vendor\datatables\css\dataTables.bootstrap.css" />
+    <Content Include="public\assets\js\vendor\datatables\css\TableTools.css" />
+    <Content Include="public\assets\js\vendor\datatables\dataTables.bootstrap.js" />
+    <Content Include="public\assets\js\vendor\datatables\images\background.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\collection.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\collection_hover.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\copy.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\copy_hover.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\csv.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\csv_hover.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\datatables\sort_asc.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\datatables\sort_asc_disabled.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\datatables\sort_both.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\datatables\sort_desc.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\datatables\sort_desc_disabled.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\pdf.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\pdf_hover.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\print.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\print_hover.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\xls.png" />
+    <Content Include="public\assets\js\vendor\datatables\images\xls_hover.png" />
+    <Content Include="public\assets\js\vendor\datatables\jquery.dataTables.min.js" />
+    <Content Include="public\assets\js\vendor\datatables\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="public\assets\js\vendor\datatables\tabletools\dataTables.tableTools.min.js" />
+    <Content Include="public\assets\js\vendor\datatables\tabletools\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="public\assets\js\vendor\datatables\tabletools\ZeroClipboard.js" />
+    <Content Include="public\assets\js\vendor\datepicker\bootstrap-datetimepicker.min.js" />
+    <Content Include="public\assets\js\vendor\datepicker\css\bootstrap-datetimepicker.css" />
+    <Content Include="public\assets\js\vendor\easypiechart\jquery.easypiechart.min.js" />
+    <Content Include="public\assets\js\vendor\flot\jquery.flot.animator.min.js" />
+    <Content Include="public\assets\js\vendor\flot\jquery.flot.categories.min.js" />
+    <Content Include="public\assets\js\vendor\flot\jquery.flot.min.js" />
+    <Content Include="public\assets\js\vendor\flot\jquery.flot.orderBars.js" />
+    <Content Include="public\assets\js\vendor\flot\jquery.flot.pie.min.js" />
+    <Content Include="public\assets\js\vendor\flot\jquery.flot.selection.min.js" />
+    <Content Include="public\assets\js\vendor\flot\jquery.flot.stack.min.js" />
+    <Content Include="public\assets\js\vendor\flot\jquery.flot.time.min.js" />
+    <Content Include="public\assets\js\vendor\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="public\assets\js\vendor\fullcalendar\fullcalendar.css" />
+    <Content Include="public\assets\js\vendor\fullcalendar\fullcalendar.min.js" />
+    <Content Include="public\assets\js\vendor\fullcalendar\jquery-ui-1.10.4.custom.min.js" />
+    <Content Include="public\assets\js\vendor\gmaps\jquery.ui.map.extensions.js" />
+    <Content Include="public\assets\js\vendor\gmaps\jquery.ui.map.full.min.js" />
+    <Content Include="public\assets\js\vendor\gmaps\jquery.ui.map.microformat.min.js" />
+    <Content Include="public\assets\js\vendor\gmaps\markerclusterer.min.js" />
+    <Content Include="public\assets\js\vendor\graphtable\jquery.graphTable-0.3.js" />
+    <Content Include="public\assets\js\vendor\jgrowl\css\jquery.jgrowl.min.css" />
+    <Content Include="public\assets\js\vendor\jgrowl\jquery.jgrowl.min.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\css\jquery.fileupload-noscript.css" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\css\jquery.fileupload-ui.css" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\css\jquery.fileupload.css" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\fileupload-main.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\img\loading.gif" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\img\progressbar.gif" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\jquery.fileupload-audio.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\jquery.fileupload-image.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\jquery.fileupload-process.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\jquery.fileupload-ui.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\jquery.fileupload-validate.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\jquery.fileupload-video.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\jquery.fileupload.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\jquery.iframe-transport.js" />
+    <Content Include="public\assets\js\vendor\jquery-file-upload\vendor\jquery.ui.widget.js" />
+    <Content Include="public\assets\js\vendor\justgage\justgage.js" />
+    <Content Include="public\assets\js\vendor\jvectormaps\addons\gdp-data.js" />
+    <Content Include="public\assets\js\vendor\jvectormaps\addons\jquery-jvectormap-de-merc-en.js" />
+    <Content Include="public\assets\js\vendor\jvectormaps\addons\jquery-jvectormap-es-merc-en.js" />
+    <Content Include="public\assets\js\vendor\jvectormaps\addons\jquery-jvectormap-fr-merc-en.js" />
+    <Content Include="public\assets\js\vendor\jvectormaps\addons\jquery-jvectormap-us-aea-en.js" />
+    <Content Include="public\assets\js\vendor\jvectormaps\addons\jquery-jvectormap-us-lcc-en.js" />
+    <Content Include="public\assets\js\vendor\jvectormaps\addons\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="public\assets\js\vendor\jvectormaps\addons\mall-map.js" />
+    <Content Include="public\assets\js\vendor\jvectormaps\css\jquery-jvectormap-1.2.2.css" />
+    <Content Include="public\assets\js\vendor\jvectormaps\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="public\assets\js\vendor\mmenu\css\jquery.mmenu.all.css" />
+    <Content Include="public\assets\js\vendor\mmenu\js\jquery.mmenu.min.js" />
+    <Content Include="public\assets\js\vendor\momentjs\moment-with-langs.min.js" />
+    <Content Include="public\assets\js\vendor\morris\css\morris.css" />
+    <Content Include="public\assets\js\vendor\morris\morris.min.js" />
+    <Content Include="public\assets\js\vendor\nicescroll\jquery.nicescroll.min.js" />
+    <Content Include="public\assets\js\vendor\no-ui-slider\css\jquery.nouislider.min.css" />
+    <Content Include="public\assets\js\vendor\no-ui-slider\jquery.nouislider.min.js" />
+    <Content Include="public\assets\js\vendor\owl-carousel\css\AjaxLoader.gif" />
+    <Content Include="public\assets\js\vendor\owl-carousel\css\grabbing.png" />
+    <Content Include="public\assets\js\vendor\owl-carousel\css\owl.carousel.css" />
+    <Content Include="public\assets\js\vendor\owl-carousel\css\owl.theme.css" />
+    <Content Include="public\assets\js\vendor\owl-carousel\owl.carousel.min.js" />
+    <Content Include="public\assets\js\vendor\parsley\parsley.min.js" />
+    <Content Include="public\assets\js\vendor\rickshaw\css\rickshaw.min.css" />
+    <Content Include="public\assets\js\vendor\rickshaw\d3.v2.js" />
+    <Content Include="public\assets\js\vendor\rickshaw\raphael-min.js" />
+    <Content Include="public\assets\js\vendor\rickshaw\rickshaw.min.js" />
+    <Content Include="public\assets\js\vendor\skycons\skycons.js" />
+    <Content Include="public\assets\js\vendor\sparkline\jquery.sparkline.min.js" />
+    <Content Include="public\assets\js\vendor\summernote\css\summernote-bs3.css" />
+    <Content Include="public\assets\js\vendor\summernote\css\summernote.css" />
+    <Content Include="public\assets\js\vendor\summernote\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="public\assets\js\vendor\summernote\summernote.min.js" />
+    <Content Include="public\assets\js\vendor\superbox\css\style.css" />
+    <Content Include="public\assets\js\vendor\superbox\img\close.gif" />
+    <Content Include="public\assets\js\vendor\superbox\superbox.js" />
+    <Content Include="public\assets\js\vendor\tabdrop\bootstrap-tabdrop.min.js" />
+    <Content Include="public\assets\js\vendor\tabdrop\css\tabdrop.css" />
+    <Content Include="public\assets\js\vendor\typeahead\css\typeahead.js-bootstrap.css" />
+    <Content Include="public\assets\js\vendor\typeahead\typeahead.min.js" />
+    <Content Include="public\assets\js\vendor\videobackground\css\jquery.videobackground.css" />
+    <Content Include="public\assets\js\vendor\videobackground\jquery.videobackground.js" />
+    <Content Include="public\assets\js\vendor\wizard\jquery.bootstrap.wizard.min.js" />
+    <Content Include="Demo\buttons.html" />
+    <Content Include="Demo\calendar.html" />
+    <Content Include="Demo\charts.html" />
+    <Content Include="Demo\datatables.html" />
+    <Content Include="Demo\form-elements.html" />
+    <Content Include="Demo\form-wizard.html" />
+    <Content Include="Demo\gallery.html" />
+    <Content Include="Demo\google-maps.html" />
+    <Content Include="Demo\grid.html" />
+    <Content Include="Demo\index.html" />
+    <Content Include="Demo\login.html" />
+    <Content Include="Demo\mail-horizontal.html" />
+    <Content Include="Demo\mail.html" />
+    <Content Include="Demo\page-offline.html" />
+    <Content Include="Demo\page404.html" />
+    <Content Include="Demo\page500.html" />
+    <Content Include="Demo\tables.html" />
+    <Content Include="Demo\tiles.html" />
+    <Content Include="Demo\timeline.html" />
+    <Content Include="Demo\typography.html" />
+    <Content Include="Demo\ui-elements.html" />
+    <Content Include="Demo\validation-elements.html" />
+    <Content Include="Demo\vector-maps.html" />
+    <Content Include="Demo\widgets.html" />
+    <Content Include="public\js\http\articleService.js" />
+    <Content Include="public\js\http\menuService.js" />
+    <Content Include="public\js\http\settingService.js" />
+    <Content Include="public\js\http\userService.js" />
+    <Content Include="public\js\viewmodels\setting.js" />
+    <Content Include="public\js\viewmodels\menu.js" />
+    <Content Include="public\js\viewmodels\common.js" />
+    <Content Include="public\js\modules\jquery.actual.js" />
+    <Content Include="public\js\modules\scrollpagination.js" />
+    <Content Include="public\js\viewmodels\category.js" />
+    <Content Include="public\js\viewmodels\article.js" />
+    <Content Include="public\js\viewmodels\articlelist.js" />
+    <Content Include="public\js\viewmodels\login.js" />
+    <Content Include="public\js\viewmodels\tag.js" />
+    <Content Include="public\sea-debug.js" />
+    <Content Include="public\js\modules\jquery.form.js" />
+    <Content Include="public\js\modules\jquery.js" />
+    <Content Include="public\js\modules\knockout.js" />
+    <Content Include="public\js\modules\layer\extend\layer.ext.js" />
+    <Content Include="public\js\modules\layer\layer.js" />
+    <Content Include="public\js\modules\layer\mobile\layer.js" />
+    <Content Include="public\js\modules\layer\mobile\need\layer.css" />
+    <Content Include="public\js\modules\layer\skin\default\icon-ext.png" />
+    <Content Include="public\js\modules\layer\skin\default\icon.png" />
+    <Content Include="public\js\modules\layer\skin\default\loading-0.gif" />
+    <Content Include="public\js\modules\layer\skin\default\loading-1.gif" />
+    <Content Include="public\js\modules\layer\skin\default\loading-2.gif" />
+    <Content Include="public\js\modules\layer\skin\layer.css" />
+    <Content Include="public\js\modules\layer\skin\layer.ext.css" />
+    <Content Include="public\js\modules\laypage\laypage.js" />
+    <Content Include="public\js\modules\laypage\skin\laypage.css" />
+    <Content Include="public\js\modules\pace\pace.js" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\black\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\blue\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\green\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\orange\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\pink\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\purple\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\red\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\silver\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\white\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-barber-shop.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-big-counter.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-bounce.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-center-atom.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-center-circle.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-center-radar.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-center-simple.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-corner-indicator.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-fill-left.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-flash.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-flat-top.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-loading-bar.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-mac-osx.css" />
+    <Content Include="public\js\modules\pace\themes\yellow\pace-theme-minimal.css" />
+    <Content Include="public\js\modules\jquery.tagsinput.js" />
+    <Content Include="public\js\modules\template.js" />
+    <Content Include="public\sea.js" />
+    <Content Include="Themes\Default\css\blog.css" />
+    <Content Include="Themes\Default\css\grids-responsive-min.css" />
+    <Content Include="Themes\Default\css\public.css" />
+    <Content Include="Themes\Default\css\pure-min.css" />
+    <Content Include="Themes\Default\css\style.css" />
+    <Content Include="Themes\Default\images\blockquotebg.gif" />
+    <Content Include="Themes\Default\images\bodybg.jpg" />
+    <Content Include="Themes\Default\images\commentbubble.gif" />
+    <Content Include="Themes\Default\images\commentbubblehover.gif" />
+    <Content Include="Themes\Default\images\containerbg.jpg" />
+    <Content Include="Themes\Default\images\footerbg.jpg" />
+    <Content Include="Themes\Default\images\headerbg.jpg" />
+    <Content Include="Themes\Default\images\navbarbg.jpg" />
+    <Content Include="Themes\Default\images\navbuttonbg-hover.gif" />
+    <Content Include="Themes\Default\images\navbuttonbg.gif" />
+    <Content Include="Themes\Default\images\Search.gif" />
+    <Content Include="Themes\Default\images\subnav1bg.png" />
+    <Content Include="Themes\Default\theme.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="public\assets\css\vendor\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="public\assets\css\vendor\fonts\glyphicons-halflings-regular.eot~" />
+    <Content Include="public\assets\css\vendor\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="public\assets\css\vendor\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="public\assets\js\vendor\summernote\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="public\assets\js\vendor\summernote\fonts\glyphicons-halflings-regular.eot~" />
+    <Content Include="public\assets\js\vendor\summernote\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="public\assets\js\vendor\summernote\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="public\js\modules\layer\mobile\README.md" />
+    <Content Include="public\js\modules\layer\README.md" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="config\t\system.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="config\t\comment.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Properties\PublishProfiles\发布到本地.pubxml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\_Layout.cshtml" />
+    <Content Include="Views\Admin\Article.cshtml" />
+    <Content Include="Views\Admin\ArticleList.cshtml" />
+    <Content Include="Views\Admin\Category.cshtml" />
+    <Content Include="Views\Admin\Tag.cshtml" />
+    <Content Include="Views\Admin\Menu.cshtml" />
+    <Content Include="Views\Admin\Setting.cshtml" />
+    <Content Include="Themes\Default\Index.cshtml" />
+    <Content Include="Themes\Default\_Layout.cshtml" />
+    <Content Include="Themes\Default\Article.cshtml" />
+    <Content Include="Themes\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Views\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Views\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MetroBlog.Admin\MetroBlog.Admin.csproj">
+      <Project>{e1f07b9a-3db1-4f44-a9b3-51f5f453a0e1}</Project>
+      <Name>MetroBlog.Admin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroBlog.Settings\MetroBlog.Settings.csproj">
+      <Project>{4A4695A2-B91D-41DD-8A0D-EA872AFA1FEF}</Project>
+      <Name>MetroBlog.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroBlog.Template\MetroBlog.Template.csproj">
+      <Project>{02ca2312-3fe2-41c5-88e9-d62169430d14}</Project>
+      <Name>MetroBlog.Template</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="upload\" />
+    <Folder Include="Views\Shared\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName) == Debug (
+xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll" "$(ProjectDir)bin\"
+xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\Nancy.ViewEngines.Razor.dll" "$(ProjectDir)bin\"
+)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,10 @@
+* {
+    box-sizing: border-box;
+    font-family: Microsoft YaHei, 'Hiragino Sans GB', 'Microsoft Yahei', 微软雅黑, 宋体, Tahoma, Helvetica, STHeiti;
+}
+body {
+    overflow-x:hidden;
+}
+html, button, input, select, textarea, .pure-g [class*="pure-u"] {
+    letter-spacing: 0.01em;
+}

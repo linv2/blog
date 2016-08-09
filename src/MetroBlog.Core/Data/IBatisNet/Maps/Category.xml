@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Category" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+  </alias>
+
+  <resultMaps>
+  </resultMaps>
+
+  <statements>
+    <insert id="addCategory" parameterClass="Category" >
+      <![CDATA[
+          insert into 
+            Category 
+          values(
+            #Name#,
+            #KeyWord#,
+            #Description#,
+            #SortId#,
+            #Count#,
+            #Delete#)
+  ]]>
+      <selectKey property="Id" type="post" resultClass="int">
+        ${selectKey}
+      </selectKey>
+    </insert>
+    <update id="updateCategory" parameterClass="Category">
+      <![CDATA[
+         update  Category 
+         set
+              Name = #Name#,
+              KeyWord = #KeyWord#,
+              Description = #Description#,
+              SortId = #SortId#,
+              Count = #Count#,
+              [Delete] = #Delete#
+         where 
+              id=#Id#
+  ]]>
+    </update>
+    <select id="selectCategoryById" parameterClass="int"  resultClass="Category">
+      <![CDATA[
+         select * from Category where id=#value#
+  ]]>
+    </select>
+    <select id="selectCategoryArticleCount" parameterClass="int"  resultClass="int">
+      <![CDATA[
+         select count(*) from Article where CategoryId=#value#
+  ]]>
+    </select>
+    <update id="updateCategoryArticleCount" parameterClass="int" resultClass="int">
+
+      <![CDATA[
+         update  Category 
+         set
+              Count = (select count(*) from Article where CategoryId=Category.Id)
+        where [Delete]=0
+       
+  ]]>
+      <isNotEqual prepend=" and"  compareValue="0">
+        <![CDATA[
+         id=#id#
+       
+      ]]>
+      </isNotEqual>
+    </update>
+    <select id="selectCategoryList" parameterClass="bool"  resultClass="Category">
+      <![CDATA[
+         select * from Category          
+         order by SortId asc
+  ]]>
+    </select>
+  </statements>
+
+</sqlMap>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <Views>
+    <View Url="/" File="Index.cshtml" />
+    <View Url="/Article"  File="Article.cshtml" />
+  </Views>
+  <Layouts>
+    <Layout Path="_Layout.cshtml" />
+  </Layouts>
+</config>
