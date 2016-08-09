@@ -8,7 +8,7 @@
 
 # Build results
 
-!/releases/
+!/releases/bin/*
 [Dd]ebug/
 [Rr]elease/
 x64/
