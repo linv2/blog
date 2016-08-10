@@ -21,6 +21,8 @@ namespace MetroBlog.Admin.Module
             Get["/ArticleList"] = _ => ArticleList();
             Get["/Tag"] = _ => Tag();
             Get["/Menu"] = _ => Menu();
+            Get["/Themes"] = _ => Themes();
+            Get["ThemeItem"] = _ => ThemeItem();
             Get["/Setting/{key}"] = _ => Setting(_.key);
         }
         #region auth
@@ -81,6 +83,14 @@ namespace MetroBlog.Admin.Module
         public dynamic Setting(string key)
         {
             return View["Setting", key];
+        }
+        public dynamic Themes()
+        {
+            return View["Themes"];
+        }
+        public dynamic ThemeItem()
+        {
+            return View["ThemeItem"];
         }
     }
 }
