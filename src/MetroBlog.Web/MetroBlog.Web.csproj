@@ -1359,6 +1359,7 @@
     <Content Include="Views\Admin\ThemeItem.cshtml" />
     <Content Include="public\assets\css\ztree\awesomeStyle\awesome.less" />
     <Content Include="public\assets\css\ztree\awesomeStyle\fa.less" />
+    <Content Include="Views\Admin\EditTheme.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

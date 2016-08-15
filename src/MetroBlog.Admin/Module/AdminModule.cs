@@ -2,6 +2,7 @@
 using Nancy.Authentication.Token;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -23,6 +24,7 @@ namespace MetroBlog.Admin.Module
             Get["/Menu"] = _ => Menu();
             Get["/Themes"] = _ => Themes();
             Get["ThemeItem"] = _ => ThemeItem();
+            Get["/EditTheme"] = _ => EditTheme();
             Get["/Setting/{key}"] = _ => Setting(_.key);
         }
         #region auth
@@ -91,6 +93,13 @@ namespace MetroBlog.Admin.Module
         public dynamic ThemeItem()
         {
             return View["ThemeItem"];
+        }
+        public dynamic EditTheme()
+        {
+            var theme = Request.Query.theme;
+            var path = Request.Query.path;
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes", theme, path);
+            return View["EditTheme", filePath];
         }
     }
 }
