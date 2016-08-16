@@ -96,10 +96,7 @@ namespace MetroBlog.Admin.Module
         }
         public dynamic EditTheme()
         {
-            var theme = Request.Query.theme;
-            var path = Request.Query.path;
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes", theme, path);
-            return View["EditTheme", filePath];
+            return View["EditTheme"];
         }
     }
 }

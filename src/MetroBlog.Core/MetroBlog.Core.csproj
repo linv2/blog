@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Common\DES.cs" />
     <Compile Include="Common\HttpValueCollection.cs" />
     <Compile Include="Common\Rsp.cs" />
     <Compile Include="Common\Utility.cs" />

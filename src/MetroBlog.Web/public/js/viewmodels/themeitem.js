@@ -1,10 +1,11 @@
 ﻿define(function (require, exports, module) {
     var themeService = require("../http/themeService");
-    //var $ = require("../modules/jquery");
+    //var $ = require("../modules/layer");
     var ko = require("../modules/knockout");
     var template = require("../modules/template");
     var common = require("common");
     var url = require("../modules/url.helper");
+    require("../modules/context/jquery.context");
     var viewModel = {
         themes: ko.observableArray(),
         events: {}
@@ -24,18 +25,27 @@
         callback: {
             beforeClick: function (treeId, treeNode) {
                 if (!treeNode.isParent) {
-                    var data = { "themeName": themeName, "fileName": treeNode.id };
-                    var deferred = themeService.getFile(data);
-                    $.when(deferred).done(function (response) {
-                        tabs.add(treeNode.id)
-                    }).fail(function (error) {
-
+                    var index = common.layer.open({
+                        type: 2,
+                        title: false,
+                        maxmin: true,
+                        shade: 0.8,
+                        closeBtn: 0,
+                        shadeClose: true,
+                        content: "/admin/editTheme?skey=" + escape(treeNode.skey),
+                        success: function (layero, index) {
+                            $(layero).find("iframe").get(0).contentWindow.layerIndex = index;
+                            $(layero).find("iframe").get(0).contentWindow.closeLayer = function () {
+                                layer.close(this.layerIndex)
+                            }
+                            //alert();
+                        }
                     });
+                    layer.full(index);
                 }
             }
         }
     };
-    var tabs = new Tabs("#tabs");
 
     function filter(treeId, parentNode, childNodes) {
         if (!childNodes) return null;
@@ -46,34 +56,13 @@
     }
 
     window.zTree.init($("#treeDemo"), setting);
-    //viewModel.events.edit = function (d, e) {
-    //    window.location = 'themeitem?themeName=' + d;
-    // }
-    //viewModel.events.readDirectory("/");
     ko.applyBindings(viewModel);
+
+    context.init({ preventDoubleContext: false });
+
+    context.attach('#treeDemo', [
+		{ text: '添加文件夹', href: 'javascript:;', action: function (o) { alert(0); } },
+		{ text: '添加文件', href: 'javascript:;', action: function (o) { alert(0); } }
+    ]);
 });
 
-var Tabs = function (container) {
-    var container = $(container);
-    var self = this;
-    var TabItem = function (title) {
-        var tabItemSelf = this;
-        tabItemSelf.title = $("<li><a href='javascript:;'>" + title + "</a></li>");
-        tabItemSelf.title.click(function () {
-            container.find("ul.nav li.active").removeClass("active");
-            $(this).addClass("active");
-            container.find(".tile-body").hide();
-            tabItemSelf.content.show();
-        });
-        tabItemSelf.content = $("<div class='tile-body rounded-bottom-corners'><textarea></textarea></div>").hide();
-        tabItemSelf.editor = this.content.find("textarea");
-        tabItemSelf.title.trigger("click");
-        return this;
-        //title.attr("title", title);
-    };
-    self.add = function (title) {
-        var tabItem = new TabItem(title);
-        container.find("ul.nav").append(tabItem.title);
-        container.append(tabItem.content);
-    }
-}

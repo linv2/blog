@@ -28,12 +28,18 @@ namespace MetroBlog.Core.Data.Service
             cache.Remove(cacheKey);
             return true;
         }
-        public Model.ViewModel.Setting SelectSetting()
+        public Model.ViewModel.Setting GetSetting()
         {
             Model.ViewModel.Setting result = cache.Get<Model.ViewModel.Setting>(cacheKey);
             if (result == null)
             {
                 result = sqlMap.SelectSetting();
+                if (result == null)
+                {
+                    result = new Model.ViewModel.Setting();
+                    result.DesKey = Convert.ToBase64String(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+                    result.DesVi = Convert.ToBase64String(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+                }
                 cache.Save(cacheKey, result);
             }
             return result;

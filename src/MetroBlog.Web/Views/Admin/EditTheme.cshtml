@@ -1,63 +1,41 @@
-﻿@{
-
-    var filePath = (string)Model;
-}
-@using System;
-@using System.Text;
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+﻿
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script src="~/public/js/modules/jquery.js"></script>
-    <script src="~/public/codemirror/lib/codemirror.js"></script>
-    <link href="~/public/codemirror/lib/codemirror.css" rel="stylesheet" />
-    <script src="~/public/codemirror/mode/javascript/javascript.js"></script>
-    <script src="~/public/codemirror/addon/hint/show-hint.js"></script>
-    <script src="~/public/codemirror/addon/hint/javascript-hint.js"></script>
-    <link href="~/public/codemirror/addon/hint/show-hint.css" rel="stylesheet" />
-    <script src="~/public/js/modules/layer/layer.js"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Editor</title>
     <link href="~/public/js/modules/layer/skin/layer.css" rel="stylesheet" />
-</head>
+    <style type="text/css" media="screen">
+        body {
+            overflow: hidden;
+        }
 
+        #editor {
+            margin: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
 <body>
-    <input type="hidden" id="editor" value="@System.IO.File.ReadAllText(filePath)" />
+
+<pre id="editor" data-bind="text:content">
+
+</pre>
+    <script src="~/public/ace/ace.js"></script>
+    <script src="/public/sea-debug.js"></script>
+    <script type="text/javascript">
+        seajs.config({
+            base: "/public/js/viewmodels/",
+            alias: {}
+        })
+        seajs.use("edittheme");
+     </script>
+   
+
 </body>
 </html>
-<script type="text/javascript">
-    $(document).ajaxStart(function (event) {
-        if (!window.loadIndex) {
-            window.loadIndex = layer.load({
-                shade: [0.5, '#000'] //0.1透明度的白色背景
-            });
-        }
-    }).ajaxComplete(function (event, xhr, settings) {
-        layer.close(window.loadIndex);
-    });
-    $(function () {
-        var height = $("div.tabsPageContent", window.parent.document).height();
-        $(document.body).height(height);
-
-        var keyMaps = {
-            "Tab": function (cm) {
-                var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
-                cm.replaceSelection(spaces);
-            },
-            'Ctrl-S': function (cm) {
-
-                var saveData = {
-                    themeName: "",
-                    fileName: "",
-                    content: cm.getValue()
-                };
-                alert(cm.getValue())
-            }
-        }
-        var myCodeMirror = CodeMirror(document.body, {
-            value: $("#editor").val(),
-            mode: "javascript",
-            lineNumbers: true,
-            lineWrapping: true,
-            extraKeys: keyMaps
-        });
-        myCodeMirror.setSize("auto", "auto");
-    });
-</script>

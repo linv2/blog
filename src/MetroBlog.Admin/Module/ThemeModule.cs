@@ -1,4 +1,5 @@
 ﻿using MetroBlog.Core.Common;
+using MetroBlog.Core.Data.IService;
 using Nancy;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,11 @@ namespace MetroBlog.Admin.Module
 {
     public class ThemeModule : NancyModule
     {
-
-        public ThemeModule()
+        ISettingService settingService;
+        public ThemeModule(ISettingService settingService)
         {
+
+            this.settingService = settingService;
             base.ModulePath = "theme";
             Get["list"] = _ => List();
             Post["filelist"] = _ => FileList();
@@ -55,6 +58,10 @@ namespace MetroBlog.Admin.Module
                 });
             }
             var fileInfos = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes", theme)).Select(x => new FileInfo(x));
+
+            var setting = settingService.GetSetting();
+            var key = Convert.FromBase64String(setting.DesKey);
+            var vi = Convert.FromBase64String(setting.DesVi);
             foreach (var fileInfo in fileInfos)
             {
                 list.Add(new
@@ -62,36 +69,38 @@ namespace MetroBlog.Admin.Module
                     id = dir + "/" + fileInfo.Name,
                     name = fileInfo.Name,
                     isParent = false,
-                    icon = "/public/assets/css/ztree/icons/18/" + fileInfo.Extension.Remove(0, 1) + ".png"
+                    icon = "/public/assets/css/ztree/icons/18/" + fileInfo.Extension.Remove(0, 1) + ".png",
+                    skey = DES.Encrypt(fileInfo.FullName, key, vi)
                 });
             }
-            ////[{ id:'011',	name:'n1.n1',	isParent:true},{ id:'012',	name:'n1.n2',	isParent:false},{ id:'013',	name:'n1.n3',	isParent:true},{ id:'014',	name:'n1.n4',	isParent:false}]
-
-            //var rsp = new
-            //{
-            //    directories = Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes", theme)).Select(x => new DirectoryInfo(x).Name),
-            //    files = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes", theme)).Select(x => new FileInfo(x).Name)
-            //};
             return Response.AsJson(list);
         }
         public dynamic GetFile()
         {
-            string theme = Request.Query.themeName;
-            string fileName = Request.Query.fileName;
-            if (fileName.StartsWith("/"))
+            string skey = Request.Query.skey;
+            var setting = settingService.GetSetting();
+            var key = Convert.FromBase64String(setting.DesKey);
+            var vi = Convert.FromBase64String(setting.DesVi);
+            try
             {
-                fileName = fileName.Remove(0, 1);
-            }
-            theme = theme.Replace("/", "\\\\");
-            fileName = fileName.Replace("/", "\\");
-            fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes", theme, fileName);
-            if (!File.Exists(fileName))
-            {
+                string fileName = DES.Decrypt(skey, key, vi);
+                if (fileName != null && File.Exists(fileName))
+                {
+
+                    return Response.AsJson(Rsp.Create<dynamic>(new
+                    {
+                        file = new FileInfo(fileName).Name,
+                        content = File.ReadAllText(fileName, Encoding.UTF8)
+                    }));
+                }
+
                 return Response.AsJson(Rsp.Error("文件不存在"));
             }
-            else
+            catch (Exception ex)
             {
-                return Response.AsJson(Rsp.Error<string>(File.ReadAllText(fileName, Encoding.UTF8)));
+
+
+                return Response.AsJson(Rsp.Error(ex.Message));
             }
         }
 
@@ -99,12 +108,12 @@ namespace MetroBlog.Admin.Module
         {
             try
             {
-                string theme = Request.Query.themeName;
-                string fileName = Request.Query.fileName;
-                string content = Request.Form.content;
-                theme = theme.Replace("/", "\\\\");
-                fileName = fileName.Replace("/", "\\");
-                fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes", theme, fileName);
+                string skey = Request.Form.skey;
+                var setting = settingService.GetSetting();
+                var key = Convert.FromBase64String(setting.DesKey);
+                var vi = Convert.FromBase64String(setting.DesVi);
+                string fileName = DES.Decrypt(skey, key, vi);
+                string content = Request.Form.content; ;
                 File.WriteAllText(fileName, content, Encoding.UTF8);
                 return Response.AsJson(Rsp.Success);
             }

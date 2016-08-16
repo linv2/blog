@@ -1,135 +1,20 @@
-﻿@using System;
-@using System.Text;
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>简单实用国产jQuery UI框架 - DWZ富客户端框架(J-UI.com)</title>
-
-    <link href="/public/dwz/themes/default/style.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="/public/dwz/themes/css/core.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="/public/dwz/themes/css/print.css" rel="stylesheet" type="text/css" media="print" />
-    <!--[if IE]>
-    <link href="/public/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
-    <![endif]-->
-    <!--[if lt IE 9]><script src="js/speedup.js" type="text/javascript"></script><script src="js/jquery-1.11.3.min.js" type="text/javascript"></script><![endif]-->
-    <!--[if gte IE 9]><!-->
-    <script src="~/public/js/modules/jquery.js"></script>
-    <script src="~/public/js/modules/jquery.cookie.js"></script>
-    <script src="~/public/js/modules/jquery.validate.js"></script>
-    <script src="~/public/js/modules/jquery.bgiframe.js"></script>
-
-    <!-- 可以用dwz.min.js替换前面全部dwz.*.js (注意：替换时下面dwz.regional.zh.js还需要引入)
-    <script src="bin/dwz.min.js" type="text/javascript"></script>
-    -->
-    <script src="~/public/dwz/dwz.min.js"></script>
-    <script src="~/public/dwz/dwz.regional.zh.js"></script>
-
+﻿@{
+    Layout = "_Layout.cshtml";
+    ViewBag.Icon = "tag";
+    ViewBag.Title = "标签管理";
+}
+@section script{
     <script type="text/javascript">
-        $(function () {
-            DWZ.init("/public/dwz/dwz.frag.xml", {
-                statusCode: { ok: 200, error: 300, timeout: 301 }, //【可选】
-                pageInfo: { pageNum: "pageNum", numPerPage: "numPerPage", orderField: "orderField", orderDirection: "orderDirection" }, //【可选】
-                keys: { statusCode: "statusCode", message: "message" }, //【可选】
-                ui: { hideMode: 'offsets' }, //【可选】hideMode:navTab组件切换的隐藏方式，支持的值有’display’，’offsets’负数偏移位置的值，默认值为’display’
-                debug: false,	// 调试模式 【true|false】
-                callback: function () {
-                    initEnv();
-                    $("#themeList").theme({ themeBase: "/public/dwz/themes" }); // themeBase 相对于index页面的主题base路径
-                }
-            });
-        });
+        seajs.use("themeitem");
     </script>
+    <script src="~/public/assets/js/ztree/jquery.ztree.core.js"></script>
+    <link href="~/public/assets/css/ztree/demo.css" rel="stylesheet" />
+    <link href="~/public/assets/css/ztree/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
 
-</head>
+    <link href="~/public/js/modules/context/context.bootstrap.css" rel="stylesheet" />
 
-<body>
-    <div id="layout">
-        <div id="header">
-            <div class="headerNav">
-
-            </div>
-
-        </div>
-
-        <div id="leftside">
-            <div id="sidebar_s">
-                <div class="collapse">
-                    <div class="toggleCollapse"><div></div></div>
-                </div>
-            </div>
-            <div id="sidebar">
-                <div class="toggleCollapse"><h2>主菜单</h2><div>收缩</div></div>
-
-                <div class="accordion" fillSpace="sidebar">
-                    <div class="accordionContent">
-                        <ul class="tree treeFolder">
-                            @{
-                                var themeName = (string)Request.Query["themeName"];
-                                var path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes", themeName);
-                                Func<string, string> funcCreate = null;
-                                funcCreate = x =>
-                                {
-                                    StringBuilder sb = new StringBuilder();
-                                    var directories = Directory.GetDirectories(x);
-                                    foreach (var directoryItem in directories)
-                                    {
-                                        sb.Append("<li>");
-                                        sb.Append(@"<a href=""javascript:; "">" + new DirectoryInfo(directoryItem).Name + "</a>");
-                                        sb.Append("<ul>");
-                                        sb.Append(funcCreate(directoryItem));
-                                        sb.Append("</ul>");
-                                        sb.Append("</li>");
-                                    }
-                                    var files = Directory.GetFiles(x);
-
-
-                                    foreach (var fileItem in files)
-                                    {
-                                        sb.Append("<li>");
-                                        sb.AppendFormat(@"<a href=""EditTheme?theme={0}&path={1}"" target=""navTab"" external=""true"" rel=""{2}"">{3}</a>", themeName, fileItem.Replace(path, "").Remove(0,1), new FileInfo(fileItem).Name, new FileInfo(fileItem).Name);
-                                        sb.Append("</li>");
-                                    }
-
-
-                                    return sb.ToString();
-                                };
-                                var htmlTree = funcCreate(path);
-
-                            }
-
-                            @Html.Raw(htmlTree);
-
-
-
-
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="container">
-            <div id="navTab" class="tabsPage">
-                <div class="tabsPageHeader">
-                    <div class="tabsPageHeaderContent">
-                        <!-- 显示左右控制时添加 class="tabsPageHeaderMargin" -->
-                        <ul class="navTab-tab"></ul>
-                    </div>
-                    <div class="tabsLeft">left</div><!-- 禁用只需要添加一个样式 class="tabsLeft tabsLeftDisabled" -->
-                    <div class="tabsRight">right</div><!-- 禁用只需要添加一个样式 class="tabsRight tabsRightDisabled" -->
-                    <div class="tabsMore">more</div>
-                </div>
-                <ul class="tabsMoreList">
-                    <li><a href="javascript:;">我的主页</a></li>
-                </ul>
-                <div class="navTab-panel tabsPageContent layoutBox">
-
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-</body>
-</html>
+    <link href="~/public/js/modules/context/context.standalone.css" rel="stylesheet" />
+}
+<div class="row">
+    <ul id="treeDemo" class="ztree"></ul>
+</div>
