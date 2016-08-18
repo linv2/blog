@@ -16,12 +16,14 @@ namespace MetroBlog.Core
         IMenuService menuService;
         ICategoryService categoryService;
         IArticleService articleService;
+        ISettingService settingService;
         #endregion
-        public Blog(IMenuService menuService, ICategoryService categoryService, IArticleService articleService)
+        public Blog(IMenuService menuService, ICategoryService categoryService, IArticleService articleService, ISettingService settingService)
         {
             this.menuService = menuService;
             this.categoryService = categoryService;
             this.articleService = articleService;
+            this.settingService = settingService;
         }
 
         public PageInfo<IList<Article>> LoadArticle(ArticleQuery query, int pageIndex = 1, int pageSize = 10)
@@ -32,6 +34,14 @@ namespace MetroBlog.Core
         public Article GetArticleById(int articleId)
         {
             return articleService.SelectArticleById(articleId);
+        }
+
+        public Setting Setting
+        {
+            get
+            {
+                return settingService.GetSetting();
+            }
         }
 
         public IEnumerable<Category> Category

@@ -58,7 +58,7 @@ namespace MetroBlog.Template
                 return themeName;
             }
         }
-
+        private static object lockObj = new object();
         /// <summary>
         /// 当前访问用户的主题
         /// </summary>
@@ -72,12 +72,19 @@ namespace MetroBlog.Template
                 {
                     if (!ThemesDict.TryGetValue(themeName, out currentTheme))
                     {
-                        var themeManage = ThemesManage.Create(themeName);
-                        if (themeManage != null)
+                        lock (lockObj)
                         {
-                            ThemesDict.Add(themeName, themeManage);
+                            var themeManage = ThemesManage.Create(themeName);
+                            if (themeManage != null)
+                            {
+                                try
+                                {
+                                    ThemesDict.Add(themeName, themeManage);
+                                }
+                                catch { }
+                            }
+                            currentTheme = themeManage;
                         }
-                        currentTheme = themeManage;
                     }
                 }
                 return currentTheme;

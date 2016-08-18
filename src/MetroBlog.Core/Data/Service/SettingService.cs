@@ -37,6 +37,8 @@ namespace MetroBlog.Core.Data.Service
                 if (result == null)
                 {
                     result = new Model.ViewModel.Setting();
+                    result.Title = "Linv2's Blog";
+                    result.Site = "http://www.newguid.cn/";
                     result.DesKey = Convert.ToBase64String(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
                     result.DesVi = Convert.ToBase64String(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
                 }

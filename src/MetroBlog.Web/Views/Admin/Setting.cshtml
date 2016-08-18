@@ -1,5 +1,4 @@
-﻿@using MetroBlog.Settings;
-@{
+﻿@{
     Layout = "_Layout.cshtml";
     ViewBag.Icon = "setting";
     ViewBag.Title = "站点设置";
@@ -85,27 +84,12 @@
         <div class="tile-widget nopadding color transparent-black rounded-top-corners">
             <ul class="nav nav-tabs tabdrop">
                 <li class="dropdown pull-right tabdrop hide"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-th-list"></i> <span class="badge"></span></a><ul class="dropdown-menu"></ul></li>
-                @{
 
-                    bool fristRow = true;
-                    var model = (string)Model;
-                }
-                @foreach (var settingType in BlogSetting.Instance[model].SettingTypes)
-                {
-                    if (fristRow)
-                    {
-                        <li class="active"><a href="#tab_@settingType.GetHashCode()" data-toggle="tab">@settingType.TypeName</a></li>
-                        {
-                            fristRow = false;
-                        }
-                    }
+                <li class="active"><a href="#tab1" data-toggle="tab">基本设置</a></li>
 
-                    else
-                    {
-                        <li><a href="#tab_@settingType.GetHashCode()" data-toggle="tab">@settingType.TypeName</a></li>
+                <li><a href="#tab2" data-toggle="tab">评论设置</a></li>
 
-                    }
-                }
+
             </ul>
         </div>
         <!-- /tile widget -->
@@ -113,65 +97,134 @@
         <div class="tile-body">
             <form class="form-horizontal form1" id="addForm" role="form" parsley-validate="">
                 <div class="tab-content">
-                    @{
-                        fristRow = true;
-                    }
-                    @foreach (var settingType in BlogSetting.Instance[model].SettingTypes)
-                    {
-                        <div class="tab-pane @(fristRow?"active":"")" id="tab_@settingType.GetHashCode()">
-                            @foreach (var settingItem in settingType.SettingItems)
-                            {
-                                fristRow = false;
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" for="@settingItem.ItemName">
-                                        @settingItem.DisplayText
-                                    </label>
-                                    <div class="col-sm-10">
-                                        @switch (settingItem.ItemType)
-                                        {
-                                            case ItemType.INPUT:
-                                                {
-                                                    <input type="text" name="@settingItem.ItemName" class="form-control" data-bind="value:@settingItem.ItemName">
-                                                }
-                                                break;
-                                            case ItemType.TEXTARE:
-                                                {
-                                                    <textarea name="@settingItem.ItemName" class="form-control" style="height: 100px;" data-bind="value:@settingItem.ItemName"></textarea>
+                    <div class="tab-pane active" id="tab1">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="title">
+                                网站标题
+                            </label>
+                            <div class="col-sm-10">
+                                <input type="text" name="title" class="form-control" data-bind="value:title">
 
-                                                }
-                                                break;
-                                            case ItemType.SELECT:
-                                                {
-
-                                                    <select name="@settingItem.ItemName">
-                                                        @foreach (var optionItem in settingItem.Options)
-                                                        {
-                                                            <option value="@optionItem.Value">@optionItem.Text</option>
-                                                        }
-                                                    </select>
-                                                }
-                                                break;
-                                            case ItemType.RADIO:
-                                                {
-                                                    <div class="onoffswitch greensea">
-                                                        <input type="checkbox" name="@settingItem.ItemName" class="onoffswitch-checkbox" id="@settingItem.ItemName" data-bind="checked:@settingItem.ItemName">
-                                                        <label class="onoffswitch-label" for="@settingItem.ItemName">
-                                                            <span class="onoffswitch-inner"></span>
-                                                            <span class="onoffswitch-switch"></span>
-                                                        </label>
-                                                    </div>
-
-                                                }
-                                                break;
-                                        }
-                                    </div>
-                                </div>
-                            }
+                            </div>
                         </div>
-                    }
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="keyWord">
+                                关键字
+                            </label>
+                            <div class="col-sm-10">
+                                <input type="text" name="keyWord" class="form-control" data-bind="value:keyWord">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="description">
+                                网站描述
+                            </label>
+                            <div class="col-sm-10">
+                                <input type="text" name="description" class="form-control" data-bind="value:description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="status">
+                                网站状态
+                            </label>
+                            <div class="col-sm-10">
+                                <div class="onoffswitch greensea">
+                                    <input type="checkbox" name="status" class="onoffswitch-checkbox" id="status" data-bind="checked:status">
+                                    <label class="onoffswitch-label" for="status">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="verifyCode">
+                                验证码
+                            </label>
+                            <div class="col-sm-10">
+                                <div class="onoffswitch greensea">
+                                    <input type="checkbox" name="verifyCode" class="onoffswitch-checkbox" id="verifyCode" data-bind="checked:verifyCode">
+                                    <label class="onoffswitch-label" for="verifyCode">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane" id="tab2">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="comment">
+                                评论
+                            </label>
+                            <div class="col-sm-10">
+                                <div class="onoffswitch greensea">
+                                    <input type="checkbox" name="comment" class="onoffswitch-checkbox" id="comment" data-bind="checked:verifyCode">
+                                    <label class="onoffswitch-label" for="comment">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="keyWord">
+                                关键字
+                            </label>
+                            <div class="col-sm-10">
+                                <input type="text" name="keyWord" class="form-control" data-bind="value:keyWord">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="description">
+                                网站描述
+                            </label>
+                            <div class="col-sm-10">
+                                <input type="text" name="description" class="form-control" data-bind="value:description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="status">
+                                网站状态
+                            </label>
+                            <div class="col-sm-10">
+                                <div class="onoffswitch greensea">
+                                    <input type="checkbox" name="status" class="onoffswitch-checkbox" id="status" data-bind="checked:status">
+                                    <label class="onoffswitch-label" for="status">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="verifyCode">
+                                验证码
+                            </label>
+                            <div class="col-sm-10">
+                                <div class="onoffswitch greensea">
+                                    <input type="checkbox" name="verifyCode" class="onoffswitch-checkbox" id="verifyCode" data-bind="checked:verifyCode">
+                                    <label class="onoffswitch-label" for="verifyCode">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
 
                 </div>
-
             </form>
         </div>
         <!-- /tile body -->

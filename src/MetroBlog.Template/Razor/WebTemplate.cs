@@ -23,5 +23,9 @@ namespace MetroBlog.Template.Razor
                 return MetroBlog.Core.Blog.Current;
             }
         }
+        public string UrlBuild(string url)
+        {
+            return string.Concat("/themes/", SessionManage.ThemeName, "/", url);
+        }
     }
 }

@@ -1330,6 +1330,13 @@
     <Content Include="public\js\modules\jquery.tagsinput.js" />
     <Content Include="public\js\modules\template.js" />
     <Content Include="public\sea.js" />
+    <Content Include="Themes\Default\cloud\arrow40.cur" />
+    <Content Include="Themes\Default\cloud\cloud10.png" />
+    <Content Include="Themes\Default\cloud\js\Detector.js" />
+    <Content Include="Themes\Default\cloud\js\ga.js" />
+    <Content Include="Themes\Default\cloud\js\RequestAnimationFrame.js" />
+    <Content Include="Themes\Default\cloud\js\ThreeExtras.js" />
+    <Content Include="Themes\Default\cloud\js\ThreeWebGL.js" />
     <Content Include="Themes\Default\css\blog.css" />
     <Content Include="Themes\Default\css\grids-responsive-min.css" />
     <Content Include="Themes\Default\css\public.css" />

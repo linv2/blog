@@ -6,35 +6,6 @@
 
     Layout = "_Layout.cshtml";
 }
-<div class="posts">
-    <h1 class="content-subhead">日志列表</h1>
-    @{
-        
-        ArticleQuery query = new ArticleQuery();
-        PageInfo<IList<Article>> result = Model.LoadArticle(query);
-    }
-    @foreach (var aticleItem in result.Data)
-    {
-        <section class="post">
-            <header class="post-header">
-                <!--<img class="post-avatar" alt="1111" height="48" width="48" src="blog/img/common/1111-avatar.jpg">-->
-
-                <h2 class="post-title"><a href="/Article?id=@aticleItem.Id">@aticleItem.Title</a></h2>
-
-                <p class="post-meta">
-                    发表于 @aticleItem.CreateTime.ToString("yyyy-MM-dd HH:mm")
-                    @foreach (var tagItem in aticleItem.Tags)
-                    {
-                        <a class="post-category post-category-design" href="javascript:;">@tagItem.TagName</a>
-                    }
-                </p>
-            </header>
-
-            <div class="post-description">
-                <p>
-                    @aticleItem.Description
-                </p>
-            </div>
-        </section>
-    }
+<div style="margin-top:45%;">
+    @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
 </div>

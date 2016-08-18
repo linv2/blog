@@ -63,8 +63,6 @@
     <Compile Include="TemplateHttpHandler.cs" />
     <Compile Include="TemplateHandlerFactory.cs" />
     <Compile Include="TemplateManage.cs" />
-    <Compile Include="TempleteDataMemey.cs" />
-    <Compile Include="ViewParamEntity.cs" />
     <Compile Include="Views.cs" />
   </ItemGroup>
   <ItemGroup>
