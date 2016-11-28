@@ -25,14 +25,16 @@ namespace MetroBlog.Admin
         private ICategoryService categoryService { get; set; }
         private ITagService tagService { get; set; }
         private IMenuService menuService { get; set; }
+        private ISettingService settingService { get; set; }
         #endregion
-        public AdminModule(IUserService userService, IArticleService articleService, ICategoryService categoryService, ITagService tagService, IMenuService menuService)
+        public AdminModule(IUserService userService, IArticleService articleService, ICategoryService categoryService, ITagService tagService, IMenuService menuService, ISettingService settingService)
         {
             this.userService = userService;
             this.articleService = articleService;
             this.categoryService = categoryService;
             this.tagService = tagService;
             this.menuService = menuService;
+            this.settingService = settingService;
 
 
             this.Before.AddItemToEndOfPipeline(SetContextUserFromAuthenticationCookie);
@@ -223,14 +225,15 @@ namespace MetroBlog.Admin
         public dynamic Setting()
         {
             return null;
-            //string key = Request.Query["key"];
-            //var options = BlogSetting.Instance[key].AllKey.Select(x => new
-            //{
-            //    key = x,
-            //    value = BlogSetting.Instance[key][x]
-            //}).ToList();
+            string key = Request.Query["key"];
+            settingService.GetSetting();
+            var options = BlogSetting.Instance[key].AllKey.Select(x => new
+            {
+                key = x,
+                value = BlogSetting.Instance[key][x]
+            }).ToList();
 
-            //return Response.AsJson(options);
+            return Response.AsJson(options);
         }
         public dynamic SaveSetting()
         {

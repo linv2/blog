@@ -1,5 +1,5 @@
 ﻿define(function (require, exports, module) {
-    var settingService = require("../http/settingService")
+    var settingService = require("../http/settingService");
     var $ = require("../modules/jquery");
     var ko = require("../modules/knockout");
     var common = require("common");
@@ -7,6 +7,7 @@
         events: {}
     };
     viewModel.events.submitForm = function (d, e) {
+        alert(0);
         viewModel.key = key;
         var data = $.parseJSON(ko.toJSON(d));
         var deferred = settingService.save(data);

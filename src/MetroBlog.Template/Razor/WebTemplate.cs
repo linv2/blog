@@ -16,16 +16,16 @@ namespace MetroBlog.Template.Razor
             }
 
         }
-        public MetroBlog.Core.Blog Blog
-        {
-            get
-            {
-                return MetroBlog.Core.Blog.Current;
-            }
-        }
+        public MetroBlog.Core.Blog Blog { get; } = MetroBlog.Core.Blog.Current;
+
         public string UrlBuild(string url)
         {
             return string.Concat("/themes/", SessionManage.ThemeName, "/", url);
+        }
+
+        public String Title
+        {
+            get { return Blog.Setting.Title; }
         }
     }
 }

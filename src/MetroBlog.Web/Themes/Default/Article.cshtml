@@ -11,7 +11,7 @@
     @{
 
         Int32 articleId = Convert.ToInt32(Request["Id"]);
-        Article articleInfo = Model.GetArticleById(articleId);
+        Article articleInfo = Blog.GetArticleById(articleId);
     }
 
     <section class="post">

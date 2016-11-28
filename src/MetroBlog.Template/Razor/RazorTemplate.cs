@@ -8,7 +8,7 @@ namespace MetroBlog.Template.Razor
 {
     public class RazorTemplate
     {
-        IRazorEngineService razorEngine;
+        readonly IRazorEngineService razorEngine;
         public RazorTemplate()
         {
             TemplateServiceConfiguration config = new TemplateServiceConfiguration();
@@ -20,7 +20,7 @@ namespace MetroBlog.Template.Razor
 
             config.BaseTemplateType = typeof(WebTemplate<>);
             razorEngine = RazorEngineService.Create(config);
-            
+
         }
         public void Compile(Views view)
         {
