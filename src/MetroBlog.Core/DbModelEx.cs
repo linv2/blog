@@ -45,7 +45,8 @@ namespace MetroBlog.Core
             foreach (var key in collection.AllKeys)
             {
                 var value = collection[key];
-                var property = properties.Where(x => x.Name.Equals(key, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                var property =
+                    properties.FirstOrDefault(x => x.Name.Equals(key, StringComparison.CurrentCultureIgnoreCase));
                 if (property != null)
                 {
                     object _value = null;

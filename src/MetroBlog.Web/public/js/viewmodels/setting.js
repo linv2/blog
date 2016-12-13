@@ -8,7 +8,6 @@
     };
     viewModel.events.submitForm = function (d, e) {
         alert(0);
-        viewModel.key = key;
         var data = $.parseJSON(ko.toJSON(d));
         var deferred = settingService.save(data);
         $.when(deferred).done(function (response) {
@@ -22,13 +21,13 @@
             console.log(error);
         });
     }
-    var deferred = settingService.list({ "key": key });
+    var deferred = settingService.list({});
     $.when(deferred).done(function (response) {
-        $(response).each(function (index) {
-            var key = response[index].key;
-            var value = response[index].value;
-            viewModel[key] = ko.observable(value);
-        });
+        for (var k in response) {
+            var value = response[k];
+            viewModel[k] = ko.observable(value);
+        }
+
         ko.applyBindings(viewModel);
     }).fail(function (error) {
         console.log(error);

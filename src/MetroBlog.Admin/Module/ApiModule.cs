@@ -9,6 +9,7 @@ using MetroBlog.Core.Data.IService;
 using Nancy.Authentication.Token;
 using MetroBlog.Core.Data;
 using System.Collections.Specialized;
+using System.Net;
 using MetroBlog.Core.Common;
 using System.Threading;
 using MetroBlog.Core.Model.QueryModel;
@@ -214,7 +215,7 @@ namespace MetroBlog.Admin
             }
             else
             {
-                Menu mMemu = new Menu();
+                var mMemu = new Menu();
                 mMemu.SetEntityValue(nvc);
                 _rsp = menuService.AddMenu(mMemu);
 
@@ -224,32 +225,17 @@ namespace MetroBlog.Admin
 
         public dynamic Setting()
         {
-            return null;
-            string key = Request.Query["key"];
-            settingService.GetSetting();
-            var options = BlogSetting.Instance[key].AllKey.Select(x => new
-            {
-                key = x,
-                value = BlogSetting.Instance[key][x]
-            }).ToList();
+            var options = settingService.GetSetting();
 
             return Response.AsJson(options);
         }
         public dynamic SaveSetting()
         {
-            return null;
-            //var nvc = NancyDynamicDictionary.ToNameValueCollection((DynamicDictionary)Request.Form);
-            //var settingKey = nvc["key"];
-            //var settingInfo = BlogSetting.Instance[settingKey];
-            //if (settingInfo != null)
-            //{
-            //    foreach (var key in nvc.AllKeys)
-            //    {
-            //        settingInfo[key] = nvc[key];
-            //    }
-            //}
-            //settingInfo.SaveConfig();
-            //return Response.AsJson(Rsp.Success);
+            var nvc = NancyDynamicDictionary.ToNameValueCollection((DynamicDictionary)Request.Form);
+            var settingInfo = settingService.GetSetting();
+            settingInfo.SetEntityValue(nvc);
+            settingService.SaveSetting(settingInfo);
+            return Response.AsJson(Rsp.Success);
         }
         #endregion
 

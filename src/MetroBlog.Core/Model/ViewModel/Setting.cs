@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MetroBlog.Core.Model.ViewModel
 {
-    public class Setting : List<DbModel.Setting>
+    public class Setting : IDbModelface
     {
         public string Site { get; set; }
         public string Title { get; set; }

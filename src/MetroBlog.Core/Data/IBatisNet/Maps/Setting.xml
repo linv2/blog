@@ -12,9 +12,12 @@
   <statements>
     <update id="saveSetting" parameterClass="MetroBlog.Core.Model.DbModel.Setting" >
       <![CDATA[
+      if exists(select top 1 * from Setting where [Key]=#Key#)
             update Setting
             set [Value]=#Value#
             where [Key]=#Key#
+      else
+        insert into Setting values(#Key#,#Value#)
 
   ]]>
     </update>

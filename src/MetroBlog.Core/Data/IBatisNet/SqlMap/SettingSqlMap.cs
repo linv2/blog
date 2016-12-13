@@ -16,9 +16,9 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
                 Value = value
             });
         }
-        public Model.ViewModel.Setting SelectSetting()
+        public IList<Model.DbModel.Setting> SelectSetting()
         {
-            return base.QueryForObject<Model.ViewModel.Setting>("selectSetting", null);
+            return base.QueryForList<Model.DbModel.Setting>("selectSetting", null);
         }
     }
 }
