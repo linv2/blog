@@ -1,5 +1,4 @@
-﻿using Nancy.Hosting.Aspnet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,34 +9,26 @@ namespace MetroBlog.Template
 {
     public class TemplateHandlerFactory : IHttpHandlerFactory
     {
-        static bool repeatInit = false;
-        static TemplateHttpHandler templateHttpHandler = null;
-        static NancyHttpRequestHandler nancyHttpHandler = null;
+        private static bool _repeatInit = false;
+        private static TemplateHttpHandler _templateHttpHandler = null;
         public TemplateHandlerFactory()
         {
-            if (!repeatInit)
-            {
-
-                nancyHttpHandler = new NancyHttpRequestHandler();
-                templateHttpHandler = new TemplateHttpHandler();
-                repeatInit = true;
-            }
+            if (_repeatInit) return;
+            _templateHttpHandler = new TemplateHttpHandler();
+            _repeatInit = true;
         }
 
-        public IHttpHandler GetHandler(HttpContext context, string requestType, string url, string pathTranslated)
+        IHttpHandler IHttpHandlerFactory.GetHandler(HttpContext context, string requestType, string url,
+            string pathTranslated)
         {
-            var absolutePath = context.Request.Url.AbsolutePath;
-            if (templateHttpHandler.checkHttpContext(context))
+            if (_templateHttpHandler.CheckHttpContext(context))
             {
-                return templateHttpHandler;
+                return _templateHttpHandler;
             }
-            else
-            {
-                return nancyHttpHandler;
-            }
+            return null;
         }
 
-        public void ReleaseHandler(IHttpHandler handler)
+        void IHttpHandlerFactory.ReleaseHandler(IHttpHandler handler)
         {
         }
     }

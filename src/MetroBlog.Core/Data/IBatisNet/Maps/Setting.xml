@@ -21,11 +21,11 @@
 
   ]]>
     </update>
-    <update id="selectSetting" resultMap="Setting">
+    <select id="selectSetting" resultClass="Setting">
       <![CDATA[
          select * from Setting
   ]]>
-    </update>
+    </select>
   </statements>
 
 </sqlMap>

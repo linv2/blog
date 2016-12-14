@@ -7,4 +7,5 @@
   <Layouts>
     <Layout Path="_Layout.cshtml" />
   </Layouts>
+  <Engine>Razor</Engine>
 </config>

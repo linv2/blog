@@ -2,24 +2,20 @@
 using Nancy.ModelBinding;
 using Nancy.Authentication.Token;
 using MetroBlog.Core.Model.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MetroBlog.Core.Data.IService;
 using MetroBlog.Core.Common;
 
-namespace MetroBlog.Admin
+namespace MetroBlog.Admin.Module
 {
     public class AuthModule : NancyModule
     {
-        private IUserService userService { get; set; }
-        private ITokenizer tokenizer { get; set; }
+        private IUserService UserService { get; set; }
+        private ITokenizer Tokenizer { get; set; }
         public AuthModule(IUserService userService, ITokenizer tokenizer) : base("auth")
         {
-            
-            this.userService = userService;
-            this.tokenizer = tokenizer;
+
+            UserService = userService;
+            Tokenizer = tokenizer;
             Get["/"] = _ => Index();
             Post["/"] = _ => Login(this.Bind<User>());
         }
@@ -30,13 +26,13 @@ namespace MetroBlog.Admin
 
         public dynamic Login(User mUser)
         {
-            var rsp = userService.Login(mUser);
+            var rsp = UserService.Login(mUser);
             if (!rsp.error)
             {
-                var userIdentity = new DefaultUserIdentity(rsp.data.UserName);
-                var token = tokenizer.Tokenize(userIdentity, Context);
+                var userIdentity = new CustomUserIdentity(rsp.data.UserName);
+                var token = Tokenizer.Tokenize(userIdentity, Context);
                 Session["token"] = token;
-                
+
                 return Response.AsJson(Rsp.Success);
             }
             else

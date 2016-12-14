@@ -1,8 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MetroBlog.Core.Validator.User
 {
@@ -10,7 +6,7 @@ namespace MetroBlog.Core.Validator.User
     {
         public SelectUserValidator()
         {
-            base.CascadeMode = FluentValidation.CascadeMode.StopOnFirstFailure;
+            base.CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(x => x.UserName).NotEmpty()
                 .WithMessage("登录账号不能为空！");
 

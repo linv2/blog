@@ -9,9 +9,9 @@
 <div class="posts">
     <h1 class="content-subhead">日志列表</h1>
     @{
-        
-        ArticleQuery query = new ArticleQuery();
-        PageInfo<IList<Article>> result = Blog.LoadArticle(query);
+
+        var query = new ArticleQuery();
+        var result = Model.Blog.LoadArticle(query);
     }
     @foreach (var aticleItem in result.Data)
     {
@@ -22,7 +22,7 @@
                 <h2 class="post-title"><a href="/Article?id=@aticleItem.Id">@aticleItem.Title</a></h2>
 
                 <p class="post-meta">
-                    <a class="post-author" href="javascript:;">@Title</a> 发表于 @aticleItem.CreateTime.ToString("yyyy-MM-dd HH:mm")
+                    <a class="post-author" href="javascript:;">@Model.Title</a> 发表于 @aticleItem.CreateTime.ToString("yyyy-MM-dd HH:mm")
                     @foreach (var tagItem in aticleItem.Tags)
                     {
                         <a class="post-category post-category-design" href="javascript:;">@tagItem.TagName</a>

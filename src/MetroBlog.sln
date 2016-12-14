@@ -11,7 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBlog.Admin", "MetroBlo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBlog.Core", "MetroBlog.Core\MetroBlog.Core.csproj", "{BC376CF9-BAFF-44EB-BFFA-B1C4C6CD7526}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBlog.Template", "MetroBlog.Template\MetroBlog.Template.csproj", "{02CA2312-3FE2-41C5-88E9-D62169430D14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBlog.Template.Razor", "MetroBlog.Template.Razor\MetroBlog.Template.Razor.csproj", "{02CA2312-3FE2-41C5-88E9-D62169430D14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Template", "Template", "{7391CD7B-3735-4445-BAA9-2A86D02A63D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroBlog.Template", "MetroBlog.Template\MetroBlog.Template.csproj", "{A2BC541D-B329-4A5D-8CBC-6A197E107B88}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -39,8 +43,16 @@ Global
 		{02CA2312-3FE2-41C5-88E9-D62169430D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02CA2312-3FE2-41C5-88E9-D62169430D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02CA2312-3FE2-41C5-88E9-D62169430D14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2BC541D-B329-4A5D-8CBC-6A197E107B88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2BC541D-B329-4A5D-8CBC-6A197E107B88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2BC541D-B329-4A5D-8CBC-6A197E107B88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2BC541D-B329-4A5D-8CBC-6A197E107B88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02CA2312-3FE2-41C5-88E9-D62169430D14} = {7391CD7B-3735-4445-BAA9-2A86D02A63D5}
+		{A2BC541D-B329-4A5D-8CBC-6A197E107B88} = {7391CD7B-3735-4445-BAA9-2A86D02A63D5}
 	EndGlobalSection
 EndGlobal

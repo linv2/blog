@@ -1,20 +1,14 @@
 ﻿using Nancy;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace MetroBlog.Core
 {
-    class CustomJsonSerializer : ISerializer
+    public class CustomJsonSerializer : ISerializer
     {
-        static IsoDateTimeConverter dateConverter = new IsoDateTimeConverter()
-        {
-            
-        };
+        static readonly IsoDateTimeConverter DateConverter = new IsoDateTimeConverter();
         public IEnumerable<string> Extensions
         {
             get { yield return "*"; }
@@ -30,7 +24,7 @@ namespace MetroBlog.Core
             using (var streamWriter = new StreamWriter(outputStream))
             {
 
-                var json = JsonConvert.SerializeObject(model, dateConverter);
+                var json = JsonConvert.SerializeObject(model, DateConverter);
                 streamWriter.Write(json);
             }
         }

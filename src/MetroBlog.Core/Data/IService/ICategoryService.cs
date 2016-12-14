@@ -1,10 +1,5 @@
 ﻿using MetroBlog.Core.Common;
-using MetroBlog.Core.Data.IBatisNet;
-using MetroBlog.Core.Validator.Category;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MetroBlog.Core.Data.IService
 {

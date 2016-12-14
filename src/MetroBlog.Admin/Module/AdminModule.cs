@@ -1,10 +1,6 @@
 ﻿using Nancy;
 using Nancy.Authentication.Token;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace MetroBlog.Admin.Module
 {
@@ -14,7 +10,7 @@ namespace MetroBlog.Admin.Module
         public AdminModule() : base("Admin")
         {
             Get["/Login"] = _ => Login();
-            this.Before.AddItemToEndOfPipeline(SetContextUserFromAuthenticationCookie);
+            Before.AddItemToEndOfPipeline(SetContextUserFromAuthenticationCookie);
             Get["/"] = _ => Index();
             Get["/Main"] = _ => Index();
             Get["/Category"] = _ => Category();
@@ -28,7 +24,7 @@ namespace MetroBlog.Admin.Module
             Get["/Setting/{key}"] = _ => Setting(_.key);
         }
         #region auth
-        private ITokenizer tokenizer { get; set; } = new Tokenizer();
+        private ITokenizer Tokenizer { get; set; } = new Tokenizer();
 
         private Response SetContextUserFromAuthenticationCookie(NancyContext ctx)
         {
@@ -45,7 +41,7 @@ namespace MetroBlog.Admin.Module
             {
                 return Response.AsRedirect("/admin/login");
             }
-            var userIdentity = tokenizer.Detokenize(token, this.Context, new DefaultUserIdentityResolver());
+            var userIdentity = Tokenizer.Detokenize(token, this.Context, new DefaultUserIdentityResolver());
             if (userIdentity != null && !string.IsNullOrEmpty(userIdentity.UserName))
             {
                 return null;

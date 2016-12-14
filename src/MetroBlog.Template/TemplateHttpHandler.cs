@@ -1,8 +1,4 @@
-﻿using Nancy.Hosting.Aspnet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Web;
 
 namespace MetroBlog.Template
@@ -14,40 +10,33 @@ namespace MetroBlog.Template
             SessionManage.ThemeName = "Default";
         }
 
-        public bool IsReusable
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool IsReusable { get; } = true;
 
         private void ResponseView(HttpContext context, Views view)
         {
-            context.Response.ContentType = "text/html";
+            context.Response.ContentType = view.ContentType;
             view.Render(context.Response.OutputStream);
         }
-        public bool checkHttpContext(HttpContext context)
+        public bool CheckHttpContext(HttpContext context)
         {
             var absolutePath = context.Request.Url.AbsolutePath;
-            ThemesManage currentTheme = SessionManage.CurrentTheme;
+            var currentTheme = SessionManage.CurrentTheme;
             var view = currentTheme.FindView(absolutePath);
             return view != null;
         }
         public void ProcessRequest(HttpContext context)
         {
             var absolutePath = context.Request.Url.AbsolutePath;
-            ThemesManage currentTheme = SessionManage.CurrentTheme;
+            var currentTheme = SessionManage.CurrentTheme;
             var view = currentTheme.FindView(absolutePath);
-            if (view != null)
+            if (view == null) return;
+            try
             {
-
                 ResponseView(context, view);
-                try
-                {
-                    context.Response.End();
-                }
-                catch { }
+            }
+            finally
+            {
+                context.Response.End();
             }
         }
     }

@@ -8,14 +8,14 @@ using Nancy;
 
 namespace MetroBlog.Admin
 {
-    public class DefaultUserIdentity : IUserIdentity
+    public class CustomUserIdentity : IUserIdentity
     {
 
-        public DefaultUserIdentity(string userName)
+        public CustomUserIdentity(string userName)
         {
 
             this.UserName = userName;
-            Claims = new List<String>();
+            Claims = new List<string>();
         }
         public IEnumerable<string> Claims
         {

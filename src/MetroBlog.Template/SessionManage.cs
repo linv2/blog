@@ -9,7 +9,7 @@ namespace MetroBlog.Template
 {
     public class SessionManage
     {
-        static Dictionary<string, ThemesManage> ThemesDict = new Dictionary<string, ThemesManage>();
+        static IDictionary<string, ThemesManage> ThemesDict = new Dictionary<string, ThemesManage>();
         /// <summary>
         /// 当前访问的SessionId
         /// </summary>
@@ -18,7 +18,7 @@ namespace MetroBlog.Template
             get
             {
                 var context = HttpContext.Current;
-                var sessionId = string.Empty;
+                string sessionId;
                 if (context.Request.Cookies["sessionId"] != null)
                 {
                     sessionId = context.Request.Cookies["sessionId"].Value;
@@ -68,24 +68,20 @@ namespace MetroBlog.Template
             {
                 var themeName = PreviewThemeName;
                 ThemesManage currentTheme = null;
-                if (!string.IsNullOrEmpty(themeName))
+                if (string.IsNullOrEmpty(themeName)) return null;
+                if (ThemesDict.TryGetValue(themeName, out currentTheme)) return currentTheme;
+                lock (lockObj)
                 {
-                    if (!ThemesDict.TryGetValue(themeName, out currentTheme))
+                    var themeManage = ThemesManage.Create(themeName);
+                    if (themeManage != null)
                     {
-                        lock (lockObj)
+                        try
                         {
-                            var themeManage = ThemesManage.Create(themeName);
-                            if (themeManage != null)
-                            {
-                                try
-                                {
-                                    ThemesDict.Add(themeName, themeManage);
-                                }
-                                catch { }
-                            }
-                            currentTheme = themeManage;
+                            ThemesDict.Add(themeName, themeManage);
                         }
+                        catch { }
                     }
+                    currentTheme = themeManage;
                 }
                 return currentTheme;
             }

@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
 using MetroBlog.Core.Common;
-using MetroBlog.Core;
 using System;
 using System.Collections.Specialized;
 using System.Linq;
@@ -14,13 +12,13 @@ namespace MetroBlog.Core
         /// <summary>
         /// 验证实体
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="source"></param>
         /// <returns></returns>
         public static Rsp<TSource> Check<TValidator, TSource>(this TSource source) where TSource : class, IDbModelface
             where TValidator : AbstractValidator<TSource>, new()
         {
-            TValidator validator = new TValidator();
-            ValidationResult results = validator.Validate(source);
+            var validator = new TValidator();
+            var results = validator.Validate(source);
 
             if (results.IsValid)
             {
@@ -28,8 +26,7 @@ namespace MetroBlog.Core
             }
             else
             {
-                var error = results.Errors.Select(x => x.ErrorMessage);
-                return Rsp.Error<TSource>(String.Join(System.Environment.NewLine, results.Errors.Select(x => x.ErrorMessage)));
+                return Rsp.Error<TSource>(string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage)));
             }
 
         }
@@ -42,27 +39,23 @@ namespace MetroBlog.Core
         {
             var sourceType = typeof(TSource);
             var properties = sourceType.GetProperties();
+            object _value;
             foreach (var key in collection.AllKeys)
             {
                 var value = collection[key];
                 var property =
                     properties.FirstOrDefault(x => x.Name.Equals(key, StringComparison.CurrentCultureIgnoreCase));
-                if (property != null)
+                if (property == null) continue;
+                if (!property.PropertyType.FullName.StartsWith("System.")) continue;
+                _value = Convert.ChangeType(value, property.PropertyType);
+                try
                 {
-                    object _value = null;
-                    if (property.PropertyType.FullName.StartsWith("System."))
-                    {
-                        try
-                        {
-                            if (string.IsNullOrEmpty(value))
-                            {
-                                value = null;
-                            }
-                            _value = Convert.ChangeType(value, property.PropertyType);
-                            property.SetValue(model, _value, null);
-                        }
-                        catch { }
-                    }
+                    if (_value == null) throw new ArgumentNullException(nameof(_value));
+                    property.SetValue(model, _value, null);
+                }
+                catch
+                {
+                    // ignored
                 }
             }
         }

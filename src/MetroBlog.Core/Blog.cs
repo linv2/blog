@@ -2,11 +2,7 @@
 using MetroBlog.Core.Data.IService;
 using MetroBlog.Core.Model.QueryModel;
 using MetroBlog.Core.Model.ViewModel;
-using Nancy.TinyIoc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MetroBlog.Core
 {
@@ -21,10 +17,10 @@ namespace MetroBlog.Core
         #endregion
         public Blog(IMenuService menuService, ICategoryService categoryService, IArticleService articleService, ISettingService settingService)
         {
-            this._menuService = menuService;
-            this._categoryService = categoryService;
-            this._articleService = articleService;
-            this._settingService = settingService;
+            _menuService = menuService;
+            _categoryService = categoryService;
+            _articleService = articleService;
+            _settingService = settingService;
         }
 
         public PageInfo<IList<Article>> LoadArticle(ArticleQuery query, int pageIndex = 1, int pageSize = 10)
@@ -37,30 +33,11 @@ namespace MetroBlog.Core
             return _articleService.SelectArticleById(articleId);
         }
 
-        public Setting Setting
-        {
-            get
-            {
-                return _settingService.GetSetting();
-            }
-        }
+        public Setting Setting => _settingService.GetSetting();
 
-        public IEnumerable<Category> Category
-        {
-            get
-            {
-                return _categoryService.SelectCategoryList();
-            }
-        }
+        public IEnumerable<Category> Category => _categoryService.SelectCategoryList();
 
-        public IEnumerable<Menu> Menu
-        {
-            get
-            {
-                return _menuService.SelectMenuList();
-            }
-        }
-
+        public IEnumerable<Menu> Menu => _menuService.SelectMenuList();
 
 
         static Blog()

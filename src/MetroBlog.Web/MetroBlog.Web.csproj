@@ -4,7 +4,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion></ProductVersion>
+    <ProductVersion>
+    </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7936275F-09AB-4FE0-9392-B6CEE6A27A9F}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -14,8 +15,10 @@
     <AssemblyName>MetroBlog.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <FileUpgradeFlags></FileUpgradeFlags>
-    <UpgradeBackupLocation></UpgradeBackupLocation>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -99,10 +102,6 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
     <Reference Include="Nancy.ViewEngines.Razor, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.Viewengines.Razor.1.2.0\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -137,8 +136,16 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
       <Project>{e1f07b9a-3db1-4f44-a9b3-51f5f453a0e1}</Project>
       <Name>MetroBlog.Admin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MetroBlog.Template\MetroBlog.Template.csproj">
+    <ProjectReference Include="..\MetroBlog.Core\MetroBlog.Core.csproj">
+      <Project>{bc376cf9-baff-44eb-bffa-b1c4c6cd7526}</Project>
+      <Name>MetroBlog.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroBlog.Template.Razor\MetroBlog.Template.Razor.csproj">
       <Project>{02ca2312-3fe2-41c5-88e9-d62169430d14}</Project>
+      <Name>MetroBlog.Template.Razor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroBlog.Template\MetroBlog.Template.csproj">
+      <Project>{a2bc541d-b329-4a5d-8cbc-6a197e107b88}</Project>
       <Name>MetroBlog.Template</Name>
     </ProjectReference>
   </ItemGroup>
@@ -1420,7 +1427,9 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
     <Content Include="public\assets\js\vendor\summernote\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="public\js\modules\layer\mobile\README.md" />
     <Content Include="public\js\modules\layer\README.md" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config" />
     <Content Include="Web.Release.config" />
     <Content Include="Views\Admin\Login.cshtml" />
@@ -1442,7 +1451,6 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
     <Content Include="public\assets\css\ztree\awesomeStyle\awesome.less" />
     <Content Include="public\assets\css\ztree\awesomeStyle\fa.less" />
     <Content Include="Views\Admin\EditTheme.cshtml" />
-    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

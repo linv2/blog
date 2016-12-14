@@ -1,11 +1,6 @@
 ﻿using IBatisNet.DataMapper;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IBatisNet.Common;
 using IBatisNet.DataMapper.Configuration;
-using System.IO;
 using System.Reflection;
 using System.Xml;
 
@@ -13,39 +8,38 @@ namespace MetroBlog.Core.Data.IBatisNet
 {
     public class SqlMapBase
     {
-        protected ISqlMapper sqlMapper { set; get; }
+        protected ISqlMapper SqlMapper { set; get; }
 
         public SqlMapBase()
         {
-            DomSqlMapBuilder builder = new DomSqlMapBuilder();
+            var builder = new DomSqlMapBuilder();
 
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MetroBlog.Core.Data.IBatisNet.sqlMap.config");
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(stream);
-
-            sqlMapper = builder.Build(xmlDoc, false);
+            SqlMapper = builder.Build(xmlDoc, false);
 
         }
 
         protected TSource Insert<TSource>(string statementName, object value)
         {
-            return (TSource)sqlMapper.Insert(statementName, value);
+            return (TSource)SqlMapper.Insert(statementName, value);
         }
         protected int Update(string statementName, object value)
         {
-            return sqlMapper.Update(statementName, value);
+            return SqlMapper.Update(statementName, value);
         }
         protected int Delete(string statementName, object value)
         {
-            return sqlMapper.Delete(statementName, value);
+            return SqlMapper.Delete(statementName, value);
         }
         protected TSource QueryForObject<TSource>(string statementName, object value)
         {
-            return sqlMapper.QueryForObject<TSource>(statementName, value);
+            return SqlMapper.QueryForObject<TSource>(statementName, value);
         }
         protected IList<TSource> QueryForList<TSource>(string statementName, object value)
         {
-            return sqlMapper.QueryForList<TSource>(statementName, value);
+            return SqlMapper.QueryForList<TSource>(statementName, value);
         }
     }
 }

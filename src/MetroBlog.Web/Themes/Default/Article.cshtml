@@ -9,9 +9,9 @@
 <div class="posts">
     <h1 class="content-subhead">日志列表</h1>
     @{
-
-        Int32 articleId = Convert.ToInt32(Request["Id"]);
-        Article articleInfo = Blog.GetArticleById(articleId);
+        
+        var articleId = Convert.ToInt32(Model.Request["Id"]);
+        var articleInfo = Model.Blog.GetArticleById(articleId);
     }
 
     <section class="post">

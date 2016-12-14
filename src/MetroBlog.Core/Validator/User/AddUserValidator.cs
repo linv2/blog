@@ -1,9 +1,5 @@
 ﻿using FluentValidation;
 using MetroBlog.Core.Data.IBatisNet.SqlMap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MetroBlog.Core.Validator.User
 {
@@ -11,7 +7,7 @@ namespace MetroBlog.Core.Validator.User
     {
         public AddUserValidator()
         {
-            base.CascadeMode = FluentValidation.CascadeMode.StopOnFirstFailure;
+            base.CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(x => x.UserName).NotEmpty()
                 .WithMessage("用户名不能为空！");
 

@@ -1,15 +1,9 @@
-﻿using MetroBlog.Core.Data.IService;
-using MetroBlog.Core.Data.Service;
-using Nancy;
+﻿using Nancy;
 using Nancy.Authentication.Token;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
 using Nancy.Session;
 using Nancy.TinyIoc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MetroBlog.Core
 {

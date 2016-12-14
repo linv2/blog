@@ -1,8 +1,4 @@
-﻿using MetroBlog.Core.Model.QueryModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MetroBlog.Core.Data.IBatisNet.SqlMap
 {
@@ -10,7 +6,7 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
     {
         public int SaveSetting(string key, string value)
         {
-            return base.Update("saveSetting", new Model.DbModel.Setting()
+            return Update("saveSetting", new Model.DbModel.Setting()
             {
                 Key = key,
                 Value = value
@@ -18,7 +14,7 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
         }
         public IList<Model.DbModel.Setting> SelectSetting()
         {
-            return base.QueryForList<Model.DbModel.Setting>("selectSetting", null);
+            return QueryForList<Model.DbModel.Setting>("selectSetting", null);
         }
     }
 }

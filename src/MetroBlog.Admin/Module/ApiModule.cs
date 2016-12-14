@@ -1,46 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MetroBlog.Core.Model.ViewModel;
 using Nancy;
-using Nancy.ModelBinding;
 using MetroBlog.Core.Data.IService;
 using Nancy.Authentication.Token;
-using MetroBlog.Core.Data;
-using System.Collections.Specialized;
-using System.Net;
 using MetroBlog.Core.Common;
-using System.Threading;
 using MetroBlog.Core.Model.QueryModel;
 using MetroBlog.Core;
 
-namespace MetroBlog.Admin
+namespace MetroBlog.Admin.Module
 {
-    public class AdminModule : NancyModule
+    public class ApiModule : NancyModule
     {
 
         #region service interface
-        private IUserService userService { get; set; }
-        private IArticleService articleService { get; set; }
-        private ICategoryService categoryService { get; set; }
-        private ITagService tagService { get; set; }
-        private IMenuService menuService { get; set; }
-        private ISettingService settingService { get; set; }
+        private IArticleService ArticleService { get; set; }
+        private ICategoryService CategoryService { get; set; }
+        private ITagService TagService { get; set; }
+        private IMenuService MenuService { get; set; }
+        private ISettingService SettingService { get; set; }
         #endregion
-        public AdminModule(IUserService userService, IArticleService articleService, ICategoryService categoryService, ITagService tagService, IMenuService menuService, ISettingService settingService)
+        public ApiModule(IArticleService articleService, ICategoryService categoryService, ITagService tagService, IMenuService menuService, ISettingService settingService)
         {
-            this.userService = userService;
-            this.articleService = articleService;
-            this.categoryService = categoryService;
-            this.tagService = tagService;
-            this.menuService = menuService;
-            this.settingService = settingService;
+            ArticleService = articleService;
+            CategoryService = categoryService;
+            TagService = tagService;
+            MenuService = menuService;
+            SettingService = settingService;
 
 
-            this.Before.AddItemToEndOfPipeline(SetContextUserFromAuthenticationCookie);
+            Before.AddItemToEndOfPipeline(SetContextUserFromAuthenticationCookie);
 
-            base.ModulePath = "api";
+            ModulePath = "api";
             #region  route
             Get["/"] = _ => Index();
             Get["/ArticleList"] = _ => ArticleList();
@@ -62,7 +53,7 @@ namespace MetroBlog.Admin
         }
 
         #region auth
-        private ITokenizer tokenizer { get; set; } = new Tokenizer();
+        private ITokenizer Tokenizer { get; set; } = new Tokenizer();
 
         private Response SetContextUserFromAuthenticationCookie(NancyContext ctx)
         {
@@ -74,15 +65,10 @@ namespace MetroBlog.Admin
             var token = Convert.ToString(Session["token"]);
             if (string.IsNullOrEmpty(token))
             {
-                return Response.AsJson(Rsp.Error("unauthorized "));
+                return Response.AsJson(Rsp.Error("unauthorized"));
             }
-            var userIdentity = tokenizer.Detokenize(token, this.Context, new DefaultUserIdentityResolver());
-            if (userIdentity != null && !string.IsNullOrEmpty(userIdentity.UserName))
-            {
-                return null;
-            }
-            return Response.AsJson(Rsp.Error("unauthorized "));
-
+            var userIdentity = Tokenizer.Detokenize(token, Context, new DefaultUserIdentityResolver());
+            return !string.IsNullOrEmpty(userIdentity?.UserName) ? null : Response.AsJson(Rsp.Error("unauthorized "));
         }
         #endregion
 
@@ -100,44 +86,44 @@ namespace MetroBlog.Admin
             query.TagName = nvc["_tagName"];
             int pageIndex = Convert.ToInt32(nvc["pageIndex"]);
             int pageSize = Convert.ToInt32(nvc["pageSize"]);
-            var result = articleService.SelectArticleList(query, pageIndex, pageSize);
+            var result = ArticleService.SelectArticleList(query, pageIndex, pageSize);
             return Response.AsJson(Rsp.Create(result));
         }
         public dynamic CategoryList()
         {
-            return Response.AsJson(categoryService.SelectCategoryList().Where(x => !x.Delete).ToList());
+            return Response.AsJson(CategoryService.SelectCategoryList().Where(x => !x.Delete).ToList());
         }
         public dynamic SaveCategory()
         {
             var nvc = NancyDynamicDictionary.ToNameValueCollection((DynamicDictionary)Request.Form);
             var categoryId = Convert.ToInt32(nvc["id"]);
-            Rsp _rsp = null;
+            Rsp rsp;
             if (categoryId > 0)
             {
-                var categoryInfo = categoryService.SelectCategoryById(categoryId);
+                var categoryInfo = CategoryService.SelectCategoryById(categoryId);
                 categoryInfo.SetEntityValue(nvc);
-                _rsp = categoryService.UpdateCategory(categoryInfo);
+                rsp = CategoryService.UpdateCategory(categoryInfo);
             }
             else
             {
                 Category mCategory = new Category();
                 mCategory.SetEntityValue(nvc);
-                _rsp = categoryService.AddCategory(mCategory);
+                rsp = CategoryService.AddCategory(mCategory);
 
             }
-            return Response.AsJson(_rsp);
+            return Response.AsJson(rsp);
         }
 
         public dynamic UpdateCategoryCount()
         {
             var categoryId = (int)Request.Form["id"];
-            categoryService.UpdateCategoryArticleCount(categoryId);
+            CategoryService.UpdateCategoryArticleCount(categoryId);
             return Response.AsJson(Rsp.Success);
         }
         public dynamic SaveArticle()
         {
             var nvc = NancyDynamicDictionary.ToNameValueCollection((DynamicDictionary)Request.Form);
-            Article mArticle = new Article();
+            var mArticle = new Article();
             mArticle.SetEntityValue(nvc);
             #region tag
             if (!string.IsNullOrEmpty(nvc["Tags"]))
@@ -147,7 +133,7 @@ namespace MetroBlog.Admin
                 {
                     if (!string.IsNullOrEmpty(tag))
                     {
-                        mArticle.Tags.Add(new Core.Model.ViewModel.Tag
+                        mArticle.Tags.Add(new Tag
                         {
                             TagName = tag
                         });
@@ -155,86 +141,78 @@ namespace MetroBlog.Admin
                 }
             }
             #endregion
-            Rsp _rsp = null;
-            if (mArticle.Id > 0)
-            {
-                _rsp = articleService.UpdateArticle(mArticle);
-            }
-            else
-            {
-                _rsp = articleService.AddArticle(mArticle);
-            }
-            return Response.AsJson(_rsp);
+            var rsp = mArticle.Id > 0 ? ArticleService.UpdateArticle(mArticle) : ArticleService.AddArticle(mArticle);
+            return Response.AsJson(rsp);
         }
 
         public dynamic Tag()
         {
             int pageIndex = Request.Query["pageIndex"];
             int pageSize = Request.Query["pageSize"];
-            var tagList = tagService.SelectTagList(pageIndex, pageSize);
+            var tagList = TagService.SelectTagList(pageIndex, pageSize);
             return Response.AsJson(tagList);
         }
         public dynamic EditTag()
         {
             var nvc = NancyDynamicDictionary.ToNameValueCollection((DynamicDictionary)Request.Form);
             var tagId = Convert.ToInt32(nvc["id"]);
-            var mTag = tagService.SelectTagById(tagId);
+            var mTag = TagService.SelectTagById(tagId);
             mTag.SetEntityValue(nvc);
-            if (tagService.SelectTagByName(mTag.TagName) != null)
+            if (TagService.SelectTagByName(mTag.TagName) != null)
             {
                 return Response.AsJson(Rsp.Error("当前标签已存在"));
             }
-            tagService.UpdateTag(mTag);
+            TagService.UpdateTag(mTag);
             return Response.AsJson(Rsp.Success);
         }
         public dynamic RemoveTag()
         {
             int tagId = Request.Query["Id"];
-            var mTag = tagService.SelectTagById(tagId);
+            var mTag = TagService.SelectTagById(tagId);
             mTag.Delete = true;
-            tagService.UpdateTag(mTag);
+            TagService.UpdateTag(mTag);
             return Response.AsJson(Rsp.Success);
 
         }
 
         public dynamic Menu()
         {
-            return Response.AsJson(menuService.SelectMenuList());
+            return Response.AsJson(MenuService.SelectMenuList());
         }
         public dynamic SaveMenu()
         {
 
             var nvc = NancyDynamicDictionary.ToNameValueCollection((DynamicDictionary)Request.Form);
             var menuId = Convert.ToInt32(nvc["id"]);
-            Rsp _rsp = null;
+            Rsp rsp;
             if (menuId > 0)
             {
-                var mMemu = menuService.SelectMenuById(menuId);
+                var mMemu = MenuService.SelectMenuById(menuId);
                 mMemu.SetEntityValue(nvc);
-                _rsp = menuService.UpdateMenu(mMemu);
+                rsp = MenuService.UpdateMenu(mMemu);
             }
             else
             {
                 var mMemu = new Menu();
                 mMemu.SetEntityValue(nvc);
-                _rsp = menuService.AddMenu(mMemu);
+                rsp = MenuService.AddMenu(mMemu);
 
             }
-            return Response.AsJson(_rsp);
+            return Response.AsJson(rsp);
         }
 
         public dynamic Setting()
         {
-            var options = settingService.GetSetting();
+            var options = SettingService.GetSetting();
 
             return Response.AsJson(options);
         }
         public dynamic SaveSetting()
         {
             var nvc = NancyDynamicDictionary.ToNameValueCollection((DynamicDictionary)Request.Form);
-            var settingInfo = settingService.GetSetting();
+            var settingInfo = SettingService.GetSetting();
             settingInfo.SetEntityValue(nvc);
-            settingService.SaveSetting(settingInfo);
+            SettingService.SaveSetting(settingInfo);
             return Response.AsJson(Rsp.Success);
         }
         #endregion

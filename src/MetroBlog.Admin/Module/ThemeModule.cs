@@ -11,12 +11,12 @@ namespace MetroBlog.Admin.Module
 {
     public class ThemeModule : NancyModule
     {
-        ISettingService settingService;
+        private readonly ISettingService _settingService;
         public ThemeModule(ISettingService settingService)
         {
 
-            this.settingService = settingService;
-            base.ModulePath = "theme";
+            _settingService = settingService;
+            ModulePath = "theme";
             Get["list"] = _ => List();
             Post["filelist"] = _ => FileList();
             Get["getfile"] = _ => GetFile();
@@ -59,7 +59,7 @@ namespace MetroBlog.Admin.Module
             }
             var fileInfos = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes", theme)).Select(x => new FileInfo(x));
 
-            var setting = settingService.GetSetting();
+            var setting = _settingService.GetSetting();
             var key = Convert.FromBase64String(setting.DesKey);
             var vi = Convert.FromBase64String(setting.DesVi);
             foreach (var fileInfo in fileInfos)
@@ -78,7 +78,7 @@ namespace MetroBlog.Admin.Module
         public dynamic GetFile()
         {
             string skey = Request.Query.skey;
-            var setting = settingService.GetSetting();
+            var setting = _settingService.GetSetting();
             var key = Convert.FromBase64String(setting.DesKey);
             var vi = Convert.FromBase64String(setting.DesVi);
             try
@@ -109,11 +109,11 @@ namespace MetroBlog.Admin.Module
             try
             {
                 string skey = Request.Form.skey;
-                var setting = settingService.GetSetting();
+                var setting = _settingService.GetSetting();
                 var key = Convert.FromBase64String(setting.DesKey);
                 var vi = Convert.FromBase64String(setting.DesVi);
-                string fileName = DES.Decrypt(skey, key, vi);
-                string content = Request.Form.content; ;
+                var fileName = DES.Decrypt(skey, key, vi);
+                var content = Request.Form.content;
                 File.WriteAllText(fileName, content, Encoding.UTF8);
                 return Response.AsJson(Rsp.Success);
             }
