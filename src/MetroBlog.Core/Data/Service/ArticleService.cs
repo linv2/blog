@@ -6,25 +6,23 @@ using MetroBlog.Core.Data.IService;
 using MetroBlog.Core.Validator.Article;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MetroBlog.Core.Data.Service
 {
     public class ArticleService : IArticleService
     {
-        private const string cacheKey = "Article_";
-        ArticleSqlMap sqlMap;
-        ICache cache;
+        private const string CacheKey = "Article_";
+        readonly ArticleSqlMap _sqlMap;
+        readonly ICache _cache;
         public ArticleService(ArticleSqlMap sqlMap, ICache cache)
         {
-            this.sqlMap = sqlMap;
-            this.cache = cache;
+            _sqlMap = sqlMap;
+            _cache = cache;
         }
 
-        public Rsp AddArticle(Model.ViewModel.Article mArticle)
+        public Rsp AddArticle(Article mArticle)
         {
-            var checkInfo = mArticle.Check<SaveArticleValidator, Model.ViewModel.Article>();
+            var checkInfo = mArticle.Check<SaveArticleValidator, Article>();
             if (checkInfo.error)
             {
                 return checkInfo;
@@ -35,28 +33,21 @@ namespace MetroBlog.Core.Data.Service
                 mArticle.Alias = mArticle.Alias;
             }
             mArticle.CreateTime = DateTime.Now;
-            var articleId = sqlMap.AddArticle(mArticle);
-            if (articleId > 0)
-            {
-                return Rsp.Success;
-            }
-            else
-            {
-                return Rsp.Error("数据保存失败");
-            }
+            var articleId = _sqlMap.AddArticle(mArticle);
+            return articleId > 0 ? Rsp.Success : Rsp.Error("数据保存失败");
         }
 
-        public Rsp UpdateArticle(Model.ViewModel.Article mArticle)
+        public Rsp UpdateArticle(Article mArticle)
         {
-            var checkInfo = mArticle.Check<SaveArticleValidator, Model.ViewModel.Article>();
+            var checkInfo = mArticle.Check<SaveArticleValidator, Article>();
             if (checkInfo.error)
             {
                 return checkInfo;
             }
-            var articleId = sqlMap.UpdateArticle(mArticle);
+            var articleId = _sqlMap.UpdateArticle(mArticle);
             if (articleId > 0)
             {
-                cache.Remove(string.Concat(cacheKey, mArticle.Id.ToString()));
+                _cache.Remove(string.Concat(CacheKey, mArticle.Id.ToString()));
                 return Rsp.Success;
             }
             else
@@ -65,24 +56,22 @@ namespace MetroBlog.Core.Data.Service
             }
         }
 
-        public Model.ViewModel.Article SelectArticleById(int articleId)
+        public Article SelectArticleById(int articleId)
         {
-            Article articleInfo = cache.Get<Article>(string.Concat(cacheKey, articleId.ToString()));
-            if (articleInfo == null)
-            {
-                articleInfo = sqlMap.SelectArticleById(articleId);
-                cache.Save(string.Concat(cacheKey, articleId.ToString()), articleInfo);
-            }
+            var articleInfo = _cache.Get<Article>(string.Concat(CacheKey, articleId.ToString()));
+            if (articleInfo != null) return articleInfo;
+            articleInfo = _sqlMap.SelectArticleById(articleId);
+            _cache.Save(string.Concat(CacheKey, articleId.ToString()), articleInfo);
             return articleInfo;
         }
 
-        public PageInfo<IList<Model.ViewModel.Article>> SelectArticleList(ArticleQuery query, int pageIndex = 1, int pageSize = 10)
+        public PageInfo<IList<Article>> SelectArticleList(ArticleQuery query, int pageIndex = 1, int pageSize = 10)
         {
-            int count = sqlMap.SelectArticleCount(query);
-            var pageInfo = Utility.MathPage<IList<Model.ViewModel.Article>>(count, pageIndex, pageSize);
+            var count = _sqlMap.SelectArticleCount(query);
+            var pageInfo = Utility.MathPage<IList<Article>>(count, pageIndex, pageSize);
             query.StartRow = (pageInfo.PageIndex - 1) * pageInfo.PageSize + 1;
             query.EndRow = pageInfo.PageIndex * pageInfo.PageSize;
-            pageInfo.Data = sqlMap.SelectArticleList(query);
+            pageInfo.Data = _sqlMap.SelectArticleList(query);
             return pageInfo;
         }
     }

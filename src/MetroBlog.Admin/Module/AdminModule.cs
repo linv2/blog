@@ -1,6 +1,7 @@
 ﻿using Nancy;
 using Nancy.Authentication.Token;
 using System;
+using MetroBlog.Core;
 
 namespace MetroBlog.Admin.Module
 {
@@ -9,6 +10,7 @@ namespace MetroBlog.Admin.Module
 
         public AdminModule() : base("Admin")
         {
+            ModulePath = Blog.Current.Setting.AdminPath;
             Get["/Login"] = _ => Login();
             Before.AddItemToEndOfPipeline(SetContextUserFromAuthenticationCookie);
             Get["/"] = _ => Index();
@@ -21,7 +23,7 @@ namespace MetroBlog.Admin.Module
             Get["/Themes"] = _ => Themes();
             Get["ThemeItem"] = _ => ThemeItem();
             Get["/EditTheme"] = _ => EditTheme();
-            Get["/Setting/{key}"] = _ => Setting(_.key);
+            Get["/Setting"] = _ => Setting();
         }
         #region auth
         private ITokenizer Tokenizer { get; set; } = new Tokenizer();
@@ -32,21 +34,22 @@ namespace MetroBlog.Admin.Module
             {
                 return null;
             }
-            if (ctx.Request.Path.StartsWith("/admin/login", StringComparison.CurrentCultureIgnoreCase))
+            var manageLoginUrl = string.Concat("/", Blog.Current.Setting.AdminPath, "/", "login");
+            if (ctx.Request.Path.StartsWith(manageLoginUrl, StringComparison.CurrentCultureIgnoreCase))
             {
                 return null;
             }
             var token = Convert.ToString(Session["token"]);
             if (string.IsNullOrEmpty(token))
             {
-                return Response.AsRedirect("/admin/login");
+                return Response.AsRedirect(manageLoginUrl);
             }
             var userIdentity = Tokenizer.Detokenize(token, this.Context, new DefaultUserIdentityResolver());
-            if (userIdentity != null && !string.IsNullOrEmpty(userIdentity.UserName))
+            if (!string.IsNullOrEmpty(userIdentity?.UserName))
             {
                 return null;
             }
-            return Response.AsRedirect("/admin/login");
+            return Response.AsRedirect(manageLoginUrl);
 
         }
         #endregion
@@ -78,9 +81,9 @@ namespace MetroBlog.Admin.Module
         {
             return View["Menu"];
         }
-        public dynamic Setting(string key)
+        public dynamic Setting()
         {
-            return View["Setting", key];
+            return View["Setting"];
         }
         public dynamic Themes()
         {

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Title</title>
+    <title>@Model.Title</title>
     <link href="/Themes/Default/css/pure-min.css" rel="stylesheet" />
     <link href="/Themes/Default/css/public.css" rel="stylesheet" />
     <!--[if lte IE 8]>
@@ -26,12 +26,12 @@
     <div id="layout" class="pure-g">
         <div class="sidebar pure-u-1 pure-u-md-1-5">
             <div class="header">
-                <h1 class="brand-title">@Title</h1>
+                <h1 class="brand-title">@Model.Title</h1>
                 @*<h2 class="brand-tagline">$blog_title</h2>*@
 
                 <nav class="nav">
                     <ul class="nav-list">
-                        @foreach (var menuItem in Blog.Menu)
+                        @foreach (var menuItem in Model.Blog.Menu)
                         {
                             <li>  <a class="pure-button" href="@menuItem.Link">@menuItem.Name</a></li>
                         }
@@ -43,7 +43,6 @@
 
             @RenderBody()
         </div>
-    </div>
     </div>
 </body>
 </html>

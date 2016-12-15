@@ -24,7 +24,7 @@ namespace MetroBlog.Core.Common
             return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
-        public static String Sha1(string input)
+        public static string Sha1(string input)
         {
             if (string.IsNullOrEmpty(input))
             {

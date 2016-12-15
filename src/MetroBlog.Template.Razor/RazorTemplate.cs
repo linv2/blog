@@ -50,8 +50,7 @@ namespace MetroBlog.Template.Razor
         {
             try
             {
-
-                _razorEngine.Run(view.ViewFile, writer, typeof(Blog), Blog.Current);
+                _razorEngine.RunCompile(view.ViewFile, writer, typeof(Page), Page.Current);
             }
             catch (Exception e)
             {

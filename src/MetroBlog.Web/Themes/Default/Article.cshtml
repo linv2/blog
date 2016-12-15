@@ -9,32 +9,36 @@
 <div class="posts">
     <h1 class="content-subhead">日志列表</h1>
     @{
-        
+
         var articleId = Convert.ToInt32(Model.Request["Id"]);
         var articleInfo = Model.Blog.GetArticleById(articleId);
     }
+    @if (articleInfo != null)
+    {
+        <section class="post">
+            <header class="post-header">
+                <!--<img class="post-avatar" alt="1111" height="48" width="48" src="blog/img/common/1111-avatar.jpg">-->
 
-    <section class="post">
-        <header class="post-header">
-            <!--<img class="post-avatar" alt="1111" height="48" width="48" src="blog/img/common/1111-avatar.jpg">-->
+                <h2 class="post-title">@articleInfo.Title</h2>
 
-            <h2 class="post-title">@articleInfo.Title</h2>
+                <p class="post-meta">
+                    发表于 @articleInfo.CreateTime.ToString("yyyy-MM-dd HH:mm")
+                    @if (articleInfo.Tags != null)
+                    {
+                        foreach (var tagItem in articleInfo.Tags)
+                        {
+                            <a class="post-category post-category-design" href="javascript:;">@tagItem.TagName</a>
+                        }
+                    }
+                </p>
+            </header>
 
-            <p class="post-meta">
-                发表于 @articleInfo.CreateTime.ToString("yyyy-MM-dd HH:mm")
-                @foreach (var tagItem in articleInfo.Tags)
-                {
-                    <a class="post-category post-category-design" href="javascript:;">@tagItem.TagName</a>
-                }
-            </p>
-        </header>
+            <div class="post-description">
+                <p>
+                    @articleInfo.Content
+                </p>
+            </div>
+        </section>
+    }
 
-        <div class="post-description">
-            <p>
-                @articleInfo.Content
-            </p>
-        </div>
-    </section>
-
-    
 </div>

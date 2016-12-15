@@ -4,16 +4,19 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Nancy.Hosting.Aspnet;
 
 namespace MetroBlog.Template
 {
     public class TemplateHandlerFactory : IHttpHandlerFactory
     {
         private static bool _repeatInit = false;
-        private static TemplateHttpHandler _templateHttpHandler = null;
+        private static TemplateHttpHandler _templateHttpHandler;
+        private static NancyHttpRequestHandler _nancyHttpHandler;
         public TemplateHandlerFactory()
         {
             if (_repeatInit) return;
+            _nancyHttpHandler = new NancyHttpRequestHandler();
             _templateHttpHandler = new TemplateHttpHandler();
             _repeatInit = true;
         }
@@ -25,7 +28,7 @@ namespace MetroBlog.Template
             {
                 return _templateHttpHandler;
             }
-            return null;
+            return _nancyHttpHandler;
         }
 
         void IHttpHandlerFactory.ReleaseHandler(IHttpHandler handler)

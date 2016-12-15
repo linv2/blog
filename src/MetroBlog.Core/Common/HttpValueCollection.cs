@@ -11,7 +11,7 @@ namespace MetroBlog.Core.Common
     public class HttpValueCollection : NameValueCollection
     {
         private HashSet<string> _keysAwaitingValidation;
-        private Action<String, String> _validationCallback;
+        private Action<string, string> _validationCallback;
 
         internal HttpValueCollection(string str, bool readOnly, bool urlencoded, Encoding encoding)
             : base(StringComparer.OrdinalIgnoreCase)
@@ -24,7 +24,7 @@ namespace MetroBlog.Core.Common
         }
 
 
-        internal void EnableGranularValidation(Action<String, String> validationCallback)
+        internal void EnableGranularValidation(Action<string, string> validationCallback)
         {
             this._keysAwaitingValidation = new HashSet<string>(this.Keys.Cast<string>().Where<string>(new Func<string, bool>(HttpValueCollection.KeyIsCandidateForValidation)), StringComparer.OrdinalIgnoreCase);
             this._validationCallback = validationCallback;
@@ -194,7 +194,7 @@ namespace MetroBlog.Core.Common
                         continue;
                     }
                 }
-            Label_010B:
+                Label_010B:
                 if ((ch & 0xff80) == 0)
                 {
                     decoder.AddByte((byte)ch);

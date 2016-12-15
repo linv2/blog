@@ -113,23 +113,24 @@
     }
     viewModel.events.edit = function ($data, event) {
         var dialog = $("#editDialog").clone().html();
-        if (typeof ($data.target) != 'function') {
+        if (typeof ($data.target) != "function") {
             $data.targetValue = ko.observable();
             $data.target = ko.observable($data.target);
             $data.targetDs = ko.observableArray(targetType);
             $data.targetTypeChange = function (d, e) {
-                if (e.target.value == 'custom') {
-                    d.target('');
+                if (e.target.value === "custom") {
+                    d.target("");
                 } else {
                     d.target(e.target.value);
                 }
-                return d.targetShow(d.target() == '');
+                return d.targetShow(d.target() == "");
             };
 
             $data.category = viewModel.category(),
             $data.linkTypeChange = function (d, e) {
                 $data.categoryId = e.target.value;
-                return d.showLink(d.categoryId == undefined);
+              //  alert(d.categoryId);
+                return d.showLink(!d.categoryId);
             };
             $data.closeDialog = function (d, e) {
                 layer.close(d.index);

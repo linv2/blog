@@ -2,40 +2,43 @@
 using MetroBlog.Core.Model.QueryModel;
 using MetroBlog.Core.Data.IBatisNet.SqlMap;
 using MetroBlog.Core.Data.IService;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MetroBlog.Core.Data.Service
 {
     public class TagService : ITagService
     {
-        TagSqlMap sqlMap = new TagSqlMap();
+        private readonly TagSqlMap _sqlMap;
+        private readonly ICache _cache;
+        public TagService(TagSqlMap sqlMap, ICache cache)
+        {
+            _sqlMap = sqlMap;
+            _cache = cache;
+        }
 
         public PageInfo<IList<Model.ViewModel.Tag>> SelectTagList(int pageIndex = 1, int pageSize = 10)
         {
-            int count = sqlMap.SelectTagCount();
+            var count = _sqlMap.SelectTagCount();
             var pageInfo = Utility.MathPage<IList<Model.ViewModel.Tag>>(count, pageIndex, pageSize);
-            TagQuery query = new TagQuery();
+            var query = new TagQuery();
             query.StartRow = (pageInfo.PageIndex - 1) * pageInfo.PageSize + 1;
             query.EndRow = pageInfo.PageIndex * pageInfo.PageSize;
-            pageInfo.Data = sqlMap.SelectTagList(query);
+            pageInfo.Data = _sqlMap.SelectTagList(query);
             return pageInfo;
         }
 
         public int UpdateTag(Model.ViewModel.Tag mTag)
         {
-            return sqlMap.UpdateTag(mTag);
+            return _sqlMap.UpdateTag(mTag);
         }
 
         public Model.ViewModel.Tag SelectTagByName(string tagName)
         {
-            return sqlMap.SelectTagByName(tagName);
+            return _sqlMap.SelectTagByName(tagName);
         }
         public Model.ViewModel.Tag SelectTagById(int tagId)
         {
-            return sqlMap.SelectTagById(tagId);
+            return _sqlMap.SelectTagById(tagId);
 
         }
     }

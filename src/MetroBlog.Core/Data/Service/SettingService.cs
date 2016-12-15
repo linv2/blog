@@ -1,52 +1,47 @@
-﻿using MetroBlog.Core.Common;
-using MetroBlog.Core.Model.QueryModel;
-using MetroBlog.Core.Data.IBatisNet.SqlMap;
+﻿using MetroBlog.Core.Data.IBatisNet.SqlMap;
 using MetroBlog.Core.Data.IService;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MetroBlog.Core.Model.ViewModel;
 
 namespace MetroBlog.Core.Data.Service
 {
     public class SettingService : ISettingService
     {
-        private const string cacheKey = "setting";
-        SettingSqlMap sqlMap = null;
-        ICache cache = null;
+        private const string CacheKey = "setting";
+        readonly SettingSqlMap _sqlMap;
+        readonly ICache _cache;
         public SettingService(SettingSqlMap sqlMap, ICache cache)
         {
-            this.sqlMap = sqlMap;
-            this.cache = cache;
+            _sqlMap = sqlMap;
+            _cache = cache;
         }
-        public bool SaveSetting(Model.ViewModel.Setting setting)
+        public bool SaveSetting(Setting setting)
         {
             var properties = setting.GetType().GetProperties();
             foreach (var property in properties)
             {
                 try
                 {
-
-
                     var value = Convert.ToString(property.GetValue(setting, null));
-                    sqlMap.SaveSetting(property.Name, value);
+                    _sqlMap.SaveSetting(property.Name, value);
                 }
                 catch (Exception)
                 {
+                    // ignored
                 }
             }
-            cache.Remove(cacheKey);
+            _cache.Remove(CacheKey);
             return true;
         }
-        public Model.ViewModel.Setting GetSetting()
+        public Setting GetSetting()
         {
-            var result = cache.Get<Model.ViewModel.Setting>(cacheKey);
+            var result = _cache.Get<Setting>(CacheKey);
             if (result != null) return result;
-            var dbSetting = sqlMap.SelectSetting();
+            var dbSetting = _sqlMap.SelectSetting();
             if (dbSetting.Count > 0)
             {
-                result = new Model.ViewModel.Setting();
+                result = new Setting();
                 var properties = result.GetType().GetProperties();
                 foreach (var property in properties)
                 {
@@ -61,7 +56,7 @@ namespace MetroBlog.Core.Data.Service
                         }
                         catch (Exception)
                         {
-
+                            // ignored
                         }
                     }
                 }
@@ -70,7 +65,7 @@ namespace MetroBlog.Core.Data.Service
             {
                 result = new Setting();
             }
-            cache.Save(cacheKey, result);
+            _cache.Save(CacheKey, result);
             return result;
         }
 

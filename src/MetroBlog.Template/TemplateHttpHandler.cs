@@ -36,7 +36,7 @@ namespace MetroBlog.Template
             }
             finally
             {
-                context.Response.End();
+             //   context.Response.End();
             }
         }
     }

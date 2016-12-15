@@ -1,23 +1,20 @@
-﻿using MetroBlog.Core.Common;
-using MetroBlog.Core.Data.IBatisNet;
+﻿using System.Collections.Generic;
+using MetroBlog.Core.Common;
+using MetroBlog.Core.Data.IBatisNet.SqlMap;
 using MetroBlog.Core.Data.IService;
 using MetroBlog.Core.Validator.Category;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace MetroBlog.Core.Data.IBatisNet.SqlMap
+namespace MetroBlog.Core.Data.Service
 {
     public class CategoryService : ICategoryService
     {
-        private const string cacheKey = "Category";
-        CategorySqlMap sqlMap;
-        ICache cache;
+        private const string CacheKey = "Category";
+        readonly CategorySqlMap _sqlMap;
+        readonly ICache _cache;
         public CategoryService(CategorySqlMap sqlMap, ICache cache)
         {
-            this.sqlMap = sqlMap;
-            this.cache = cache;
+            _sqlMap = sqlMap;
+            _cache = cache;
         }
         public Rsp AddCategory(Model.ViewModel.Category mCategory)
         {
@@ -26,10 +23,10 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
             {
                 return checkInfo;
             }
-            var articleId = sqlMap.AddCategory(mCategory);
+            var articleId = _sqlMap.AddCategory(mCategory);
             if (articleId > 0)
             {
-                cache.Remove(cacheKey);
+                _cache.Remove(CacheKey);
                 return Rsp.Success;
             }
             else
@@ -46,10 +43,10 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
             {
                 return checkInfo;
             }
-            var articleId = sqlMap.UpdateCategory(mCategory);
+            var articleId = _sqlMap.UpdateCategory(mCategory);
             if (articleId > 0)
             {
-                cache.Remove(cacheKey);
+                _cache.Remove(CacheKey);
                 return Rsp.Success;
             }
             else
@@ -60,27 +57,27 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
 
         public Model.ViewModel.Category SelectCategoryById(int categoryId)
         {
-            return sqlMap.SelectCategoryById(categoryId);
+            return _sqlMap.SelectCategoryById(categoryId);
 
         }
         public int SelectCategoryArticleCount(int categoryId)
         {
-            return sqlMap.SelectCategoryArticleCount(categoryId);
+            return _sqlMap.SelectCategoryArticleCount(categoryId);
 
         }
 
         public int UpdateCategoryArticleCount(int categoryId = 0)
         {
-            return sqlMap.UpdateCategoryArticleCount(categoryId);
+            return _sqlMap.UpdateCategoryArticleCount(categoryId);
         }
 
         public IList<Model.ViewModel.Category> SelectCategoryList()
         {
-            IList<Model.ViewModel.Category> list = cache.Get<IList<Model.ViewModel.Category>>(cacheKey);
+            var list = _cache.Get<IList<Model.ViewModel.Category>>(CacheKey);
             if (list == null)
             {
-                list = sqlMap.SelectCategoryList();
-                cache.Save(cacheKey, list);
+                list = _sqlMap.SelectCategoryList();
+                _cache.Save(CacheKey, list);
             }
             return list;
         }

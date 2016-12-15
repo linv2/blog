@@ -87,7 +87,7 @@
 
                 <li class="active"><a href="#tab1" data-toggle="tab">基本设置</a></li>
 
-                <li><a href="#tab2" data-toggle="tab">评论设置</a></li>
+                <li><a href="#tab2" data-toggle="tab">SMTP设置</a></li>
 
 
             </ul>
@@ -125,6 +125,22 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-2 control-label" for="adminPath">
+                                后台管理路径
+                            </label>
+                            <div class="col-sm-10">
+                                <input type="text" name="adminPath" class="form-control" data-bind="value:adminPath">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="email">
+                                Email
+                            </label>
+                            <div class="col-sm-10">
+                                <input type="text" name="email" class="form-control" data-bind="value:email">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-2 control-label" for="status">
                                 网站状态
                             </label>
@@ -159,13 +175,13 @@
 
                     <div class="tab-pane" id="tab2">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="comment">
-                                评论
+                            <label class="col-sm-2 control-label" for="smtplSrvStatus">
+                                开启状态
                             </label>
                             <div class="col-sm-10">
                                 <div class="onoffswitch greensea">
-                                    <input type="checkbox" name="comment" class="onoffswitch-checkbox" id="comment" data-bind="checked:verifyCode">
-                                    <label class="onoffswitch-label" for="comment">
+                                    <input type="checkbox" name="smtplSrvStatus" class="onoffswitch-checkbox" id="smtplSrvStatus" data-bind="checked:smtplSrvStatus">
+                                    <label class="onoffswitch-label" for="smtplSrvStatus">
                                         <span class="onoffswitch-inner"></span>
                                         <span class="onoffswitch-switch"></span>
                                     </label>
@@ -174,52 +190,40 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="keyWord">
-                                关键字
+                            <label class="col-sm-2 control-label" for="smtpSrvAddr">
+                                SMTP服务器
                             </label>
                             <div class="col-sm-10">
-                                <input type="text" name="keyWord" class="form-control" data-bind="value:keyWord">
+                                <input type="text" name="smtpSrvAddr" class="form-control" data-bind="value:smtpSrvAddr">
 
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="description">
-                                网站描述
+                            <label class="col-sm-2 control-label" for="smtpFormAddr">
+                                发件人邮箱地址
                             </label>
                             <div class="col-sm-10">
-                                <input type="text" name="description" class="form-control" data-bind="value:description">
+                                <input type="text" name="smtpFormAddr" class="form-control" data-bind="value:smtpFormAddr">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="status">
-                                网站状态
+                            <label class="col-sm-2 control-label" for="smtpUserName">
+                                验证用户名字
                             </label>
                             <div class="col-sm-10">
-                                <div class="onoffswitch greensea">
-                                    <input type="checkbox" name="status" class="onoffswitch-checkbox" id="status" data-bind="checked:status">
-                                    <label class="onoffswitch-label" for="status">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-
+                                <input type="text" name="smtpUserName" class="form-control" data-bind="value:smtpUserName">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="verifyCode">
-                                验证码
+                            <label class="col-sm-2 control-label" for="smtpPassWord">
+                                密码
                             </label>
                             <div class="col-sm-10">
-                                <div class="onoffswitch greensea">
-                                    <input type="checkbox" name="verifyCode" class="onoffswitch-checkbox" id="verifyCode" data-bind="checked:verifyCode">
-                                    <label class="onoffswitch-label" for="verifyCode">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-
+                                <input type="text" name="smtpPassWord" class="form-control" data-bind="value:smtpPassWord">
                             </div>
                         </div>
+
+
                     </div>
 
 

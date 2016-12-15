@@ -23,5 +23,7 @@ namespace MetroBlog.Template
         }
 
         public string Title => Blog.Setting.Title;
+
+        public static Page Current { get; } = new Page();
     }
 }

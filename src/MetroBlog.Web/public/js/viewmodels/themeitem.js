@@ -25,6 +25,7 @@
         callback: {
             beforeClick: function (treeId, treeNode) {
                 if (!treeNode.isParent) {
+                    alert(treeNode.skey);
                     var index = common.layer.open({
                         type: 2,
                         title: false,
@@ -32,7 +33,7 @@
                         shade: 0.8,
                         closeBtn: 0,
                         shadeClose: true,
-                        content: "/admin/editTheme?skey=" + escape(treeNode.skey),
+                        content: "editTheme?skey=" + escape(treeNode.skey),
                         success: function (layero, index) {
                             $(layero).find("iframe").get(0).contentWindow.layerIndex = index;
                             $(layero).find("iframe").get(0).contentWindow.closeLayer = function () {

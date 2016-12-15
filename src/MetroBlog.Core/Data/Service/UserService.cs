@@ -2,16 +2,16 @@
 using MetroBlog.Core.Data.IBatisNet.SqlMap;
 using MetroBlog.Core.Data.IService;
 using MetroBlog.Core.Validator.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MetroBlog.Core.Data.Service
 {
     public class UserService : IUserService
     {
-        UserSqlMap sqlMap = new UserSqlMap();
+        private readonly UserSqlMap _sqlMap;
+        public UserService(UserSqlMap sqlMap)
+        {
+            _sqlMap = sqlMap;
+        }
 
         public Rsp<Model.ViewModel.User> Login(Model.ViewModel.User mUser)
         {
@@ -20,7 +20,7 @@ namespace MetroBlog.Core.Data.Service
             {
                 return checkInfo;
             }
-            var userInfo = sqlMap.SelectUserByName(mUser.UserName);
+            var userInfo = _sqlMap.SelectUserByName(mUser.UserName);
             if (userInfo == null ||
                 !userInfo.PassWord.Equals(Utility.Sha1(mUser.PassWord)))
             {

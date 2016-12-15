@@ -6,9 +6,13 @@ using Newtonsoft.Json.Converters;
 
 namespace MetroBlog.Core
 {
-    public class CustomJsonSerializer : ISerializer
+    public class CustomJsonSerializer //: ISerializer
     {
-        static readonly IsoDateTimeConverter DateConverter = new IsoDateTimeConverter();
+
+        private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings()
+        {
+            DateFormatString = "yyyy-MM-dd HH:mm:ss"
+        };
         public IEnumerable<string> Extensions
         {
             get { yield return "*"; }
@@ -23,8 +27,7 @@ namespace MetroBlog.Core
         {
             using (var streamWriter = new StreamWriter(outputStream))
             {
-
-                var json = JsonConvert.SerializeObject(model, DateConverter);
+                var json = JsonConvert.SerializeObject(model, Settings);
                 streamWriter.Write(json);
             }
         }

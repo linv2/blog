@@ -1,4 +1,5 @@
-﻿using Nancy;
+﻿using Autofac;
+using Nancy;
 using Nancy.Authentication.Token;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
@@ -27,8 +28,9 @@ namespace MetroBlog.Core
         }
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
+           
             base.ConfigureApplicationContainer(container);
-            container.Register<ISerializer, CustomJsonSerializer>();
+         //   container.Register<ISerializer, CustomJsonSerializer>();
             CoreIoCContainer.Current = container;
         }
 

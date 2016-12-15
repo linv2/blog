@@ -47,6 +47,11 @@ namespace MetroBlog.Core
                     properties.FirstOrDefault(x => x.Name.Equals(key, StringComparison.CurrentCultureIgnoreCase));
                 if (property == null) continue;
                 if (!property.PropertyType.FullName.StartsWith("System.")) continue;
+                if (string.IsNullOrEmpty(value))
+                {
+                    continue;
+                    ;
+                }
                 _value = Convert.ChangeType(value, property.PropertyType);
                 try
                 {
