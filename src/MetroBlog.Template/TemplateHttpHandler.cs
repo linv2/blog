@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Dynamic;
 using System.Web;
+using MetroBlog.Template.View;
 
 namespace MetroBlog.Template
 {
@@ -12,32 +14,60 @@ namespace MetroBlog.Template
 
         public bool IsReusable { get; } = true;
 
-        private void ResponseView(HttpContext context, Views view)
-        {
-            context.Response.ContentType = view.ContentType;
-            view.Render(context.Response.OutputStream);
-        }
+
         public bool CheckHttpContext(HttpContext context)
         {
-            var absolutePath = context.Request.Url.AbsolutePath;
             var currentTheme = SessionManage.CurrentTheme;
-            var view = currentTheme.FindView(absolutePath);
+            var view = currentTheme.FindView(context.Request.Url);
             return view != null;
         }
         public void ProcessRequest(HttpContext context)
         {
-            var absolutePath = context.Request.Url.AbsolutePath;
             var currentTheme = SessionManage.CurrentTheme;
-            var view = currentTheme.FindView(absolutePath);
-            if (view == null) return;
             try
             {
-                ResponseView(context, view);
+                var view = currentTheme.FindView(context.Request.Url);
+                if (view == null)
+                {
+                    view = currentTheme.FindView(context.Request.Url, "404");
+                    if (view == null)
+                    {
+                        context.Response.StatusCode = 404;
+                        return;
+                    }
+                };
+
+                context.Response.ContentType = view.ContentType;
+                currentTheme.Template.Render(view, context.Response.OutputStream);
+            }
+            catch (Exception e)
+            {
+                try
+                {
+
+                    var view = currentTheme.FindView(context.Request.Url, "Error");
+                    if (view == null)
+                    {
+                        context.Response.StatusCode = 503;
+                        return;
+                    }
+                    dynamic dynamicObject = new ExpandoObject();
+                    dynamicObject.Error = e;
+
+                    currentTheme.Template.Render(view, context.Response.OutputStream, dynamicObject);
+                }
+                catch (Exception)
+                {
+                    context.Response.Write("Error");
+                }
+
             }
             finally
             {
-             //   context.Response.End();
+                //   context.Response.End();
             }
         }
+
+
     }
 }

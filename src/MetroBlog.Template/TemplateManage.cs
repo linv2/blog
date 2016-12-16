@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml;
+using MetroBlog.Template.View;
 
 namespace MetroBlog.Template
 {
@@ -23,30 +25,27 @@ namespace MetroBlog.Template
         /// </summary>
         public string ThemeName { get; private set; }
 
+
         #region 页面数据
 
-        readonly Dictionary<string, Views> _urlDict = new Dictionary<string, Views>();
-        private string[] _allKeys = new string[] { };
+        private IList<Views> _viewList = new List<Views>();
         /// <summary>
         /// 页面总数量
         /// </summary>
-        public int Count => _urlDict.Count;
+        public int Count => _viewList.Count;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string[] AllKeys => _allKeys;
-
-        public Views this[string viewUrl]
+        public Views this[Uri requestUri, string requestIndex = null]
         {
             get
             {
-                if (string.IsNullOrEmpty(viewUrl))
+                foreach (var view in _viewList)
                 {
-                    return null;
+                    if (view.Match(requestUri, requestIndex))
+                    {
+                        return view;
+                    }
                 }
-                Views value = null;
-                return !_urlDict.TryGetValue(viewUrl, out value) ? null : value;
+                return null;
             }
         }
         #endregion 页面数据
@@ -81,9 +80,10 @@ namespace MetroBlog.Template
                 var configFile = Path.Combine(AbsolutePath, "theme.xml");
                 var xmlDoc = new XmlDocument();
                 xmlDoc.Load(configFile);
-
+                #region parse engine
                 var engine = xmlDoc.SelectSingleNode("config/Engine");
                 LoadEngine(engine.InnerText);
+                #endregion
                 #region parse View
                 var viewNodeList = xmlDoc.SelectNodes("config/Views/View");
                 var themeConfigList = new List<Views>();
@@ -93,20 +93,14 @@ namespace MetroBlog.Template
                         var view = Views.Parse(viewNode, this);
                         if (view != null)
                         {
-                            themeConfigList.Add(view);
+                            _viewList.Add(view);
+                            Template.Compile(view);
                         }
 
                     }
+                _viewList = _viewList.OrderByDescending(x => x.Level).ToList();
 
-                foreach (var configEntity in themeConfigList)
-                {
-                    if (_urlDict.ContainsKey(configEntity.Url)) continue;
-                    _urlDict.Add(configEntity.Url, configEntity);
-                    Template.Compile(configEntity);
-                }
                 #endregion parse View
-                _allKeys = _urlDict.Select(x => x.Key).ToArray();
-                _allKeys = _allKeys.OrderByDescending(x => x.Length).ToArray();
                 #region parse Layout
                 var layoutNodeList = xmlDoc.SelectNodes("config/Layouts/Layout");
                 if (layoutNodeList == null || layoutNodeList.Count == 0) return;
@@ -117,7 +111,7 @@ namespace MetroBlog.Template
                         {
                             if (viewNode.Attributes == null) continue;
                             var path = viewNode.Attributes["Path"].Value;
-                            Template.Compile(path, File.ReadAllText(Path.Combine(this.AbsolutePath, path)));
+                            Template.Compile(path, File.ReadAllText(Path.Combine(AbsolutePath, path)));
                         }
                         catch { }
                     }
@@ -126,6 +120,7 @@ namespace MetroBlog.Template
 
             }
         }
+
 
         private void LoadEngine(string engine)
         {
@@ -141,24 +136,12 @@ namespace MetroBlog.Template
         /// <summary>
         /// 根据访问路径查找View
         /// </summary>
-        /// <param name="absolutePath"></param>
+        /// <param name="requestUri"></param>
+        /// <param name="requestIndex"></param>
         /// <returns></returns>
-        public Views FindView(string absolutePath)
+        public Views FindView(Uri requestUri, string requestIndex = null)
         {
-            var view = this[absolutePath];
-            if (view != null) return view;
-            foreach (var key in this.AllKeys)
-            {
-                if (!Regex.IsMatch(absolutePath, key, RegexOptions.IgnoreCase)) continue;
-                var absolutePathEndChr = absolutePath.EndsWith("/");
-                if (key.EndsWith("/") && (!absolutePathEndChr || (absolutePath != "/" && absolutePathEndChr)))
-                {
-                    continue;
-                }
-                view = this[key];
-                break;
-            }
-            return view;
+            return this[requestUri, requestIndex];
         }
     }
 }

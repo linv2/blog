@@ -1,15 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
-using MetroBlog.Core.Common;
 
 namespace MetroBlog.Template
 {
     public class SessionManage
     {
-        static IDictionary<string, ThemesManage> ThemesDict = new Dictionary<string, ThemesManage>();
+        static readonly IDictionary<string, ThemesManage> ThemesDict = new ConcurrentDictionary<string, ThemesManage>();
         /// <summary>
         /// 当前访问的SessionId
         /// </summary>

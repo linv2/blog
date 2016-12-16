@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using MetroBlog.Core;
+using MetroBlog.Template.View;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
 
@@ -29,7 +32,7 @@ namespace MetroBlog.Template.Razor
         {
             try
             {
-                _razorEngine.Compile(view.FileContent, view.ViewFile);
+                _razorEngine.Compile(view.FileContent, view.RequestIndex);
 
             }
             catch (Exception)
@@ -38,19 +41,25 @@ namespace MetroBlog.Template.Razor
                 throw;
             }
         }
-
-
-        public void Render(Views view, Stream sm)
+        public void Compile(string name, string templateSource)
         {
-
+            _razorEngine.Compile(templateSource, name);
         }
 
 
-        public void Render(Views view, TextWriter writer)
+        public void Render(Views view, Stream sm, dynamic value = null)
         {
             try
             {
-                _razorEngine.RunCompile(view.ViewFile, writer, typeof(Page), Page.Current);
+                DynamicViewBag dynamicView = null;
+                if (value != null)
+                {
+                    dynamicView = new DynamicViewBag((IDictionary<string, object>)value);
+                }
+                using (var writer = new StreamWriter(sm))
+                {
+                    _razorEngine.RunCompile(view.RequestIndex, writer, Page.Current.GetType(), Page.Current, dynamicView);
+                }
             }
             catch (Exception e)
             {
@@ -59,10 +68,25 @@ namespace MetroBlog.Template.Razor
             }
         }
 
-        public void Compile(string name, string templateSource)
+
+        public void Render(Views view, TextWriter writer, dynamic value = null)
         {
-            _razorEngine.Compile(templateSource, name);
+            try
+            {
+                DynamicViewBag dynamicView = null;
+                if (value != null)
+                {
+                    dynamicView = new DynamicViewBag((IDictionary<string, object>)value);
+                }
+                _razorEngine.RunCompile(view.RequestIndex, writer, typeof(Page), Page.Current, dynamicView);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
+
     }
 
 

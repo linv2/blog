@@ -1424,7 +1424,9 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
     <Content Include="Themes\Default\images\navbuttonbg.gif" />
     <Content Include="Themes\Default\images\Search.gif" />
     <Content Include="Themes\Default\images\subnav1bg.png" />
-    <Content Include="Themes\Default\theme.xml" />
+    <Content Include="Themes\Default\theme.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="public\assets\css\vendor\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="public\assets\css\vendor\fonts\glyphicons-halflings-regular.eot~" />
     <Content Include="public\assets\css\vendor\fonts\glyphicons-halflings-regular.ttf" />
@@ -1462,5 +1464,8 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Error.cshtml" />
   </ItemGroup>
 </Project>

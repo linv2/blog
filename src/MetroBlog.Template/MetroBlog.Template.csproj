@@ -63,10 +63,14 @@
     <Compile Include="Page.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionManage.cs" />
+    <Compile Include="StaticResources.cs" />
     <Compile Include="TemplateHandlerFactory.cs" />
     <Compile Include="TemplateHttpHandler.cs" />
     <Compile Include="TemplateManage.cs" />
-    <Compile Include="Views.cs" />
+    <Compile Include="View\CustomView.cs" />
+    <Compile Include="View\RegexView.cs" />
+    <Compile Include="View\Views.cs" />
+    <Compile Include="View\PageView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MetroBlog.Core\MetroBlog.Core.csproj">

@@ -2,7 +2,8 @@
 <config>
   <Views>
     <View Url="/" File="Index.cshtml" />
-    <View Url="/Article"  File="Article.cshtml" />
+    <View Url="/Article"  File="Article.cshtml" Level="1" />
+    <View Code="Error" File="Error.cshtml" />
   </Views>
   <Layouts>
     <Layout Path="_Layout.cshtml" />

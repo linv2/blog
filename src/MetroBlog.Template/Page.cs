@@ -13,7 +13,10 @@ namespace MetroBlog.Template
         }
 
 
-        public System.Web.HttpRequest Request { get; } = System.Web.HttpContext.Current.Request;
+        public System.Web.HttpRequest Request
+        {
+            get { return System.Web.HttpContext.Current.Request; }
+        }
 
         public Core.Blog Blog { get; }
 

@@ -24,6 +24,7 @@ namespace MetroBlog.Template
         IHttpHandler IHttpHandlerFactory.GetHandler(HttpContext context, string requestType, string url,
             string pathTranslated)
         {
+          
             if (_templateHttpHandler.CheckHttpContext(context))
             {
                 return _templateHttpHandler;
@@ -31,8 +32,10 @@ namespace MetroBlog.Template
             return _nancyHttpHandler;
         }
 
+
         void IHttpHandlerFactory.ReleaseHandler(IHttpHandler handler)
         {
+            
         }
     }
 }
