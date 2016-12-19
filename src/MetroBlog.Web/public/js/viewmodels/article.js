@@ -39,7 +39,6 @@
                 alert(response.message);
                 return;
             }
-            alert("ok");
         }).fail(function (error) {
             console.log(error);
         });

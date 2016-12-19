@@ -4,8 +4,13 @@
     ViewBag.Title = "文章管理";
 }
 @section script{
+    <link href="~/public/js/modules/laypage/skin/laypage.css" rel="stylesheet" />
     <style type="text/css">
         #articlescontent li div.content {
+            -moz-min-width: 500px;
+            -ms-min-width: 500px;
+            -o-min-width: 500px;
+            -webkit-min-width: 500px;
             min-width: 500px;
         }
 
@@ -24,72 +29,159 @@
     </script>
 }
 <div class="row">
-    <section class="tile transparent no-shadow">
-
-        <h1 class="timeline-heading">
-            <a href="#modalConfirm" class="timelink" data-toggle="modal"><strong data-bind="html:events.headerShow"></strong></a>
-        </h1>
-
-        <ol id="articlescontent" class="timeline timeline-mini"></ol>
-
-        <h1 class="timeline-heading"><a href="javascript:;" class="timelink"><strong data-bind="html:events.footerShow,click:events.loadNext"></strong></a></h1>
-    </section>
 
 
 
-    <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="modalConfirmLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Close</button>
-                    <h3 class="modal-title" id="modalConfirmLabel"><strong>数据筛选</strong></h3>
+    <!-- col 12 -->
+    <div class="col-md-12">
+
+
+
+        <!-- tile -->
+        <section class="tile transparent">
+
+            <!-- tile widget -->
+            <div class="tile-widget nopadding color transparent-black rounded-top-corners">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs tabdrop align-right">
+                    <li class="tab-title pull-left">
+                        <h4 class="search-result thin" data-bind="text:events.headerShow"></h4>
+                    </li>
+                    <li class="active"><a href="javascript:;" data-bind="click:events.switchCategory">全部分类</a></li>
+                    <!--ko foreach:{data:categorySource,as:'category'}-->
+                    <li><a href="javascript:;" data-bind="click:$parent.events.switchCategory"><b data-bind="text:category.name"></b> (<small data-bind="text:category.count"></small>)</a></li>
+                    <!--/ko-->
+                </ul>
+                <!-- / Nav tabs -->
+            </div>
+            <!-- /tile widget -->
+            <!-- tile body -->
+            <div class="tile-body tab-content rounded-bottom-corners">
+
+                <div class="input-group search-bar">
+                    <input type="text" class="form-control" name="search" placeholder="Search..." data-bind="value:keyWord">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-bind="click:events.filter"><i class="fa fa-search"></i> Search</button>
+                    </span>
                 </div>
-                <div class="modal-body">
-                    <form id="filterForm" role="form" class="form-horizontal">
 
-                        <div class="form-group">
-                            <label for="exampleInput">关键字</label>
-                            <input type="text" class="form-control" id="keyWord" name="keyWord" data-bind="value:keyWord">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInput">标签</label>
-                            <input type="text" class="form-control" id="_tagName" name="_tagName" data-bind="value:_tagName">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInput">分类</label>
-                            <select id="categoryId" name="categoryId" class="chosen-select chosen-transparent form-control" data-bind="options:categorySource,optionsText:'name',optionsValue:'id',value:categoryId,optionsCaption:'所有'"></select>
-                        </div>
-                        <div>
-                            <input type="hidden" id="pageIndex" name="pageIndex" data-bind="value:pageIndex" />
-                            <input type="hidden" id="pageSize" name="pageSize" data-bind="value:pageSize" />
-                            <input type="hidden" id="status" name="status" data-bind="value:status" />
-                        </div>
+                <!-- Tab panes -->
+                <div id="fulltext-tab" class="tab-pane active">
 
-                    </form>
+                    <ul class="search-results fulltext">
+                        <!--ko foreach:{data:articleList,as:'article'}-->
+                        <li class="search-result">
+                            <div class="cover">
+
+                                <h4 data-bind="text:article.title"></h4>
+
+                                <div class="pagination aligned-right">
+                                    <a href="javascript:;" title="编辑"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:;" title="删除"><i class="fa fa-times"></i></a>
+                                </div>
+                                <p data-bind="html:article.description"></p>
+
+                            </div>
+                        </li>
+                        <!--/ko-->
+                    </ul>
+
+                    <div class="pagination aligned-right">
+                        <div class="btn-group btn-group-sm" id="page">
+                            <button type="button" class="btn btn-default"><i class="fa fa-angle-left"></i></button>
+                            <button type="button" class="btn btn-default"><i class="fa fa-angle-right"></i></button>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-red" data-dismiss="modal" aria-hidden="true" value="关闭" />
-                    <input type="button" class="btn btn-green" data-dismiss="modal" value="搜索" data-bind="click:events.filter" />
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
+                <!-- / Tab panes -->
+
+            </div>
+            <!-- /tile body -->
+
+
+
+        </section>
+        <!-- /tile -->
+
+
+
     </div>
-    <script id="articletemplete" type="text/html">
-        <%for(var i in list){%>
-        <li class="color transparent-black">
-            <div class="pointer slategray">
-                <i class="fa fa-clock-o"></i>
-            </div>
-            <div class="el-container">
-                <div class="content">
-                    <span class="time"><i class="fa fa-clock-o"></i> <%=formatDate(list[i].createTime)%></span>
-                    <h1><%=list[i].title%></h1>
-                    <p><%=list[i].Description%></p>
+    @*<section class="tile transparent no-shadow">
+
+            <h1 class="timeline-heading">
+                <a href="#modalConfirm" class="timelink" data-toggle="modal"><strong data-bind="html:events.headerShow"></strong></a>
+            </h1>
+
+            <ol id="articlescontent" class="timeline timeline-mini"></ol>
+
+            <h1 class="timeline-heading">
+                <a href="javascript:;" class="timelink"><strong data-bind="html:events.footerShow,click:events.loadNext"></strong></a>
+            </h1>
+        </section>
+
+
+
+        <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <h3 class="modal-title" id="modalConfirmLabel">
+                            <strong>数据筛选</strong>
+                        </h3>
+                    </div>
+                    <div class="modal-body">
+                        <form id="filterForm" role="form" class="form-horizontal">
+
+                            <div class="form-group">
+                                <label for="exampleInput">关键字</label>
+                                <input type="text" class="form-control" id="keyWord" name="keyWord" data-bind="value:keyWord">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInput">标签</label>
+                                <input type="text" class="form-control" id="_tagName" name="_tagName" data-bind="value:_tagName">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInput">分类</label>
+                                <select id="categoryId" name="categoryId" class="chosen-select chosen-transparent form-control" data-bind="options:categorySource,optionsText:'name',optionsValue:'id',value:categoryId,optionsCaption:'所有'"></select>
+                            </div>
+                            <div>
+                                <input type="hidden" id="pageIndex" name="pageIndex" data-bind="value:pageIndex" />
+                                <input type="hidden" id="pageSize" name="pageSize" data-bind="value:pageSize" />
+                                <input type="hidden" id="status" name="status" data-bind="value:status" />
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-red" data-dismiss="modal" aria-hidden="true" value="关闭" />
+                        <input type="button" class="btn btn-green" data-dismiss="modal" value="搜索" data-bind="click:events.filter" />
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <script id="articletemplete" type="text/html">
+            <%for(var i in list){%>
+            <li class="color transparent-black">
+                <div class="pointer slategray">
+                    <i class="fa fa-clock-o"></i>
                 </div>
-            </div>
-        </li>
+                <div class="el-container">
+                    <div class="content">
+                        <span class="time"><i class="fa fa-clock-o"></i> <%=formatDate(list[i].createTime)%></span>
+                        <h1><%=list[i].title%></h1>
+                        <p><%=list[i].Description%></p>
+                    </div>
+                </div>
+            </li>
+            <%}%>
+
+        </script>*@
+    <script id="categorytemplete" type="text/html">
+        <%for(var i in list){%>
+        <li><a href="#files-tab" data-toggle="tab">Files <small>(5)</small></a></li>
         <%}%>
 
     </script>
-
 </div>

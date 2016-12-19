@@ -30,7 +30,7 @@ namespace MetroBlog.Core.Data.Service
             mArticle.UId = Guid.NewGuid().ToString("N");
             if (string.IsNullOrEmpty(mArticle.Alias))
             {
-                mArticle.Alias = mArticle.Alias;
+                mArticle.Alias = mArticle.Title;
             }
             mArticle.CreateTime = DateTime.Now;
             var articleId = _sqlMap.AddArticle(mArticle);

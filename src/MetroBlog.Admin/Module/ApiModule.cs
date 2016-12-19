@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using MetroBlog.Core.Model.ViewModel;
 using Nancy;
@@ -214,6 +215,19 @@ namespace MetroBlog.Admin.Module
             settingInfo.SetEntityValue(nvc);
             SettingService.SaveSetting(settingInfo);
             return Response.AsJson(Rsp.Success);
+        }
+
+        public dynamic RestartApplication()
+        {
+            try
+            {
+                File.SetLastWriteTime(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "web.config"), DateTime.Now);
+                return Response.AsJson(Rsp.Success);
+            }
+            catch (Exception e)
+            {
+                return Response.AsJson(Rsp.Error(e.Message));
+            }
         }
         #endregion
 

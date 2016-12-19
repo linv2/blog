@@ -39,7 +39,6 @@ namespace MetroBlog.Core
         {
             var sourceType = typeof(TSource);
             var properties = sourceType.GetProperties();
-            object _value;
             foreach (var key in collection.AllKeys)
             {
                 var value = collection[key];
@@ -50,13 +49,18 @@ namespace MetroBlog.Core
                 if (string.IsNullOrEmpty(value))
                 {
                     continue;
-                    ;
+
                 }
-                _value = Convert.ChangeType(value, property.PropertyType);
                 try
                 {
-                    if (_value == null) throw new ArgumentNullException(nameof(_value));
-                    property.SetValue(model, _value, null);
+
+                    if ((value == "on" || value == "off") && property.PropertyType == typeof(bool))
+                    {
+                        value = value=="on" ? "True" : "False";
+                    }
+                    var setValue = Convert.ChangeType(value, property.PropertyType);
+                    if (setValue == null) throw new ArgumentNullException(nameof(setValue));
+                    property.SetValue(model, setValue, null);
                 }
                 catch
                 {
