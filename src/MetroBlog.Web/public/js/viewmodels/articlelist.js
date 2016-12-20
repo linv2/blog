@@ -10,7 +10,7 @@
         keyWord: ko.observable(""),
         _tagName: ko.observable(""),
         pageIndex: ko.observable(1),
-        pageSize: ko.observable(1),
+        pageSize: ko.observable(10),
         categorySource: ko.observableArray(),
         articleList: ko.observableArray(),
         events: {}
@@ -65,13 +65,26 @@
                 return;
             }
             response = response.data;
-            viewModel.events.headerShow("共有" + response.rows + "条数据，已加载" + (((response.pageIndex - 1) * response.pageSize) + response.data.length) + "条");
-            viewModel.events.footerShow("共有" + response.rows + "条数据，计" + response.pageCount + "页");
+            var showTips = "";
+            if (viewModel.keyWord() !== "") {
+                showTips += "当前搜索\"" + viewModel.keyWord() + "\"，";
+            }
+            showTips += "共有" + response.rows + "条数据，";
+            showTips += "计" + response.pageCount + "页";
+            viewModel.events.headerShow(showTips);
             viewModel.articleList(response.data);
             page(response.pageCount, response.pageIndex);
         }).fail(function (error) {
             console.log(error);
         });
+    }
+
+    viewModel.events.edit = function (data, event) {
+        alert(0);
+    }
+    viewModel.events.remove = function (data, event) {
+        alert(1);
+
     }
 
     var categorydeferred = articleService.categoryList();

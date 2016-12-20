@@ -1,10 +1,16 @@
-﻿define(function (require, exports, module) {
+﻿define(deps, function (require, exports, module) {
+    alert(require);
     var articleService = require("../http/articleService");
     var $ = require("../modules/jquery");
     var ko = require("../modules/knockout");
     var layer = require("../modules/layer/layer");
-    var template = require("../modules/template");
     require("../modules/jquery.tagsinput")($);
+
+
+    editormd("content",
+    {
+
+    });
     var viewModel = {
         title: ko.observable(""),
         content: ko.observable(""),
@@ -14,8 +20,7 @@
         categoryId: ko.observable(0),
         tags: ko.observable(""),
         categorySource: ko.observableArray(),
-        events: {},
-
+        events: {}
     }
 
 
@@ -31,10 +36,10 @@
 
 
     viewModel.events.submitForm = function () {
-        var data = $("#addForm").serialize();        
+        var data = $("#addForm").serialize();
         var deferred = articleService.save(data);
         $.when(deferred).done(function (response) {
-            
+
             if (response.error) {
                 alert(response.message);
                 return;

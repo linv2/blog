@@ -102,7 +102,7 @@
 
                                 <li class="dropdown">
                                     <a href="category">
-                                        <i class="fa fa-category"></i> 文章分类
+                                        <i class="fa fa fa-list-ul"></i> 文章分类
                                     </a>
                                 </li>
 
@@ -124,19 +124,19 @@
                             <ul class="menu">
                                 <li class="dropdown">
                                     <a href="menu">
-                                        <i class="fa fa-menu"></i> 导航菜单
+                                        <i class="fa fa-link"></i> 导航菜单
                                     </a>
                                 </li>
 
                                 <li class="dropdown">
                                     <a href="setting">
-                                        <i class="fa fa-tag"></i> 站点设置
+                                        <i class="fa fa-cog"></i> 站点设置
                                     </a>
                                 </li>
                                 
                                 <li class="dropdown">
                                     <a href="themes">
-                                        <i class="fa fa-tag"></i> 主题管理
+                                        <i class="fa fa-table"></i> 主题管理
                                     </a>
                                 </li>
                             </ul>
@@ -240,8 +240,9 @@
     <script type="text/javascript">
         seajs.config({
             base: "/public/js/viewmodels/",
-            alias: {}
-        })
+            alias: {
+            }
+        });
     </script>
     @RenderSection("script", false)
 </body>

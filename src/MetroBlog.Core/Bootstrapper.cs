@@ -25,6 +25,7 @@ namespace MetroBlog.Core
             nancyConventions.StaticContentsConventions.Clear();
             nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("public", "/public"));
             nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("themes", "/themes"));
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("demo", "/demo"));
         }
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
