@@ -4,7 +4,8 @@
     ViewBag.Title = "添加文章";
 }
 @section script{
-    <link href="~/public/editor.md/css/editormd.min.css" rel="stylesheet" />
+    <link href="~/public/editormd/css/editormd.min.css" rel="stylesheet" />
+
     <style type="text/css">
         .tab-content {
             min-height: 400px;
@@ -12,6 +13,10 @@
 
         #tab2, body #content div.radio.radio-transparent input[type=radio]:checked + label, body #content .modal .modal-dialog .modal-content div.radio.radio-transparent input[type=radio]:checked + label, body #content div.radio.radio-transparent label, body #content .modal .modal-dialog .modal-content div.radio.radio-transparent label {
             color: #000;
+        }
+
+        .layui-layer-setwin a {
+            display: none;
         }
 
 
@@ -72,22 +77,14 @@
             height: 0px;
         }
     </style>
+    <script src="~/public/editormd/lib/marked.min.js"></script>
+    <script src="~/public/editormd/lib/prettify.min.js"></script>
+
+    <script src="~/public/editormd/lib/underscore.min.js"></script>
+    <script src="~/public/editormd/lib/sequence-diagram.min.js"></script>
+    <script src="~/public/editormd/lib/flowchart.min.js"></script>
+    <script src="~/public/editormd/lib/jquery.flowchart.min.js"></script>
     <script type="text/javascript">
-        var deps = [
-                "../modules/jquery",
-                "../../editor.md/editormd",
-                "../../editor.md/languages/en",
-                "../../editor.md/plugins/link-dialog/link-dialog",
-                "../../editor.md/plugins/reference-link-dialog/reference-link-dialog",
-                "../../editor.md/plugins/image-dialog/image-dialog",
-                "../../editor.md/plugins/code-block-dialog/code-block-dialog",
-                "../../editor.md/plugins/table-dialog/table-dialog",
-                "../../editor.md/plugins/emoji-dialog/emoji-dialog",
-                "../../editor.md/plugins/goto-line-dialog/goto-line-dialog",
-                "../../editor.md/plugins/help-dialog/help-dialog",
-                "../../editor.md/plugins/html-entities-dialog/html-entities-dialog",
-                "../../editor.md/plugins/preformatted-text-dialog/preformatted-text-dialog"
-        ];
         seajs.use("article");
     </script>
 }
@@ -114,22 +111,44 @@
                         <div class="form-group">
                             <label for="title" class="col-sm-2 control-label">标题 *</label>
                             <div class="col-sm-10">
-                                <input id="title" name="title" type="text" class="form-control parsley-validated" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-validation-minlength="1" placeholder="请输入文章标题" data-bind="value:title">
+                                <input id="title" name="title" type="text" class="form-control parsley-validated"   placeholder="请输入文章标题" data-bind="value:title">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="alias" class="col-sm-2 control-label">别名 *</label>
                             <div class="col-sm-10">
-                                <input id="alias" name="title" type="text" class="form-control parsley-validated" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-validation-minlength="1" placeholder="请输入文章别名" data-bind="value:alias">
+                                <input id="alias" name="alias" type="text" class="form-control parsley-validated"   placeholder="请输入文章别名" data-bind="value:alias">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="content" class="col-sm-2 control-label">内容 *</label>
+                            <label for="categoryId" class="col-sm-2 control-label">分类 *</label>
                             <div class="col-sm-10">
-                                <textarea id="content" name="content" class="form-control" rows="12" placeholder="请输入文章内容" data-bind="content"></textarea>
+                                <select id="categoryId" name="categoryId" class="chosen-select chosen-transparent form-control" data-bind="options:categorySource,optionsText:'name',optionsValue:'id',value:categoryId,optionsCaption:'请选择文章分类'"></select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="keyWord" class="col-sm-2 control-label">关键字 *</label>
+                            <div class="col-sm-10">
+                                <input id="keyWord" name="keyWord" type="text" class="form-control parsley-validated"   placeholder="请输入页面关键字" data-bind="value:keyWord">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="col-sm-2 control-label">描述 *</label>
+                            <div class="col-sm-10">
+                                <textarea id="Description" name="Description" class="form-control" rows="3" placeholder="请输入页面描述" data-bind="value:description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tags" class="col-sm-2 control-label">标签</label>
+                            <div class="col-sm-10">
+                                <textarea id="tags" name="tags" class="form-control" rows="3" placeholder="请输入你的文章标签"></textarea>
+                            </div>
+                        </div>
+
+
                         <div class="form-group">
                             <label for="comment" class="col-sm-2 control-label">允许评论 *</label>
                             <div class="col-sm-10">
@@ -147,36 +166,22 @@
                     </div>
 
                     <div class="tab-pane" id="tab2">
-
                         <div class="form-group">
-                            <label for="categoryId" class="col-sm-2 control-label">分类 *</label>
+                            <label for="content" class="col-sm-2 control-label">内容(MarkDown) *</label>
                             <div class="col-sm-10">
-                                <select id="categoryId" name="categoryId" class="chosen-select chosen-transparent form-control" data-bind="options:categorySource,optionsText:'name',optionsValue:'id',value:categoryId,optionsCaption:'请选择文章分类'"></select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="keyWord" class="col-sm-2 control-label">关键字 *</label>
-                            <div class="col-sm-10">
-                                <input id="keyWord" name="keyWord" type="text" class="form-control parsley-validated" parsley-trigger="change" parsley-required="true" parsley-minlength="4" parsley-validation-minlength="1" placeholder="请输入页面关键字">
+                                <textarea id="Content" name="content" class="form-control" rows="20" placeholder="请输入文章内容" data-bind="value:content"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="description" class="col-sm-2 control-label">描述 *</label>
+                            <label for="action" class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
-                                <textarea id="Description" name="Description" class="form-control" rows="3" placeholder="请输入页面描述"></textarea>
+                                <button type="button" class="btn btn-primary btn-xs margin-bottom-20" data-bind="click:events.showEditor">使用编辑器</button>
+                                <button type="button" class="btn btn-primary btn-xs margin-bottom-20">提取标签</button>
+                                <button type="button" class="btn btn-primary btn-xs margin-bottom-20" data-bind="click:events.extractDescription">提取描述</button>
+
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="tags" class="col-sm-2 control-label">标签</label>
-                            <div class="col-sm-10">
-                                <textarea id="tags" name="tags" class="form-control" rows="3" placeholder="请输入你的文章标签"></textarea>
-                            </div>
-                        </div>
-
-
-
                     </div>
 
                 </div>
@@ -184,6 +189,9 @@
             </form>
         </div>
         <!-- /tile body -->
+        <div class="hide">
+            <div id="markdown"></div>
+        </div>
         <!-- tile footer -->
         <div class="tile-footer border-top color white rounded-bottom-corners nopadding">
             <div class="col-sm-offset-4 col-sm-8">

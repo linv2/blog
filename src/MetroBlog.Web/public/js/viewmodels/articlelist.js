@@ -1,9 +1,10 @@
-﻿define(function (require, exports, module) {
+﻿
+define(function (require, exports, module) {
     var articleService = require("../http/articleService");
     var $ = require("../modules/jquery");
     var ko = require("../modules/knockout");
     var laypage = require("../modules/laypage/laypage");
-    var layer = require("../modules/layer/layer");
+    var common = require("common");
     var viewModel = {
         categoryId: ko.observable(0),
         status: ko.observable(-1),
@@ -80,7 +81,7 @@
     }
 
     viewModel.events.edit = function (data, event) {
-        alert(0);
+        common.redirect("article?id=" + data.id);
     }
     viewModel.events.remove = function (data, event) {
         alert(1);

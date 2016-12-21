@@ -10,6 +10,14 @@
                 dataType: "json"
             });
         },
+        get: function (data) {
+            var url = "/api/article/" + data;
+            return $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json"
+            });
+        },
         save: function (data) {
             var url = "/api/savearticle/";
             return $.ajax({

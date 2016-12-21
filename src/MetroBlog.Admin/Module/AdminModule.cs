@@ -24,6 +24,7 @@ namespace MetroBlog.Admin.Module
             Get["ThemeItem"] = _ => ThemeItem();
             Get["/EditTheme"] = _ => EditTheme();
             Get["/Setting"] = _ => Setting();
+            Get["/MarkDown"] = _ => MarkDown();
         }
         #region auth
         private ITokenizer Tokenizer { get; set; } = new Tokenizer();
@@ -96,6 +97,12 @@ namespace MetroBlog.Admin.Module
         public dynamic EditTheme()
         {
             return View["EditTheme"];
+        }
+
+        public dynamic MarkDown()
+        {
+            return View["MarkDown"];
+
         }
     }
 }

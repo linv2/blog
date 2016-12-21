@@ -112,6 +112,7 @@
     <Compile Include="Data\Service\UserService.cs" />
     <Compile Include="DbModelEx.cs" />
     <Compile Include="ICache.cs" />
+    <Compile Include="IFileUpload.cs" />
     <Compile Include="Model\DbModel\Article.cs" />
     <Compile Include="Model\DbModel\Setting.cs" />
     <Compile Include="Model\DbModel\Tag.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Model\ViewModel\TagMap.cs" />
     <Compile Include="Model\ViewModel\User.cs" />
     <Compile Include="Providers\CacheProvider.cs" />
+    <Compile Include="Providers\LocalFileUploadProvider.cs" />
     <Compile Include="Validator\Article\SaveArticleValidator.cs" />
     <Compile Include="Validator\Category\SaveCategoryValidator.cs" />
     <Compile Include="Validator\Menu\SaveMenuValidator.cs" />

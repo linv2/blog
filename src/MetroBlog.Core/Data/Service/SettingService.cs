@@ -23,8 +23,11 @@ namespace MetroBlog.Core.Data.Service
             {
                 try
                 {
-                    var value = Convert.ToString(property.GetValue(setting, null));
-                    _sqlMap.SaveSetting(property.Name, value);
+                    if (property.CanWrite)
+                    {
+                        var value = Convert.ToString(property.GetValue(setting, null));
+                        _sqlMap.SaveSetting(property.Name, value);
+                    }
                 }
                 catch (Exception)
                 {
@@ -45,6 +48,10 @@ namespace MetroBlog.Core.Data.Service
                 var properties = result.GetType().GetProperties();
                 foreach (var property in properties)
                 {
+                    if (!property.CanWrite)
+                    {
+                        continue;
+                    }
                     var settingItem = dbSetting.FirstOrDefault(x => x.Key == property.Name);
                     if (settingItem != null)
                     {

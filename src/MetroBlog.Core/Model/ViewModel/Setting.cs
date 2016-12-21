@@ -1,5 +1,7 @@
 ﻿
 
+using System;
+
 namespace MetroBlog.Core.Model.ViewModel
 {
     public class Setting : IDbModelface
@@ -21,5 +23,34 @@ namespace MetroBlog.Core.Model.ViewModel
         public string SmtpPassWord { get; set; }
 
         public string AdminPath { get; set; }
+
+        public bool LocalFileUpload { get; set; } = true;
+        public string UploadPath { get; set; } = "upload";
+
+        private string _host;
+        public string Host
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_host))
+                {
+                    try
+                    {
+
+                        var url = new Uri(Site);
+                        _host = url.Host;
+                        if ((url.Scheme.ToLower() == "http" && url.Port != 80) || (url.Scheme.ToLower() == "https" && url.Port != 443))
+                        {
+                            _host += (":" + url.Port);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        _host = "www.newguid.cn";
+                    }
+                }
+                return _host;
+            }
+        }
     }
 }

@@ -32,6 +32,9 @@
         },
         confirm: function (content, options, yes, cancel) {
             layer.confirm(content, options, yes, cancel)
+        },
+        redirect: function (url) {
+            window.location = url;
         }
 
     };

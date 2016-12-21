@@ -20,14 +20,17 @@ namespace MetroBlog.Admin.Module
         private ITagService TagService { get; set; }
         private IMenuService MenuService { get; set; }
         private ISettingService SettingService { get; set; }
+        private IFileUpload FileUpload { get; set; }
         #endregion
-        public ApiModule(IArticleService articleService, ICategoryService categoryService, ITagService tagService, IMenuService menuService, ISettingService settingService)
+        public ApiModule(IArticleService articleService, ICategoryService categoryService, ITagService tagService, IMenuService menuService, ISettingService settingService, IFileUpload fileUpload)
         {
+
             ArticleService = articleService;
             CategoryService = categoryService;
             TagService = tagService;
             MenuService = menuService;
             SettingService = settingService;
+            FileUpload = fileUpload;
 
 
             Before.AddItemToEndOfPipeline(SetContextUserFromAuthenticationCookie);
@@ -35,7 +38,8 @@ namespace MetroBlog.Admin.Module
             ModulePath = "api";
             #region  route
             Get["/"] = _ => Index();
-            Get["/ArticleList"] = _ => ArticleList();
+            Get["ArticleList"] = _ => ArticleList();
+            Get["Article/{id}"] = _ => GetArticle(_.id);
             Post["SaveArticle"] = _ => SaveArticle();
 
             Get["CategoryList"] = _ => CategoryList();
@@ -50,6 +54,8 @@ namespace MetroBlog.Admin.Module
 
             Get["Setting"] = _ => Setting();
             Post["Setting"] = _ => SaveSetting();
+            Post["Upload"] = _ => Upload();
+
             #endregion
         }
 
@@ -89,6 +95,11 @@ namespace MetroBlog.Admin.Module
             int pageSize = Convert.ToInt32(nvc["pageSize"]);
             var result = ArticleService.SelectArticleList(query, pageIndex, pageSize);
             return Response.AsJson(Rsp.Create(result));
+        }
+
+        public dynamic GetArticle(string id)
+        {
+            return Response.AsJson(ArticleService.SelectArticleById(Convert.ToInt32(id)));
         }
         public dynamic CategoryList()
         {
@@ -228,6 +239,11 @@ namespace MetroBlog.Admin.Module
             {
                 return Response.AsJson(Rsp.Error(e.Message));
             }
+        }
+
+        public dynamic Upload()
+        {
+            return Response.AsJson(FileUpload.Execute(Request.Files));
         }
         #endregion
 

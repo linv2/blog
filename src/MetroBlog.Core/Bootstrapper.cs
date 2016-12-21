@@ -24,14 +24,15 @@ namespace MetroBlog.Core
             base.ConfigureConventions(nancyConventions);
             nancyConventions.StaticContentsConventions.Clear();
             nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("public", "/public"));
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory(Blog.Current.Setting.UploadPath, "/" + Blog.Current.Setting.UploadPath));
             nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("themes", "/themes"));
             nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("demo", "/demo"));
         }
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
-           
+
             base.ConfigureApplicationContainer(container);
-         //   container.Register<ISerializer, CustomJsonSerializer>();
+            //   container.Register<ISerializer, CustomJsonSerializer>();
             CoreIoCContainer.Current = container;
         }
 

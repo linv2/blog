@@ -10073,9 +10073,6 @@
 
     return jQuery;
 });
-
-if (typeof(define)=='function') {
-    define(function (require, exports, module) {
-        return $;
-    });
+if (typeof define === "function") {
+    define(function() { return $.noConflict(); });
 }

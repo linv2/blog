@@ -23,6 +23,10 @@
                 color: red;
                 text-decoration: none;
             }
+
+        .description {
+            width: 80%;
+        }
     </style>
     <script type="text/javascript">
         seajs.use("articlelist");
@@ -75,9 +79,9 @@
 
                                 <div class="pagination aligned-right">
                                     <a href="javascript:;" title="编辑" data-bind="click:$parent.events.edit"><i class="fa fa-edit"></i></a>
-                                    <a href="javascript:;" title="删除"  data-bind="click:$parent.events.remove"><i class="fa fa-times"></i></a>
+                                    <a href="javascript:;" title="删除" data-bind="click:$parent.events.remove"><i class="fa fa-times"></i></a>
                                 </div>
-                                <p data-bind="html:article.description"></p>
+                                <p class="description" data-bind="html:article.description"></p>
 
                             </div>
                         </li>

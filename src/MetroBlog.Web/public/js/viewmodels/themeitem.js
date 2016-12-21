@@ -25,7 +25,6 @@
         callback: {
             beforeClick: function (treeId, treeNode) {
                 if (!treeNode.isParent) {
-                    alert(treeNode.skey);
                     var index = common.layer.open({
                         type: 2,
                         title: false,
