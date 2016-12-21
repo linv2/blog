@@ -45,6 +45,7 @@
       <reuslt property="Category.SortId" column="cSortId" />
       <reuslt property="Category.Delete" column="cDelete" />
       <reuslt property="Category.Count" column="cCount" />
+      <result property="Tags" column="Id" select="selectTagByArticleId" />
     </resultMap>
   </resultMaps>
 
@@ -88,15 +89,15 @@
          update  Article 
          set
               Title=#Title#,
-              Alias=#Alias#
+              Alias=#Alias#,
               KeyWord=#KeyWord#,
               Description=#Description#,
               Cover=#Cover#,
               Content=#Content#,
-              CreateTime=#CreateTime#,
+              CreateTime=getdate(),
               Comment=#Comment#,
               CategoryId=#CategoryId#,
-              Status=#Status#,
+              Status=#Status#
          where 
               id=#Id#
   ]]>

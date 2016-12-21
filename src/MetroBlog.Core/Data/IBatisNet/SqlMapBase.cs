@@ -21,25 +21,45 @@ namespace MetroBlog.Core.Data.IBatisNet
 
         }
 
-        protected TSource Insert<TSource>(string statementName, object value)
+        protected TSource Insert<TSource>(string statementName, object value, ISqlMapper sqlMapper = null)
         {
-            return (TSource)SqlMapper.Insert(statementName, value);
+            if (sqlMapper == null)
+            {
+                sqlMapper = SqlMapper;
+            }
+            return (TSource)sqlMapper.Insert(statementName, value);
         }
-        protected int Update(string statementName, object value)
+        protected int Update(string statementName, object value, ISqlMapper sqlMapper = null)
         {
-            return SqlMapper.Update(statementName, value);
+            if (sqlMapper == null)
+            {
+                sqlMapper = SqlMapper;
+            }
+            return sqlMapper.Update(statementName, value);
         }
-        protected int Delete(string statementName, object value)
+        protected int Delete(string statementName, object value, ISqlMapper sqlMapper = null)
         {
-            return SqlMapper.Delete(statementName, value);
+            if (sqlMapper == null)
+            {
+                sqlMapper = SqlMapper;
+            }
+            return sqlMapper.Delete(statementName, value);
         }
-        protected TSource QueryForObject<TSource>(string statementName, object value)
+        protected TSource QueryForObject<TSource>(string statementName, object value, ISqlMapper sqlMapper = null)
         {
-            return SqlMapper.QueryForObject<TSource>(statementName, value);
+            if (sqlMapper == null)
+            {
+                sqlMapper = SqlMapper;
+            }
+            return sqlMapper.QueryForObject<TSource>(statementName, value);
         }
-        protected IList<TSource> QueryForList<TSource>(string statementName, object value)
+        protected IList<TSource> QueryForList<TSource>(string statementName, object value, ISqlMapper sqlMapper = null)
         {
-            return SqlMapper.QueryForList<TSource>(statementName, value);
+            if (sqlMapper == null)
+            {
+                sqlMapper = SqlMapper;
+            }
+            return sqlMapper.QueryForList<TSource>(statementName, value);
         }
     }
 }

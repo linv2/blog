@@ -1,4 +1,5 @@
-﻿using MetroBlog.Core.Model.QueryModel;
+﻿using IBatisNet.DataMapper;
+using MetroBlog.Core.Model.QueryModel;
 using System;
 using System.Collections.Generic;
 
@@ -35,12 +36,12 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
         {
             return Delete("deleteTagMapByArticleId", articleId);
         }
-        internal int AddTagMap(int tagId, int articleId)
+        internal int AddTagMap(int tagId, int articleId, ISqlMapper sqlMapper = null)
         {
             var mTag = new Model.ViewModel.TagMap();
             mTag.Id = tagId;
             mTag.ArticleId = articleId;
-            return Insert<int>("addTagMap", mTag);
+            return Insert<int>("addTagMap", mTag, sqlMapper);
         }
 
         public int SelectTagCount()

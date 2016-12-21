@@ -32,23 +32,30 @@ define(function (require, exports, module) {
                     if (response[k])
                         viewModel[k](response[k]);
                 }
+                var tagArr = new Array();
+                for (var index in response.tags) {
+                    tagArr.push(response.tags[index].tagName);
+                }
+                viewModel.tags(tagArr.join(","));
+                $("#tags").tagsInput({ width: 'auto', defaultText: "添加标签" });
             }).fail(function (error) {
                 console.log(error);
             });
+        } else {
+            $("#tags").tagsInput({ width: 'auto', defaultText: "添加标签" });
         }
 
     }).fail(function (error) {
         console.log(error);
     });
 
-    $("#tags").tagsInput({ width: 'auto', defaultText: "添加标签" });
+    //  $("#tags").tagsInput({ width: 'auto', defaultText: "添加标签" });
     ko.applyBindings(viewModel);
 
     viewModel.events.submitForm = function () {
         var data = $("#addForm").serialize();
         var deferred = articleService.save(data);
         $.when(deferred).done(function (response) {
-
             if (response.error) {
                 common.msg(response.message);
                 common.redirect("articlelist");
@@ -87,6 +94,9 @@ define(function (require, exports, module) {
         common.layer.full(index);
     }
 
+    viewModel.events.toList = function () {
+        common.redirect("articlelist");
+    }
     viewModel.events.extractDescription = function () {
         $("#markdown").empty();
         var editormdView = editormd.markdownToHTML("markdown", {

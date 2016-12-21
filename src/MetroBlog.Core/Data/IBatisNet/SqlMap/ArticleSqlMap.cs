@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using IBatisNet.DataMapper;
+using System.Collections.Generic;
 
 namespace MetroBlog.Core.Data.IBatisNet.SqlMap
 {
@@ -7,7 +8,7 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
         readonly TagSqlMap _tagSqlMap = new TagSqlMap();
 
 
-        private void UpdateArticleTag(List<Model.ViewModel.Tag> list, int articleId)
+        private void UpdateArticleTag(List<Model.ViewModel.Tag> list, int articleId, ISqlMapper sqlMapper = null)
         {
             if (list == null) return;
             _tagSqlMap.DeleteTagMapByArticleId(articleId);
@@ -16,17 +17,20 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
                 var tagName = tagItem.TagName;
                 var tagInfo = _tagSqlMap.SelectTagByName(tagName);
                 var tagId = tagInfo?.Id ?? _tagSqlMap.AddTag(tagName);
-                _tagSqlMap.AddTagMap(tagId, articleId);
+                _tagSqlMap.AddTagMap(tagId, articleId, sqlMapper);
             }
         }
         public int AddArticle(Model.ViewModel.Article mArticle)
         {
+            int articleId = 0;
             using (var tran = SqlMapper.BeginTransaction())
             {
                 try
                 {
-                    var articleId = Insert<int>("addArticle", mArticle);
-                    UpdateArticleTag(mArticle.Tags, articleId);
+
+                    articleId = Insert<int>("addArticle", mArticle, tran.SqlMapper);
+                    UpdateArticleTag(mArticle.Tags, articleId, tran.SqlMapper);
+                    tran.CommitTransaction();
                 }
                 catch
                 {
@@ -34,7 +38,7 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
                 }
             }
 
-            return Insert<int>("addArticle", mArticle);
+            return articleId;
         }
 
         public int UpdateArticle(Model.ViewModel.Article mArticle)

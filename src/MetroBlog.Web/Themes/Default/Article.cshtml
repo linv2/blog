@@ -8,7 +8,7 @@
 }
 <div class="posts">
     <h1 class="content-subhead">日志列表</h1>
-    @{
+    @{        
         var reqId = Model.Request["Id"];
     }
 
@@ -37,9 +37,7 @@
             </header>
 
             <div class="post-description">
-                <p>
-                    @articleInfo.Content
-                </p>
+                <pre>@articleInfo.Content</pre>
             </div>
         </section>
     }
