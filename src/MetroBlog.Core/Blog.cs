@@ -3,6 +3,7 @@ using MetroBlog.Core.Data.IService;
 using MetroBlog.Core.Model.QueryModel;
 using MetroBlog.Core.Model.ViewModel;
 using System.Collections.Generic;
+using MetroBlog.Core.Cache;
 
 namespace MetroBlog.Core
 {
@@ -14,6 +15,7 @@ namespace MetroBlog.Core
         private readonly ICategoryService _categoryService;
         private readonly IArticleService _articleService;
         private readonly ISettingService _settingService;
+
         #endregion
         public Blog(IMenuService menuService, ICategoryService categoryService, IArticleService articleService, ISettingService settingService)
         {
@@ -33,6 +35,15 @@ namespace MetroBlog.Core
             return _articleService.SelectArticleById(articleId);
         }
 
+        public Category GetCategoryById(int categoryId)
+        {
+            return _categoryService.SelectCategoryById(categoryId);
+        }
+        public Category GetCategoryByAlias(string alias)
+        {
+            return _categoryService.SelectCategoryByAlias(alias);
+        }
+
         public Setting Setting => _settingService.GetSetting();
 
         public IEnumerable<Category> Category => _categoryService.SelectCategoryList();
@@ -42,6 +53,7 @@ namespace MetroBlog.Core
 
         static Blog()
         {
+            Cache = CoreIoCContainer.Current.Resolve<ICache>();
             Current = CoreIoCContainer.Current.Resolve<Blog>();
         }
         /// <summary>
@@ -50,7 +62,8 @@ namespace MetroBlog.Core
         public static Blog Current
         {
             get;
-            private set;
         }
+
+        public static ICache Cache { get; }
     }
 }

@@ -26,7 +26,9 @@ namespace MetroBlog.Template.View
         /// 
         /// </summary>
         public string RequestIndex { get; set; }
-        
+
+        public string FileName { get; set; }
+
 
 
         internal static Views Parse(XmlNode viewNode, ThemesManage themeManage)
@@ -79,6 +81,7 @@ namespace MetroBlog.Template.View
             {
                 return null;
             }
+            view.FileName = viewFile;
             view.ViewFilePath = filePath;
             view._themes = themeManage;
             if (!string.IsNullOrEmpty(viewContentType))

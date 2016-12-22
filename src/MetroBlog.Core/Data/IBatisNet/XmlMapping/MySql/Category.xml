@@ -15,6 +15,7 @@
             Category 
           values(
             #Name#,
+            #Alias#,
             #KeyWord#,
             #Description#,
             #SortId#,
@@ -30,6 +31,7 @@
          update  Category 
          set
               Name = #Name#,
+              Alias=  #Alias#,
               KeyWord = #KeyWord#,
               Description = #Description#,
               SortId = #SortId#,
@@ -42,6 +44,11 @@
     <select id="selectCategoryById" parameterClass="int"  resultClass="Category">
       <![CDATA[
          select * from Category where id=#value#
+  ]]>
+    </select>
+    <select id="selectCategoryByAlias" parameterClass="string"  resultClass="Category">
+      <![CDATA[
+         select * from Category where alias=#value#
   ]]>
     </select>
     <select id="selectCategoryArticleCount" parameterClass="int"  resultClass="int">

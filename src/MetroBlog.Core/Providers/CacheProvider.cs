@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Caching;
+using MetroBlog.Core.Cache;
 
 namespace MetroBlog.Core.Providers
 {
@@ -24,6 +26,11 @@ namespace MetroBlog.Core.Providers
         public bool Save<TSource>(string key, TSource value)
         {
             return _cache.Add(key, value, DateTimeOffset.MaxValue);
+        }
+
+        public IEnumerable<TSource> Get<TSource>(params string[] key)
+        {
+            return null;
         }
     }
 }

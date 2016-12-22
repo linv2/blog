@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MetroBlog.Core.Common;
 using MetroBlog.Core.Data.IBatisNet.SqlMap;
 using MetroBlog.Core.Data.IService;
 using MetroBlog.Core.Validator.Category;
+using MetroBlog.Core.Cache;
 
 namespace MetroBlog.Core.Data.Service
 {
     public class CategoryService : ICategoryService
     {
-        private const string CacheKey = "Category";
         readonly CategorySqlMap _sqlMap;
-        readonly ICache _cache;
-        public CategoryService(CategorySqlMap sqlMap, ICache cache)
+        public CategoryService(CategorySqlMap sqlMap)
         {
             _sqlMap = sqlMap;
-            _cache = cache;
+            SelectCategoryList();
         }
         public Rsp AddCategory(Model.ViewModel.Category mCategory)
         {
@@ -23,10 +23,14 @@ namespace MetroBlog.Core.Data.Service
             {
                 return checkInfo;
             }
-            var articleId = _sqlMap.AddCategory(mCategory);
-            if (articleId > 0)
+            if (string.IsNullOrEmpty(mCategory.Alias))
             {
-                _cache.Remove(CacheKey);
+                mCategory.Alias = Guid.NewGuid().ToString("N");
+            }
+            var categoryId = _sqlMap.AddCategory(mCategory);
+            if (categoryId > 0)
+            {
+                CacheManage.RemoveCategory();
                 return Rsp.Success;
             }
             else
@@ -43,10 +47,14 @@ namespace MetroBlog.Core.Data.Service
             {
                 return checkInfo;
             }
-            var articleId = _sqlMap.UpdateCategory(mCategory);
-            if (articleId > 0)
+            if (string.IsNullOrEmpty(mCategory.Alias))
             {
-                _cache.Remove(CacheKey);
+                mCategory.Alias = Guid.NewGuid().ToString("N");
+            }
+            var categoryId = _sqlMap.UpdateCategory(mCategory);
+            if (categoryId > 0)
+            {
+                CacheManage.RemoveCategory();
                 return Rsp.Success;
             }
             else
@@ -57,8 +65,19 @@ namespace MetroBlog.Core.Data.Service
 
         public Model.ViewModel.Category SelectCategoryById(int categoryId)
         {
-            return _sqlMap.SelectCategoryById(categoryId);
-
+            var category = CacheManage.GetCategory(categoryId);
+            if (category != null) return category;
+            category = _sqlMap.SelectCategoryById(categoryId);
+            category?.SaveToCache();
+            return category;
+        }
+        public Model.ViewModel.Category SelectCategoryByAlias(string alias)
+        {
+            var category = CacheManage.GetCategory(alias);
+            if (category != null) return category;
+            category = _sqlMap.SelectCategoryByAlias(alias);
+            category?.SaveToCache();
+            return category;
         }
         public int SelectCategoryArticleCount(int categoryId)
         {
@@ -73,12 +92,14 @@ namespace MetroBlog.Core.Data.Service
 
         public IList<Model.ViewModel.Category> SelectCategoryList()
         {
-            var list = _cache.Get<IList<Model.ViewModel.Category>>(CacheKey);
-            if (list == null)
+            var list = CacheManage.GetCategoryList();
+            if (list != null) return list;
+            list = _sqlMap.SelectCategoryList();
+            foreach (var item in list)
             {
-                list = _sqlMap.SelectCategoryList();
-                _cache.Save(CacheKey, list);
+                item.SaveToCache();
             }
+            list?.SaveToCache();
             return list;
         }
     }

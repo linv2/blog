@@ -6,6 +6,7 @@ using MetroBlog.Core.Data.IService;
 using MetroBlog.Core.Validator.Article;
 using System;
 using System.Collections.Generic;
+using MetroBlog.Core.Cache;
 
 namespace MetroBlog.Core.Data.Service
 {
@@ -58,10 +59,10 @@ namespace MetroBlog.Core.Data.Service
 
         public Article SelectArticleById(int articleId)
         {
-            var articleInfo = _cache.Get<Article>(string.Concat(CacheKey, articleId.ToString()));
+            var articleInfo = CacheManage.GetArticle(articleId);
             if (articleInfo != null) return articleInfo;
             articleInfo = _sqlMap.SelectArticleById(articleId);
-            _cache.Save(string.Concat(CacheKey, articleId.ToString()), articleInfo);
+            articleInfo?.SaveToCache();
             return articleInfo;
         }
 

@@ -4,7 +4,9 @@ namespace MetroBlog.Core.Model.DbModel
     public class Category : IDbModelface
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
+        public string Alias { get; set; }
         public string KeyWord { get; set; }
         public string Description { get; set; }
 

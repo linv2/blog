@@ -22,7 +22,7 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
         }
         public int AddArticle(Model.ViewModel.Article mArticle)
         {
-            int articleId = 0;
+            var articleId = 0;
             using (var tran = SqlMapper.BeginTransaction())
             {
                 try

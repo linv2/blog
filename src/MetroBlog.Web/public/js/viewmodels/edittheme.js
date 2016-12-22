@@ -1,10 +1,9 @@
 ﻿define(function (require, exports, module) {
     var themeService = require("../http/themeService");
     var ko = require("../modules/knockout");
-    var template = require("../modules/template");
     var common = require("common");
     var url = require("../modules/url.helper");
-
+    var $ = common.$;
     var modelist = require("../../ace/lib/ext/modelist");
 
 

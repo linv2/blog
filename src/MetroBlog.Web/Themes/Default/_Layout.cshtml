@@ -1,12 +1,18 @@
-﻿@{
+﻿
+@{
+    ViewBag.Title = Title;
+    ViewBag.KeyWord = Blog.Setting.KeyWord;
+    ViewBag.Description = Blog.Setting.Description;
 }
+@RenderSection("Before", false)
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Model.Title</title>
+    <title>@ViewBag.Title</title>
+    <meta name="Keywords" content="@ViewBag.KeyWord" />
+    <meta name="Description" content="@ViewBag.Description" />
     <link href="/Themes/Default/css/pure-min.css" rel="stylesheet" />
     <link href="/Themes/Default/css/public.css" rel="stylesheet" />
     <!--[if lte IE 8]>
@@ -26,21 +32,28 @@
     <div id="layout" class="pure-g">
         <div class="sidebar pure-u-1 pure-u-md-1-5">
             <div class="header">
-                <h1 class="brand-title">@Model.Title</h1>
+                <h1 class="brand-title">@Title</h1>
                 @*<h2 class="brand-tagline">$blog_title</h2>*@
 
                 <nav class="nav">
                     <ul class="nav-list">
-                        @foreach (var menuItem in Model.Blog.Menu)
+                        @foreach (var menuItem in Blog.Menu)
                         {
-                            <li>  <a class="pure-button" href="@menuItem.Link">@menuItem.Name</a></li>
+                            if (menuItem.Category != null)
+                            {
+                                <li style="margin-top: 15px"><a class="pure-button" href="/@menuItem.Category.Alias">@menuItem.Name</a></li>
+                            }
+                            else
+                            {
+
+                                <li style="margin-top: 15px"><a class="pure-button" href="@menuItem.Link">@menuItem.Name</a></li>
+                            }
                         }
                     </ul>
                 </nav>
             </div>
         </div>
         <div class="content pure-u-1 pure-u-md-4-5">
-
             @RenderBody()
         </div>
     </div>

@@ -18,6 +18,12 @@ namespace MetroBlog.Template
             get { return System.Web.HttpContext.Current.Request; }
         }
 
+        public System.Web.HttpResponse Response
+        {
+
+            get { return System.Web.HttpContext.Current.Response; }
+        }
+
         public Core.Blog Blog { get; }
 
         public string UrlBuild(string url)

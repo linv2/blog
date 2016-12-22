@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="User" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+  </alias>
+
+  <resultMaps>
+    
+  </resultMaps>
+
+  <statements>
+    <insert id="addUser" parameterClass="User" >
+      <![CDATA[
+          INSERT INTO [User]
+           ([UserName]
+           ,[PassWord]
+           ,[Email])
+      VALUES
+           (#UserName#
+           ,#PassWord#
+           ,#Email#)
+
+  ]]>
+      <selectKey property="Id" type="post" resultClass="int">
+        ${selectKey}
+      </selectKey>
+    </insert>
+    <update id="updateUser" parameterClass="User">
+      <![CDATA[
+         update  [User]
+         set
+              PassWord = #PassWord#,
+              Email = #Email#
+         where 
+              UserName=#UserName#
+  ]]>
+    </update>
+    <select id="selectUserByName" parameterClass="string"  resultClass="User">
+      <![CDATA[
+         select * from [User] where UserName=#UserName#
+  ]]>
+    </select>
+  </statements>
+
+</sqlMap>

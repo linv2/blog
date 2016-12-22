@@ -3,14 +3,32 @@
 @using MetroBlog.Core.Model.QueryModel;
 @using MetroBlog.Core.Common;
 @{
-
     Layout = "_Layout.cshtml";
+    var alias = Request.Path.Remove(0, 1);
+    var categoryInfo = Blog.GetCategoryByAlias(alias);
+    if (categoryInfo == null)
+    {
+        Model.Response.StatusCode = 404;
+        return;
+    }
+}
+@section Before{
+    @{
+
+        ViewBag.Title += ("---" + categoryInfo.Name);
+        ViewBag.KeyWord = categoryInfo.KeyWord;
+        ViewBag.Description = categoryInfo.Description;
+    }
 }
 <div class="posts">
     <h1 class="content-subhead">日志列表</h1>
     @{
 
+
+
+
         var query = new ArticleQuery();
+        query.CategoryId = categoryInfo.Id;
         var result = Blog.LoadArticle(query);
     }
     @foreach (var aticleItem in result.Data)

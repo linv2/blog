@@ -2,19 +2,17 @@
 using MetroBlog.Core.Data.IService;
 using System;
 using System.Linq;
+using MetroBlog.Core.Cache;
 using MetroBlog.Core.Model.ViewModel;
 
 namespace MetroBlog.Core.Data.Service
 {
     public class SettingService : ISettingService
     {
-        private const string CacheKey = "setting";
         readonly SettingSqlMap _sqlMap;
-        readonly ICache _cache;
-        public SettingService(SettingSqlMap sqlMap, ICache cache)
+        public SettingService(SettingSqlMap sqlMap)
         {
             _sqlMap = sqlMap;
-            _cache = cache;
         }
         public bool SaveSetting(Setting setting)
         {
@@ -34,12 +32,12 @@ namespace MetroBlog.Core.Data.Service
                     // ignored
                 }
             }
-            _cache.Remove(CacheKey);
+            CacheManage.RemoveSetting();
             return true;
         }
         public Setting GetSetting()
         {
-            var result = _cache.Get<Setting>(CacheKey);
+            var result = CacheManage.GetSetting();
             if (result != null) return result;
             var dbSetting = _sqlMap.SelectSetting();
             if (dbSetting.Count > 0)
@@ -72,7 +70,7 @@ namespace MetroBlog.Core.Data.Service
             {
                 result = new Setting();
             }
-            _cache.Save(CacheKey, result);
+            result?.SaveToCache();
             return result;
         }
 

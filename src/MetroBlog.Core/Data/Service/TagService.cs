@@ -3,17 +3,16 @@ using MetroBlog.Core.Model.QueryModel;
 using MetroBlog.Core.Data.IBatisNet.SqlMap;
 using MetroBlog.Core.Data.IService;
 using System.Collections.Generic;
+using MetroBlog.Core.Cache;
 
 namespace MetroBlog.Core.Data.Service
 {
     public class TagService : ITagService
     {
         private readonly TagSqlMap _sqlMap;
-        private readonly ICache _cache;
-        public TagService(TagSqlMap sqlMap, ICache cache)
+        public TagService(TagSqlMap sqlMap)
         {
             _sqlMap = sqlMap;
-            _cache = cache;
         }
 
         public PageInfo<IList<Model.ViewModel.Tag>> SelectTagList(int pageIndex = 1, int pageSize = 10)

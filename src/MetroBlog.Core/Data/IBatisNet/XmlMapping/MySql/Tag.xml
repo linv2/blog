@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Tag" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+  </alias>
+
+  <resultMaps>
+
+  </resultMaps>
+
+  <statements>
+    <insert id="addTag" parameterClass="Tag" >
+      <![CDATA[
+          INSERT INTO [Tag]
+           ([TagName]
+           ,[Count]
+           ,[CreateTime]
+           ,[Delete])
+      VALUES
+           (#TagName#
+           ,#Count#
+           ,#CreateTime#
+           ,#Delete#)
+
+  ]]>
+      <selectKey property="Id" type="post" resultClass="int">
+        ${selectKey}
+      </selectKey>
+    </insert>
+    <update id="updateTag" parameterClass="Tag">
+      <![CDATA[
+         update  Tag 
+         set
+              TagName = #TagName#,
+              Count = #Count#,
+              [Delete]=#Delete#
+         where 
+              Id=#Id#
+  ]]>
+    </update>
+    <select id="selectTagByName" parameterClass="string"  resultClass="Tag">
+      <![CDATA[
+         select * from Tag where TagName=#value#
+  ]]>
+    </select>
+    <select id="selectTagById" parameterClass="int"  resultClass="Tag">
+      <![CDATA[
+         select * from Tag where Id=#value#
+  ]]>
+    </select>
+    <delete id="deleteTagMapByArticleId" parameterClass="int"  resultClass="int">
+      <![CDATA[
+         delete tagmap where ArticleId=#value#
+  ]]>
+    </delete>
+    <insert id="addTagMap" parameterClass="TagMap" resultClass="int">
+      <![CDATA[
+          INSERT INTO [tagmap]
+           ([TagId]
+           ,[ArticleId])
+      VALUES
+           (#Id#
+           ,#ArticleId#)
+
+  ]]>
+      <selectKey property="Id" type="post" resultClass="int">
+        ${selectKey}
+      </selectKey>
+    </insert>
+    <select id="selectTagCount" resultClass="int">
+      <![CDATA[
+        select count(*) from tag
+      ]]>
+    </select>
+    <select id="selectTagList" parameterClass="TagQuery" resultClass="Tag">
+      <![CDATA[
+      select tag.*
+        from tag
+        limit #StartRow#,#EndRow#
+      ]]>
+    </select>
+  </statements>
+
+</sqlMap>

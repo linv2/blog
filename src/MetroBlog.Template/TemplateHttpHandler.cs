@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Dynamic;
 using System.Web;
+using MetroBlog.Core;
 using MetroBlog.Template.View;
 
 namespace MetroBlog.Template
@@ -27,47 +28,70 @@ namespace MetroBlog.Template
             try
             {
                 var view = currentTheme.FindView(context.Request.Url);
-                if (view == null)
+                if (view != null)
                 {
-                    view = currentTheme.FindView(context.Request.Url, "404");
-                    if (view == null)
-                    {
-                        context.Response.StatusCode = 404;
-                        return;
-                    }
-                };
+                    context.Response.ContentType = view.ContentType;
+                    currentTheme.Template.Render(view, context.Response.OutputStream);
+                }
+                if (view == null || context.Response.StatusCode == 404)
+                {
+                    ResponseNotFound(currentTheme, context);
+                }
 
-                context.Response.ContentType = view.ContentType;
-                currentTheme.Template.Render(view, context.Response.OutputStream);
             }
             catch (Exception e)
             {
-                try
+                if (Blog.Current.Setting.ThrowError)
+                {
+                    throw e;
+                }
+                else
                 {
 
-                    var view = currentTheme.FindView(context.Request.Url, "Error");
-                    if (view == null)
+
+                    try
                     {
-                        context.Response.StatusCode = 503;
-                        return;
+
+                        var view = currentTheme.FindView(context.Request.Url, "Error");
+                        if (view == null)
+                        {
+                            context.Response.StatusCode = 503;
+                            return;
+                        }
+                        dynamic dynamicObject = new ExpandoObject();
+                        dynamicObject.Error = e;
+
+                        currentTheme.Template.Render(view, context.Response.OutputStream, dynamicObject);
                     }
-                    dynamic dynamicObject = new ExpandoObject();
-                    dynamicObject.Error = e;
-
-                    currentTheme.Template.Render(view, context.Response.OutputStream, dynamicObject);
-                }
-                catch (Exception)
-                {
-                    context.Response.Write("Error");
+                    catch (Exception ex)
+                    {
+                        if (Blog.Current.Setting.ThrowError)
+                        {
+                            throw ex;
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = 503;
+                        }
+                    }
                 }
 
             }
-            finally
-            {
-                //   context.Response.End();
-            }
+
+            GZipCompress.CheckForCompression(context);
+
         }
-
+        public void ResponseNotFound(ThemesManage themesManage, HttpContext context)
+        {
+            var view = themesManage.FindView(context.Request.Url, "404");
+            if (view == null)
+            {
+                context.Response.StatusCode = 404;
+                return;
+            }
+            context.Response.ContentType = view.ContentType;
+            themesManage.Template.Render(view, context.Response.OutputStream);
+        }
 
     }
 }

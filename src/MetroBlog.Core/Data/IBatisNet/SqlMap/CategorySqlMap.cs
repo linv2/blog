@@ -19,6 +19,12 @@ namespace MetroBlog.Core.Data.IBatisNet.SqlMap
             return QueryForObject<Model.ViewModel.Category>("selectCategoryById", categoryId);
 
         }
+
+        public Model.ViewModel.Category SelectCategoryByAlias(string alias)
+        {
+            return QueryForObject<Model.ViewModel.Category>("selectCategoryByAlias", alias);
+        }
+
         public int SelectCategoryArticleCount(int categoryId)
         {
             return QueryForObject<int>("selectCategoryArticleCount", categoryId);

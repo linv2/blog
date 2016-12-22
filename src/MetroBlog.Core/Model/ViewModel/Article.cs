@@ -10,6 +10,7 @@ namespace MetroBlog.Core.Model.ViewModel
         }
         public SimpleArticle Next { get; set; }
         public SimpleArticle Prev { get; set; }
+
         public Category Category { get; set; }
 
         public List<Tag> Tags { get; set; }

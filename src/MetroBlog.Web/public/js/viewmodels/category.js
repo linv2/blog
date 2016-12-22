@@ -18,6 +18,7 @@
 
         var addModel = {
             name: ko.observable(),
+            alias: ko.observable(),
             keyWord: ko.observable(),
             description: ko.observable(),
             sortId: ko.observable(0),

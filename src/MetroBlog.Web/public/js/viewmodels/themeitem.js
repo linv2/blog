@@ -30,7 +30,7 @@
                         title: false,
                         maxmin: true,
                         shade: 0.8,
-                        closeBtn: 0,
+                        closeBtn: 1,
                         shadeClose: true,
                         content: "editTheme?skey=" + escape(treeNode.skey),
                         success: function (layero, index) {

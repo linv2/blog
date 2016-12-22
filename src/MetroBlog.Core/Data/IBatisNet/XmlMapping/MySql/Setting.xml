@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Setting" xmlns="http://ibatis.apache.org/mapping"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+  </alias>
+
+  <resultMaps>
+
+  </resultMaps>
+
+  <statements>
+    <update id="saveSetting" parameterClass="MetroBlog.Core.Model.DbModel.Setting" >
+      <![CDATA[
+      if exists(select * from Setting where [Key]=#Key#)
+            update Setting
+            set [Value]=#Value#
+            where [Key]=#Key#
+      else
+        insert into Setting values(#Key#,#Value#)
+
+  ]]>
+    </update>
+    <select id="selectSetting" resultClass="Setting">
+      <![CDATA[
+         select * from Setting
+  ]]>
+    </select>
+  </statements>
+
+</sqlMap>

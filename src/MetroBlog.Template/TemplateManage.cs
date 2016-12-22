@@ -84,6 +84,22 @@ namespace MetroBlog.Template
                 var engine = xmlDoc.SelectSingleNode("config/Engine");
                 LoadEngine(engine.InnerText);
                 #endregion
+                #region parse Layout
+                var layoutNodeList = xmlDoc.SelectNodes("config/Layouts/Layout");
+                if (layoutNodeList == null || layoutNodeList.Count == 0) return;
+                {
+                    foreach (XmlNode viewNode in layoutNodeList)
+                    {
+                        try
+                        {
+                            if (viewNode.Attributes == null) continue;
+                            var path = viewNode.Attributes["Path"].Value;
+                            Template.Compile(path, File.ReadAllText(Path.Combine(AbsolutePath, path)));
+                        }
+                        catch { }
+                    }
+                }
+                #endregion
                 #region parse View
                 var viewNodeList = xmlDoc.SelectNodes("config/Views/View");
                 var themeConfigList = new List<Views>();
@@ -101,22 +117,7 @@ namespace MetroBlog.Template
                 _viewList = _viewList.OrderByDescending(x => x.Level).ToList();
 
                 #endregion parse View
-                #region parse Layout
-                var layoutNodeList = xmlDoc.SelectNodes("config/Layouts/Layout");
-                if (layoutNodeList == null || layoutNodeList.Count == 0) return;
-                {
-                    foreach (XmlNode viewNode in layoutNodeList)
-                    {
-                        try
-                        {
-                            if (viewNode.Attributes == null) continue;
-                            var path = viewNode.Attributes["Path"].Value;
-                            Template.Compile(path, File.ReadAllText(Path.Combine(AbsolutePath, path)));
-                        }
-                        catch { }
-                    }
-                }
-                #endregion
+
 
             }
         }

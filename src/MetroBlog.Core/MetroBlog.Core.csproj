@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Cache\CacheKey.cs" />
     <Compile Include="Common\DES.cs" />
     <Compile Include="Common\HttpValueCollection.cs" />
     <Compile Include="Common\Rsp.cs" />
@@ -111,7 +112,7 @@
     <Compile Include="Data\Service\TagService.cs" />
     <Compile Include="Data\Service\UserService.cs" />
     <Compile Include="DbModelEx.cs" />
-    <Compile Include="ICache.cs" />
+    <Compile Include="Cache\ICache.cs" />
     <Compile Include="IFileUpload.cs" />
     <Compile Include="Model\DbModel\Article.cs" />
     <Compile Include="Model\DbModel\Setting.cs" />
@@ -164,26 +165,51 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\IBatisNet\Maps\Article.xml">
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\SqlServer\Article.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\IBatisNet\Maps\Category.xml" />
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\SqlServer\Category.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\IBatisNet\Maps\Menu.xml">
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\SqlServer\Menu.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\IBatisNet\Maps\Tag.xml" />
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\SqlServer\Tag.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\IBatisNet\Maps\User.xml" />
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\SqlServer\User.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\IBatisNet\Maps\Setting.xml" />
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\SqlServer\Setting.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\MySql\Article.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\MySql\Category.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\MySql\Menu.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\MySql\Setting.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\MySql\Tag.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\IBatisNet\XmlMapping\MySql\User.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

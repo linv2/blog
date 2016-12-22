@@ -26,6 +26,7 @@ namespace MetroBlog.Core.Model.ViewModel
 
         public bool LocalFileUpload { get; set; } = true;
         public string UploadPath { get; set; } = "upload";
+        public bool ThrowError { get; set; } = true;
 
         private string _host;
         public string Host

@@ -2,8 +2,10 @@
 <config>
   <Views>
     <View Url="/" File="Index.cshtml" />
+    <View Regex="/[0-9a-z]{32}" File="Category.cshtml" />
     <View Url="/Article"  File="Article.cshtml" Level="1" />
     <View Code="Error" File="Error.cshtml" />
+    <View Code="404" File="Error.cshtml" />
   </Views>
   <Layouts>
     <Layout Path="_Layout.cshtml" />

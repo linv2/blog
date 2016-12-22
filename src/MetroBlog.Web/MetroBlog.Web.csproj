@@ -1828,6 +1828,7 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
     <Content Include="Views\Admin\EditTheme.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1871,5 +1872,8 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin\MarkDown.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Themes\Default\Category.cshtml" />
   </ItemGroup>
 </Project>

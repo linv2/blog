@@ -16,12 +16,11 @@ namespace MetroBlog.Template.Razor
         public RazorTemplate()
         {
             var config = new TemplateServiceConfiguration();
-            config.Debug = true;
+           // config.Debug = true;
             config.Namespaces.Add("MetroBlog.Core");
             config.Namespaces.Add("MetroBlog.Core.Model.ViewModel");
             config.Namespaces.Add("System.Web");
             config.Namespaces.Add("System");
-
             config.BaseTemplateType = typeof(WebTemplate);
             _razorEngine = RazorEngineService.Create(config);
 
@@ -35,15 +34,16 @@ namespace MetroBlog.Template.Razor
                 _razorEngine.Compile(view.FileContent, view.RequestIndex);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                if (Blog.Current.Setting.ThrowError)
+                    throw ex;
             }
         }
         public void Compile(string name, string templateSource)
         {
-            _razorEngine.Compile(templateSource, name);
+            var key = _razorEngine.GetKey(name, ResolveType.Layout);
+            _razorEngine.AddTemplate(key, templateSource);
         }
 
 
@@ -51,20 +51,20 @@ namespace MetroBlog.Template.Razor
         {
             try
             {
-                DynamicViewBag dynamicView = null;
+                Type valueType = null;
                 if (value != null)
                 {
-                    dynamicView = new DynamicViewBag((IDictionary<string, object>)value);
+                    valueType = value.GetType();
                 }
                 using (var writer = new StreamWriter(sm))
                 {
-                    _razorEngine.RunCompile(view.RequestIndex, writer, Page.Current.GetType(), Page.Current, dynamicView);
+                    _razorEngine.RunCompile(view.RequestIndex, writer);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
-                throw e;
+                if (Blog.Current.Setting.ThrowError)
+                    throw new Exception("编译异常:" + view.FileName, ex);
             }
         }
 
@@ -73,17 +73,12 @@ namespace MetroBlog.Template.Razor
         {
             try
             {
-                DynamicViewBag dynamicView = null;
-                if (value != null)
-                {
-                    dynamicView = new DynamicViewBag((IDictionary<string, object>)value);
-                }
-                _razorEngine.RunCompile(view.RequestIndex, writer, typeof(Page), Page.Current, dynamicView);
+                _razorEngine.RunCompile(view.RequestIndex, writer);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
-                throw e;
+                if (Blog.Current.Setting.ThrowError)
+                    throw new Exception("编译异常:" + view.FileName, ex);
             }
         }
 

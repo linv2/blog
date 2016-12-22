@@ -10,6 +10,8 @@ namespace MetroBlog.Core.Data.IService
         Rsp UpdateCategory(Model.ViewModel.Category mCategory);
 
         Model.ViewModel.Category SelectCategoryById(int categoryId);
+
+        Model.ViewModel.Category SelectCategoryByAlias(string alias);
         int SelectCategoryArticleCount(int categoryId);
 
         int UpdateCategoryArticleCount(int categoryId = 0);

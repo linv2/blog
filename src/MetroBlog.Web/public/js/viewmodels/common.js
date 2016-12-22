@@ -35,7 +35,8 @@
         },
         redirect: function (url) {
             window.location = url;
-        }
+        },
+        $: jQuery
 
     };
     return config;

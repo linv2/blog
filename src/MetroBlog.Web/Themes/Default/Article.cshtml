@@ -3,19 +3,28 @@
 @using MetroBlog.Core.Model.QueryModel;
 @using MetroBlog.Core.Common;
 @{
+    var reqId = Request["Id"];
+    var articleId = Convert.ToInt32(reqId);
+    var articleInfo = Blog.GetArticleById(articleId);
+    if (articleInfo == null)
+    {
+        return;
+
+    }
 
     Layout = "_Layout.cshtml";
 }
+@section Before{
+    @{
+
+        ViewBag.Title += "---" + articleInfo.Title;
+        ViewBag.KeyWord = articleInfo.KeyWord;
+        ViewBag.Description = articleInfo.Description;
+    }
+}
 <div class="posts">
     <h1 class="content-subhead">日志列表</h1>
-    @{        
-        var reqId = Model.Request["Id"];
-    }
 
-    @{
-        var articleId = Convert.ToInt32(reqId);
-        var articleInfo = Model.Blog.GetArticleById(articleId);
-    }
     @if (articleInfo != null)
     {
         <section class="post">
