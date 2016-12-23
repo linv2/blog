@@ -48,7 +48,7 @@ namespace MetroBlog.Core.Data.Service
             var articleId = _sqlMap.UpdateArticle(mArticle);
             if (articleId > 0)
             {
-                _cache.Remove(string.Concat(CacheKey, mArticle.Id.ToString()));
+                CacheManage.RemoveArticle(mArticle.Id);
                 return Rsp.Success;
             }
             else

@@ -44,11 +44,37 @@
                     }
                 </p>
             </header>
-
-            <div class="post-description">
-                <pre>@articleInfo.Content</pre>
+            <div id="articleContentSrc" style="display: none"> @articleInfo.Content</div>
+            <div id="articleContent" class="post-description">
             </div>
         </section>
     }
 
 </div>
+<script src="~/public/js/modules/jquery.js"></script>
+<script src="~/public/editormd/lib/marked.min.js"></script>
+<script src="~/public/editormd/lib/prettify.min.js"></script>
+
+<script src="~/public/editormd/lib/raphael.min.js"></script>
+<script src="~/public/editormd/lib/underscore.min.js"></script>
+<script src="~/public/editormd/lib/sequence-diagram.min.js"></script>
+<script src="~/public/editormd/lib/flowchart.min.js"></script>
+<script src="~/public/editormd/lib/jquery.flowchart.min.js"></script>
+
+<script src="~/public/editormd/editormd.js"></script>
+
+<script type="text/javascript">
+    (function () {
+        editormd.markdownToHTML("articleContent", {
+            markdown: $("#articleContentSrc").html(),
+            htmlDecode: "style,script,iframe",
+            tocm: true,
+            emoji: true,
+            taskList: true,
+            tex: true,  // 默认不解析
+            flowChart: true,  // 默认不解析
+            sequenceDiagram: true,  // 默认不解析
+        });
+
+    })();
+</script>

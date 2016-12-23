@@ -43,6 +43,11 @@ namespace MetroBlog.Core.Cache
         {
             return Blog.Cache.Get<Model.ViewModel.Article>(GetArticleCacheKey(articleId));
         }
+
+        public static void RemoveArticle(int articleId)
+        {
+            Blog.Cache.Remove(GetArticleCacheKey(articleId));
+        }
         #endregion Article
 
         #region Category

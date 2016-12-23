@@ -702,7 +702,6 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
     <Content Include="public\assets\css\ztree\icons\18\vspscc.png" />
     <Content Include="public\assets\css\ztree\icons\18\vssscc.png" />
     <Content Include="public\assets\css\ztree\icons\18\woff.png" />
-    <Content Include="public\assets\css\ztree\icons\18\xaml.png" />
     <Content Include="public\assets\css\ztree\icons\18\xdt.png" />
     <Content Include="public\assets\css\ztree\icons\18\xml.png" />
     <Content Include="public\assets\css\ztree\icons\18\xsd.png" />
@@ -1875,5 +1874,8 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.1.2.0\lib\Net40\N
   </ItemGroup>
   <ItemGroup>
     <Content Include="Themes\Default\Category.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\blog.pubxml" />
   </ItemGroup>
 </Project>
