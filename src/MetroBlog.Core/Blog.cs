@@ -44,11 +44,20 @@ namespace MetroBlog.Core
             return _categoryService.SelectCategoryByAlias(alias);
         }
 
-        public Setting Setting => _settingService.GetSetting();
+        public Setting Setting
+        {
+            get { return _settingService.GetSetting(); }
+        }
 
-        public IEnumerable<Category> Category => _categoryService.SelectCategoryList();
+        public IEnumerable<Category> Category
+        {
+            get { return _categoryService.SelectCategoryList(); }
+        }
 
-        public IEnumerable<Menu> Menu => _menuService.SelectMenuList();
+        public IEnumerable<Menu> Menu
+        {
+            get { return _menuService.SelectMenuList(); }
+        }
 
 
         static Blog()

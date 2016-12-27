@@ -96,6 +96,7 @@ namespace MetroBlog.Core.Cache
 
         public static void RemoveCategory()
         {
+            RemoveMenu();
             Blog.Cache.Remove(CacheKey.CategoryKey);
         }
         #endregion Category

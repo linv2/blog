@@ -3,7 +3,8 @@
 @using MetroBlog.Core.Model.QueryModel;
 @using MetroBlog.Core.Common;
 @{
-    var reqId = Request["Id"];
+    var requestPath = Request.Path;
+    var reqId = requestPath.Remove(0, 9);
     var articleId = Convert.ToInt32(reqId);
     var articleInfo = Blog.GetArticleById(articleId);
     if (articleInfo == null)
