@@ -72,7 +72,7 @@ namespace MetroBlog.Template.View
             {
                 return null;
             }
-            if (Regex.IsMatch(viewLevel, @"^\d+"))
+			if (!string.IsNullOrEmpty(viewLevel)&&Regex.IsMatch(viewLevel, @"^\d+"))
             {
                 view.Level += Convert.ToInt32(viewLevel);
             }
@@ -96,7 +96,7 @@ namespace MetroBlog.Template.View
         {
             get
             {
-                var fileObj = HttpContext.Current.Cache.Get(ViewFilePath);
+				var fileObj = HttpRuntime.Cache.Get(ViewFilePath);
                 return fileObj == null ? UpdateViewContent() : Convert.ToString(fileObj);
             }
         }
@@ -106,7 +106,8 @@ namespace MetroBlog.Template.View
             lock (ViewFilePath)
             {
                 fileContent = File.ReadAllText(ViewFilePath);
-                HttpContext.Current.Cache.Add(string.Concat(_themes.ThemeName, RequestIndex), fileContent, new CacheDependency(ViewFilePath), Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration, CacheItemPriority.Default, null);
+
+                HttpRuntime.Cache.Add(string.Concat(_themes.ThemeName, RequestIndex), fileContent, new CacheDependency(ViewFilePath), Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration, CacheItemPriority.Default, null);
             }
             return fileContent;
         }

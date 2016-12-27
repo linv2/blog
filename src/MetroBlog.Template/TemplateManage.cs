@@ -64,10 +64,13 @@ namespace MetroBlog.Template
                 themeManage.ParseThemeConfig();
                 return themeManage;
             }
-            catch
+			catch(Exception ex)
             {
-                return null;
-            }
+				if (MetroBlog.Core.Blog.Current.Setting.ThrowError)
+					throw new Exception("模版初始化异常",ex);
+				return new ThemesManage("");
+			}
+
         }
         /// <summary>
         /// 初始化
@@ -102,16 +105,21 @@ namespace MetroBlog.Template
                 #endregion
                 #region parse View
                 var viewNodeList = xmlDoc.SelectNodes("config/Views/View");
-                var themeConfigList = new List<Views>();
                 if (viewNodeList != null)
                     foreach (XmlNode viewNode in viewNodeList)
                     {
                         var view = Views.Parse(viewNode, this);
-                        if (view != null)
-                        {
-                            _viewList.Add(view);
-                            Template.Compile(view);
-                        }
+						if (view != null)
+						{
+							try
+							{
+								_viewList.Add(view);
+								Template.Compile(view);
+							}
+							catch { 
+
+						}
+					}
 
                     }
                 _viewList = _viewList.OrderByDescending(x => x.Level).ToList();

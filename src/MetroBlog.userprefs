@@ -1,0 +1,17 @@
+﻿<Properties StartupConfiguration="{7936275F-09AB-4FE0-9392-B6CEE6A27A9F}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MetroBlog.Template/TemplateManage.cs">
+    <Files>
+      <File FileName="MetroBlog.Template/TemplateManage.cs" Line="108" Column="1" />
+      <File FileName="MetroBlog.Template/TemplateHandlerFactory.cs" Line="28" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/Linv2/Project/dotnet/blog/src/MetroBlog.Template/TemplateHandlerFactory.cs" relfile="MetroBlog.Template/TemplateHandlerFactory.cs" line="28" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.MetroBlog.Web PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>

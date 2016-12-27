@@ -72,6 +72,7 @@
     <Compile Include="View\RegexView.cs" />
     <Compile Include="View\Views.cs" />
     <Compile Include="View\PageView.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MetroBlog.Core\MetroBlog.Core.csproj">
