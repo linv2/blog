@@ -1,10 +1,11 @@
 ﻿
 
 using System;
+using System.Dynamic;
 
 namespace MetroBlog.Core.Model.ViewModel
 {
-    public class Setting : IDbModelface
+    public class Setting : DynamicObject
     {
         public string Site { get; set; }
         public string Title { get; set; }

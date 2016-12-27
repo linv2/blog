@@ -21,11 +21,9 @@ namespace MetroBlog.Core.Data.Service
             {
                 try
                 {
-                    if (property.CanWrite)
-                    {
-                        var value = Convert.ToString(property.GetValue(setting, null));
-                        _sqlMap.SaveSetting(property.Name, value);
-                    }
+                    if (!property.CanWrite) continue;
+                    var value = Convert.ToString(property.GetValue(setting, null));
+                    _sqlMap.SaveSetting(property.Name, value);
                 }
                 catch (Exception)
                 {
@@ -51,18 +49,16 @@ namespace MetroBlog.Core.Data.Service
                         continue;
                     }
                     var settingItem = dbSetting.FirstOrDefault(x => x.Key == property.Name);
-                    if (settingItem != null)
+                    if (settingItem == null) continue;
+                    try
                     {
-                        try
-                        {
 
-                            var value = Convert.ChangeType(settingItem.Value, property.PropertyType);
-                            property.SetValue(result, value, null);
-                        }
-                        catch (Exception)
-                        {
-                            // ignored
-                        }
+                        var value = Convert.ChangeType(settingItem.Value, property.PropertyType);
+                        property.SetValue(result, value, null);
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
                     }
                 }
             }
@@ -70,7 +66,7 @@ namespace MetroBlog.Core.Data.Service
             {
                 result = new Setting();
             }
-            result?.SaveToCache();
+            result.SaveToCache();
             return result;
         }
 
