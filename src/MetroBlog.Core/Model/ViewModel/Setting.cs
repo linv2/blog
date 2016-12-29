@@ -5,7 +5,7 @@ using System.Dynamic;
 
 namespace MetroBlog.Core.Model.ViewModel
 {
-    public class Setting : DynamicObject
+    public class Setting
     {
         public string Site { get; set; }
         public string Title { get; set; }
