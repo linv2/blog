@@ -35,7 +35,6 @@ namespace MetroBlog.Core
 
 
         public static void SetEntityValue<TSource>(this TSource model, NameValueCollection collection)
-            where TSource : IDbModelface
         {
             var sourceType = typeof(TSource);
             var properties = sourceType.GetProperties();

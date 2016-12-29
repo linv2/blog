@@ -1,5 +1,4 @@
-﻿using Autofac;
-using Nancy;
+﻿using Nancy;
 using Nancy.Authentication.Token;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
